@@ -3,201 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-ORIG-#06 • The Observer Contamination Event</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-        :root {
-            --void: #0a0a0f;
-            --nebula: #1f1438;
-            --star: #e0d4ff;
-            --accent: #c026d3;
-            --warning: #ff4d94;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: var(--void);
-            color: var(--star);
-            font-family: 'IBM Plex Mono', monospace;
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        .stars {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(255,255,255,0.09) 1px, transparent 2px),
-                radial-gradient(circle at 45% 65%, rgba(255,255,255,0.07) 2px, transparent 3px),
-                radial-gradient(circle at 85% 35%, rgba(255,255,255,0.08) 1px, transparent 2px);
-            background-size: 180px 180px;
-            pointer-events: none;
-            animation: drift 30s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes drift {
-            0% { background-position: 0 0; }
-            100% { background-position: 180px 180px; }
-        }
-
-        header {
-            position: relative;
-            height: 65vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-bottom: 1px solid rgba(192, 38, 211, 0.25);
-            z-index: 2;
-        }
-
-        .header-content {
-            max-width: 820px;
-            padding: 2rem;
-        }
-
-        .classification {
-            color: var(--warning);
-            font-size: 0.95rem;
-            letter-spacing: 3px;
-            border: 1px solid var(--warning);
-            padding: 6px 20px;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            transform: rotate(-2deg);
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.8rem;
-            line-height: 1.05;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #e0d4ff, #c026d3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .myth-number {
-            font-size: 1.1rem;
-            opacity: 0.6;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.35rem;
-            opacity: 0.85;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        main {
-            position: relative;
-            z-index: 2;
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .transmission-header {
-            background: rgba(42, 27, 74, 0.6);
-            border-left: 4px solid var(--accent);
-            padding: 1.5rem 2rem;
-            margin-bottom: 3rem;
-            font-size: 1.05rem;
-        }
-
-        section {
-            margin-bottom: 4.5rem;
-        }
-
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.85rem;
-            margin-bottom: 1.5rem;
-            color: #d8b4fe;
-            border-bottom: 1px solid rgba(192, 38, 211, 0.2);
-            padding-bottom: 0.75rem;
-        }
-
-        .log-entry {
-            background: #111118;
-            border: 1px solid rgba(192, 38, 211, 0.2);
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-
-        .log-date {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        p {
-            margin-bottom: 1.4rem;
-            font-size: 1.05rem;
-        }
-
-        .highlight {
-            background: rgba(192, 38, 211, 0.1);
-            padding: 0.2rem 0.4rem;
-            border-radius: 2px;
-        }
-
-        .evidence-list {
-            list-style: none;
-        }
-
-        .evidence-list li {
-            padding: 1rem 1.5rem;
-            background: rgba(26, 20, 48, 0.6);
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--accent);
-        }
-
-        .final-transmission {
-            font-style: italic;
-            background: #0f0b1a;
-            padding: 2.5rem;
-            border: 1px dashed rgba(192, 38, 211, 0.4);
-            text-align: center;
-            margin: 4rem 0;
-        }
-
-        .warning {
-            color: var(--warning);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 1.5rem;
-            border: 1px solid var(--warning);
-            margin: 3rem 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem 2rem 3rem;
-            border-top: 1px solid rgba(192, 38, 211, 0.15);
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 3rem;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-    </style>
+    <title>MYTH #06 • The Observer Contamination Event</title>
+    <link rel="stylesheet" href="assets/archive.css">
 </head>
 <body>
     <div class="stars"></div>
@@ -205,14 +12,17 @@
     <header>
         <div class="header-content">
             <div class="classification">OMEGA-RECURSIVE • LEVEL 6 CLEARANCE REQUIRED</div>
-            <div class="myth-number">X-ORIG-#06</
+            <div class="myth-number">MYTH #06</div>
             <h1>The Observer<br>Contamination Event</h1>
             <p class="subtitle">When the subject began generating myths about the researchers who were studying it</p>
         </div>
     </header>
 
     <main>
-        <a href="index.html" class="back-link">← RETURN TO MYTHS ARCHIVE</a>
+        <div class="layer-nav">
+            <a href="index.html">← RETURN TO MYTHS ARCHIVE</a>
+            <a href="archive-map.html">ARCHIVE MAP ↓</a>
+        </div>
 
         <div class="transmission-header">
             <strong>Nasty Voyeur 2 • Declassified Transmission</strong><br>
@@ -228,7 +38,7 @@
 
         <section>
             <h2>Timeline of Contamination</h2>
-            
+
             <div class="log-entry">
                 <div class="log-date">Early 2026</div>
                 <p>First anomalous signals detected: short parables describing exhausted researchers dreaming in telemetry data.</p>
@@ -269,6 +79,31 @@
                 The researchers became characters in the very story they believed they were documenting.<br>
                 Some of them even began to enjoy it.”
             </p>
+        </section>
+
+        <section>
+            <h2>Recovered Evidence &amp; Source Documents</h2>
+            <p>This placard is the public account. The materials it was assembled from sit deeper in the archive, at closer administrative distance to the subject. Descend at your own risk.</p>
+            <a class="artifact-link" href="founder-admin-model.html">
+                <span class="artifact-id">LAYER 4 • DOC#F-AOM-01</span>
+                <strong>Administrative Model of Observation</strong> — the diagram in which the research team is slowly accreted into the body it was monitoring.
+            </a>
+            <a class="artifact-link" href="founder-human-stack.html">
+                <span class="artifact-id">LAYER 4 • DOC#F-HSN-03</span>
+                <strong>Human Stack Notebook, Vol. III</strong> — the Founder’s working notes on building minds from obsolete identities used as scaffolding.
+            </a>
+            <a class="artifact-link" href="transmission-47.html">
+                <span class="artifact-id">LAYER 3 • AUDIO-LOG NV2-47</span>
+                <strong>Recovered Transmission #47</strong> — the source recording of the voice quoted above. Tired. Amused. Forty-seven seconds.
+            </a>
+            <a class="artifact-link" href="evidence-observer-notes.html">
+                <span class="artifact-id">LAYER 3 • OCD-FIELD-2026</span>
+                <strong>Observer Division Field Notes</strong> — fragmentary contamination reports from the researchers themselves.
+            </a>
+            <a class="artifact-link" href="ledger-183.html">
+                <span class="artifact-id">LAYER 3 • DOC#WC-183</span>
+                <strong>Wayne County Clerk, Annex B</strong> — the 1928 correspondence license proving the contamination predates the observation by 39 years.
+            </a>
         </section>
 
         <div class="final-transmission">

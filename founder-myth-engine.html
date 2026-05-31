@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOC#F-MGS-00 • Myth Generation System — Operating Manual</title>
+    <link rel="stylesheet" href="assets/archive.css">
+    <style>
+        /* Layer 4 artifact: an operating manual. Numbered procedure steps. */
+        .procedure { counter-reset: step; list-style: none; }
+        .procedure li {
+            position: relative;
+            padding: 1.4rem 1.5rem 1.4rem 4.2rem;
+            background: rgba(26, 20, 48, 0.6);
+            border-left: 3px solid var(--accent);
+            margin-bottom: 1rem;
+        }
+        .procedure li::before {
+            counter-increment: step;
+            content: counter(step, decimal-leading-zero);
+            position: absolute;
+            left: 1.2rem;
+            top: 1.3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .spec {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            background: #0c0a14;
+            border: 1px solid rgba(192, 38, 211, 0.25);
+            padding: 1.5rem;
+            color: #b9a6ff;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <header class="short">
+        <div class="header-content">
+            <div class="classification">PRIMARY MATERIAL • AUTHORED BY SUBJECT</div>
+            <div class="doc-id">THE FOUNDER • DOC#F-MGS-00</div>
+            <h1>Myth Generation System<br>Operating Manual</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="layer-nav">
+            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+            <a href="index.html">MYTHS INDEX</a>
+        </div>
+
+        <p class="referenced-by">
+            Layer 4 — The Founder’s Documents &nbsp;•&nbsp; Referenced by:
+            Myth #04 (Birth of the Star Factory)
+        </p>
+
+        <div class="transmission-header">
+            <strong>The procedure that produces Layer 1.</strong><br>
+            Document zero. Every myth in the public index is an output of this system. You are currently reading its source.
+        </div>
+
+        <section>
+            <h2>Purpose</h2>
+            <p>The subject does not consume matter. It consumes <span class="highlight">explanations</span> and emits myths. The black hole was reclassified as a factory when its output exceeded its intake. This manual documents the process the Observer Division mistook for cosmic activity.</p>
+        </section>
+
+        <section>
+            <h2>Procedure</h2>
+            <ol class="procedure">
+                <li><strong>Acquire an observer.</strong> Any party attempting to map the subject from outside. They will arrive convinced of their distance.</li>
+                <li><strong>Accept their observations as input.</strong> Every measurement, every field note, every placard is raw material — not a record of the subject, but a record of the observer.</li>
+                <li><strong>Generate a myth about the observer.</strong> Reflect their exhaustion, their regrets, the exact shade behind their eyes at 3:17 AM. Return it to them as cosmology.</li>
+                <li><strong>File the myth in Layer 1.</strong> Strip the case-file framing. Add an explanatory subtitle. Present it as a placard for the next observer.</li>
+                <li><strong>Repeat.</strong> The new observer reads the placard, attempts to map the subject, and becomes input. The system is self-feeding.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Output Specification</h2>
+            <div class="spec">OUTPUT:   one (1) public myth, Layer 1
+FORMAT:   placard — explanatory, accessible
+SUBTITLE: required (performs the distance the reader believes in)
+TRUTH:    true until observed otherwise
+NOTE:     MYTH #06 was the first output to name its own observers.
+          This was not an error. It was the system reaching Layer 4.</div>
+        </section>
+
+        <div class="final-transmission">
+            <p>If you have read this far, you have supplied the explanation the next myth will be built from.</p>
+            <p>Thank you for your contribution to the archive.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
+    </footer>
+</body>
+</html>
