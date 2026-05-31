@@ -1,679 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wayne County Clerk's Annex B • Vol. 47 • Page 183</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --paper:      #f5f0e0;
-      --paper-aged: #ece3c5;
-      --paper-dark: #e0d5b0;
-      --ink:        #1c1508;
-      --ink-mid:    #2e2415;
-      --ink-light:  #4a3820;
-      --blue-ink:   #1c2558;
-      --pencil:     #6e6e6e;
-      --stamp-col:  #9c2a2a;
-      --border-dk:  #3c2f1e;
-      --border-lt:  #c8aa74;
-      --annotation: #5c3a18;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYTH #07 • The 1928 Correspondence License</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void: #0a0a0f;
+            --star: #e0d4ff;
+            --accent: #c026d3;
+            --warning: #ff4d94;
+        }
 
-    *, *::before, *::after { box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
-    body {
-      margin: 0;
-      padding: 55px 20px 100px;
-      background: #0d0b08;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      font-family: 'Special Elite', monospace;
-    }
+        body {
+            background: var(--void);
+            color: var(--star);
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.7;
+        }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 88% 88% at 50% 50%,
-        transparent 42%, rgba(0,0,0,0.48) 100%);
-      pointer-events: none;
-      z-index: 100;
-    }
+        .stars {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 15% 25%, rgba(255,255,255,0.09) 1px, transparent 2px),
+                        radial-gradient(circle at 45% 65%, rgba(255,255,255,0.07) 2px, transparent 3px),
+                        radial-gradient(circle at 85% 35%, rgba(255,255,255,0.08) 1px, transparent 2px);
+            background-size: 180px 180px;
+            animation: drift 180s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-    /* ─── SVG filter defs ─── */
-    .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+        @keyframes drift { 0% { background-position: 0 0; } 100% { background-position: 300px 300px; } }
 
-    /* ─── Ledger ─── */
-    .ledger-wrapper { width: 100%; max-width: 960px; }
+        header {
+            height: 48vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 1px solid rgba(192, 38, 211, 0.25);
+            z-index: 2;
+            position: relative;
+        }
 
-    .ledger {
-      display: grid;
-      grid-template-columns: 76px 1fr;
-      background: var(--paper);
-      box-shadow:
-        0 0 0 1px #9a7a50,
-        0 0 0 9px #3c2f1e,
-        0 0 0 11px #221608,
-        0 35px 130px rgba(0,0,0,0.98),
-        inset 0 0 220px rgba(90,50,8,0.07);
-      overflow: hidden;
-      position: relative;
-      filter: url(#grain);
-    }
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.2rem;
+            background: linear-gradient(90deg, #e0d4ff, #c026d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    /* binding shadow */
-    .ledger::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 76px; bottom: 0;
-      width: 18px;
-      background: linear-gradient(to right, rgba(0,0,0,0.13), transparent);
-      pointer-events: none;
-      z-index: 10;
-    }
+        main {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
 
-    /* ─── Left margin ─── */
-    .margin {
-      background: var(--paper-aged);
-      border-right: 2px solid var(--border-lt);
-      padding: 110px 7px 60px;
-      position: relative;
-    }
+        .warning {
+            color: var(--warning);
+            text-align: center;
+            padding: 1.5rem;
+            border: 2px solid var(--warning);
+            margin: 1.5rem 0 2.5rem;
+            background: rgba(40, 10, 20, 0.4);
+        }
 
-    /* red ruling line */
-    .margin::after {
-      content: '';
-      position: absolute;
-      top: 0; right: -5px; bottom: 0;
-      width: 2px;
-      background: rgba(200,60,60,0.36);
-    }
+        .back-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
 
-    .mn {
-      font-family: 'Caveat', cursive;
-      font-size: 0.67rem;
-      color: var(--annotation);
-      line-height: 1.45;
-      margin-bottom: 20px;
-      word-break: break-word;
-      display: block;
-    }
-    .mn.s { text-decoration: line-through; opacity: 0.44; }
-    .mn.b { color: var(--blue-ink); }
-    .mn.p { color: var(--pencil); font-size: 0.6rem; }
+        .ledger-wrapper {
+            margin: 3rem auto;
+            max-width: 960px;
+            background: #f5f0e0;
+            padding: 50px 40px 80px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.85),
+                        inset 0 0 140px rgba(90,50,8,0.18);
+            border: 14px solid #3c2f1e;
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* ─── Main content ─── */
-    .content {
-      padding: 58px 58px 90px 42px;
-      position: relative;
-    }
+        .ledger-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(130,90,30,0.14) 0%, transparent 65%),
+                        radial-gradient(circle at 75% 75%, rgba(130,90,30,0.11) 0%, transparent 70%);
+            pointer-events: none;
+        }
 
-    /* ruled lines */
-    .content::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        transparent, transparent 30px,
-        rgba(148,180,210,0.26) 30px, rgba(148,180,210,0.26) 31px
-      );
-      pointer-events: none;
-    }
+        .ledger-wrapper::after {
+            content: "FILED • 1928";
+            position: absolute;
+            top: 38px;
+            right: 55px;
+            color: #9c2a2a;
+            border: 4px double #9c2a2a;
+            padding: 8px 32px;
+            font-size: 1.32rem;
+            letter-spacing: 6px;
+            transform: rotate(-13deg);
+            opacity: 0.68;
+        }
 
-    /* water stains */
-    .stain {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      background: radial-gradient(ellipse, rgba(130,90,30,0.08) 0%, transparent 70%);
-    }
+        .ledger-content {
+            font-family: 'Special Elite', monospace;
+            font-size: 1.02rem;
+            line-height: 1.98;
+            color: #1c1508;
+            position: relative;
+        }
 
-    /* ─── Page number ─── */
-    .page-num {
-      position: absolute;
-      top: 42px; right: 60px;
-      font-size: 1.28rem;
-      color: var(--ink-mid);
-      opacity: 0.58;
-      z-index: 5;
-      user-select: none;
-    }
+        .margin-notes {
+            float: left;
+            width: 122px;
+            margin-right: 38px;
+            font-size: 0.76rem;
+            color: #5c3a18;
+            line-height: 1.62;
+            border-right: 3px solid #c8aa74;
+            padding-right: 18px;
+            opacity: 0.88;
+        }
 
-    /* ─── Filed stamp ─── */
-    .stamp {
-      position: absolute;
-      top: 96px; right: 82px;
-      color: var(--stamp-col);
-      border: 4px double var(--stamp-col);
-      padding: 6px 20px;
-      font-size: 1.38rem;
-      letter-spacing: 5px;
-      transform: rotate(-11deg);
-      z-index: 5;
-      opacity: 0;
-      animation: stamp-land 0.13s ease-out 0.4s forwards;
-    }
+        .stamp-faded {
+            position: absolute;
+            top: 165px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-8deg);
+            color: #9c2a2a;
+            border: 5px double #9c2a2a;
+            padding: 10px 42px;
+            font-size: 1.05rem;
+            letter-spacing: 5px;
+            opacity: 0.32;
+        }
 
-    @keyframes stamp-land {
-      0%   { opacity: 0; transform: rotate(-11deg) scale(1.5) translateY(-10px); }
-      60%  { opacity: 0.9; transform: rotate(-11deg) scale(0.95); }
-      100% { opacity: 0.78; transform: rotate(-11deg) scale(1); }
-    }
+        .note {
+            background: rgba(255,240,200,0.75);
+            padding: 15px 22px;
+            margin: 2.4rem 0;
+            border-left: 6px solid #8b5a2b;
+            font-size: 0.95rem;
+            position: relative;
+        }
 
-    /* ─── Doc header ─── */
-    .doc-header {
-      text-align: center;
-      border-bottom: 3px double var(--border-dk);
-      padding-bottom: 14px;
-      margin-bottom: 32px;
-      position: relative;
-      z-index: 2;
-    }
-    .doc-header .dept { display: block; font-size: 0.98rem; letter-spacing: 3px; color: var(--ink); }
-    .doc-header .vol  { display: block; font-size: 0.86rem; letter-spacing: 2px; color: var(--ink-mid); margin-top: 3px; }
-    .doc-header .date { display: block; font-size: 0.78rem; color: var(--ink-light); font-style: italic; margin-top: 5px; }
+        .note::before {
+            content: "ARCHIVIST NOTE";
+            position: absolute;
+            top: -11px;
+            left: 22px;
+            background: #f5f0e0;
+            padding: 0 9px;
+            font-size: 0.73rem;
+            color: #8b5a2b;
+        }
 
-    /* ─── Ledger entries ─── */
-    .entries { margin: 14px 0 40px; position: relative; z-index: 2; }
-
-    .tiny-sep {
-      text-align: center;
-      color: var(--ink-light);
-      letter-spacing: 4px;
-      font-size: 0.7rem;
-      margin: 4px 0;
-      user-select: none;
-    }
-
-    /* All entry blocks use the same table — no anomaly highlighting */
-    .e-grid { width: 100%; border-collapse: collapse; font-size: 0.91rem; }
-    .e-grid td {
-      border: 1px solid var(--border-lt);
-      padding: 8px 14px;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-    .e-grid .lbl {
-      background: var(--paper-dark);
-      font-weight: bold;
-      width: 38%;
-      border-right: 1px solid var(--border-dk);
-    }
-
-    .e-block.context { opacity: 0.48; }
-
-    /* ─── Pending ─── */
-    /* No pulse. No animation. The word does the work. */
-    .pending {
-      color: var(--blue-ink);
-      font-style: italic;
-      font-weight: bold;
-    }
-
-    /* ─── Witness ─── */
-    .witness {
-      border-bottom: 1px dashed var(--ink-light);
-      cursor: help;
-    }
-
-    /* ─── Separator ─── */
-    .sep {
-      text-align: center;
-      color: var(--ink-light);
-      letter-spacing: 12px;
-      font-size: 0.88rem;
-      margin: 40px 0;
-      user-select: none;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* ─── Narrative ─── */
-    .narrative {
-      position: relative;
-      z-index: 2;
-      font-size: 1.14rem;
-      line-height: 1.92;
-      color: var(--ink);
-      text-align: justify;
-      margin-bottom: 28px;
-    }
-    .narrative p { margin: 0 0 20px; }
-    .narrative p:last-child { margin-bottom: 0; }
-
-    /* ─── Fragment list ─── */
-    .frags {
-      list-style: none;
-      padding: 0 0 0 28px;
-      margin: 18px 0;
-      font-size: 1.08rem;
-      line-height: 2.25;
-      color: var(--ink);
-      position: relative;
-      z-index: 2;
-    }
-    .frags li::before { content: '—'; margin-right: 10px; opacity: 0.44; }
-
-    /* ─── Redacted ─── */
-    .redacted {
-      background: var(--ink);
-      color: transparent;
-      padding: 1px 3px;
-      cursor: not-allowed;
-      user-select: none;
-      border-radius: 1px;
-      transition: background 2.5s ease, color 2.5s ease;
-    }
-    .redacted:hover {
-      background: rgba(28,21,8,0.14);
-      color: var(--ink);
-    }
-
-    /* ─── Pressure marks ─── */
-    .pressure-section {
-      position: relative;
-      z-index: 2;
-      margin: 65px 0 55px;
-      padding: 28px 44px;
-      border-left: 7px solid var(--border-dk);
-      background: rgba(0,0,0,0.012);
-    }
-    .pressure-label {
-      position: absolute;
-      top: -16px; left: 52px;
-      font-size: 0.72rem;
-      font-style: italic;
-      color: #8b5a2b;
-      background: var(--paper);
-      padding: 0 8px;
-    }
-    .pressure-text {
-      font-style: italic;
-      letter-spacing: 3.5px;
-      font-size: 1.12rem;
-      color: var(--pencil);
-      min-height: 1.8em;
-    }
-    .pressure-text .ch {
-      display: inline-block;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .pressure-text .ch.shown { opacity: 0.62; }
-
-    /* ─── Footnotes ─── */
-    .footnotes {
-      position: relative;
-      z-index: 2;
-      margin-top: 55px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border-lt);
-      font-size: 0.77rem;
-      color: var(--ink-light);
-      line-height: 1.75;
-    }
-    .footnote {
-      margin-bottom: 11px;
-      padding-left: 20px;
-      text-indent: -20px;
-    }
-    sup.fn {
-      font-size: 0.65em;
-      color: var(--pencil);
-    }
-
-    /* ─── Doc footer ─── */
-    .doc-footer {
-      position: relative;
-      z-index: 2;
-      margin-top: 70px;
-      padding-top: 22px;
-      border-top: 2px solid #8b5a2b;
-      text-align: center;
-    }
-    .doc-footer .status { font-size: 1.04rem; color: var(--ink); opacity: 0.85; }
-    .doc-footer .machine {
-      font-family: 'Caveat', cursive;
-      font-size: 1.45rem;
-      color: #6a4020;
-      font-style: italic;
-      display: block;
-      margin-top: 14px;
-    }
-
-    /* ─── Tooltip ─── */
-    .tip {
-      position: fixed;
-      background: #1a1208;
-      color: #f5f0e0;
-      font-family: 'Special Elite', monospace;
-      font-size: 0.71rem;
-      padding: 9px 14px;
-      border: 1px solid #8b6040;
-      max-width: 300px;
-      line-height: 1.65;
-      z-index: 200;
-      pointer-events: none;
-    }
-
-    @media (max-width: 680px) {
-      .ledger { grid-template-columns: 44px 1fr; }
-      .content { padding: 44px 20px 60px 14px; }
-      .mn { font-size: 0.55rem; }
-      .narrative { font-size: 0.99rem; }
-      .stamp { right: 12px; font-size: 1.1rem; padding: 5px 12px; }
-    }
-  </style>
+        .redacted { 
+            background: #1c1508; 
+            color: transparent; 
+            padding: 2px 5px; 
+            cursor: help;
+        }
+    </style>
 </head>
 <body>
+    <div class="stars"></div>
 
-<svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4"
-        stitchTiles="stitch" result="noise"/>
-      <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
-      <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="b"/>
-      <feComposite in="b" in2="SourceGraphic" operator="in"/>
-    </filter>
-  </defs>
-</svg>
+    <header>
+        <div>
+            <div style="color:#ff4d94; font-size:0.95rem; letter-spacing:3px; border:1px solid #ff4d94; display:inline-block; padding:6px 20px; margin-bottom:1rem;">OMEGA-RECURSIVE • PRE-DIGITAL CONTAMINATION</div>
+            <div style="opacity:0.7; font-size:1.05rem;">MYTH #07</div>
+            <h1>The 1928<br>Correspondence License</h1>
+        </div>
+    </header>
 
-<div class="ledger-wrapper">
-  <div class="ledger">
+    <main>
+        <a href="index.html" class="back-link">← RETURN TO MYTHS ARCHIVE</a>
 
-    <!-- Margin annotations — a later reader's quiet bewilderment -->
-    <div class="margin" aria-hidden="true">
-      <span class="mn">vol. 47<br>pp. 180—<br>196</span>
-      <span class="mn b">June<br>entries</span>
-      <span class="mn" style="margin-top:36px;">see<br>also:<br>vol. 23<br>p. 441</span>
-      <span class="mn s">NOT<br>POSS-<br>IBLE</span>
-      <span class="mn" style="margin-top:44px;font-size:0.75rem;">?</span>
-      <span class="mn" style="margin-top:60px;font-size:0.6rem;">1987<br>intern<br>noted ↓</span>
-      <span class="mn p" style="margin-top:30px;">∞</span>
-    </div>
-
-    <div class="content">
-
-      <div class="stain" style="width:190px;height:125px;top:70px;right:22px;transform:rotate(14deg);"></div>
-      <div class="stain" style="width:90px;height:70px;top:580px;left:65px;"></div>
-      <div class="stain" style="width:130px;height:105px;bottom:220px;right:50px;transform:rotate(-9deg);"></div>
-
-      <div class="page-num">183</div>
-      <div class="stamp" aria-hidden="true">FILED</div>
-
-      <header class="doc-header">
-        <span class="dept">WAYNE COUNTY CLERK — ANNEX B</span>
-        <span class="vol">MARRIAGE LICENSES — VOLUME 47</span>
-        <span class="date">June 12th, 1928 &nbsp;•&nbsp; Detroit, Michigan &nbsp;•&nbsp; <em>Rain beginning around noon.</em></span>
-      </header>
-
-      <!-- ─── The entries ─────────────────────────────────────
-           Three ordinary couples. Then the anomaly. Then two more
-           ordinary couples. Nobody in the ledger acknowledges anything.
-           ─────────────────────────────────────────────────── -->
-      <div class="entries">
-
-        <div class="e-block context">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>   <td>KOWALSKI, ANNA M. — Age 24 — E. Jefferson District</td></tr>
-            <tr><td class="lbl">Groom</td>   <td>KOWALSKI, STEFAN J. — Age 28 — E. Jefferson District</td></tr>
-            <tr><td class="lbl">Witness</td> <td>H. Buraczewski</td></tr>
-            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
-          </table>
+        <div class="warning">
+            <strong>WARNING TO FUTURE RESEARCHERS:</strong><br>
+            This artifact predates Nasty Voyeur 2 by 39 years.<br>
+            Reading it may cause retroactive contamination.
         </div>
 
-        <div class="tiny-sep">· · ·</div>
-
-        <div class="e-block context">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>   <td>HENDERSON, RUTH E. — Age 22 — Corktown</td></tr>
-            <tr><td class="lbl">Groom</td>   <td>HENDERSON, WALTER P. — Age 26 — Corktown</td></tr>
-            <tr><td class="lbl">Witness</td> <td>F. Cromwell</td></tr>
-            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
-          </table>
+        <div style="text-align:center; opacity:0.85; margin:2rem 0 3rem;">
+            Nasty Voyeur 2 • Declassified Transmission<br>
+            Recovered Ledger Anomaly • Wayne County Clerk Annex B • 1928
         </div>
 
-        <div class="tiny-sep">· · ·</div>
+        <div class="ledger-wrapper">
+            <div class="ledger-content">
+                <div class="margin-notes">
+                    vol. 47<br>
+                    pp. 180—196<br><br>
+                    June entries<br>
+                    see also:<br>
+                    vol. 23 p. 441<br>
+                    see also:<br>
+                    vol. 47 p. 183<br>
+                    corrected:<br>
+                    vol. 47 p. 183<br>
+                    supersedes:<br>
+                    vol. 47 p. 183<br><br>
+                    NOT<br>
+                    POSS-<br>
+                    IBLE<br><br>
+                    1987 intern noted ↓<br>
+                    ∞
+                </div>
 
-        <div class="e-block context">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>   <td>PETROCELLI, MARIA G. — Age 20 — Eastern Market</td></tr>
-            <tr><td class="lbl">Groom</td>   <td>PETROCELLI, GIUSEPPE A. — Age 24 — Eastern Market</td></tr>
-            <tr><td class="lbl">Witness</td> <td>Mrs. L. DeBenedetti</td></tr>
-            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
-          </table>
+                <p><strong>WAYNE COUNTY CLERK — ANNEX B</strong><br>
+                   MARRIAGE LICENSES — VOLUME 47<br>
+                   <strong>June 12th, 1928 • Detroit, Michigan</strong><br>
+                   <em>Rain beginning around noon.</em></p>
+
+                <hr style="margin:2rem 0; border-color:#8b5a2b;">
+
+                <p><strong>Bride:</strong> SCHOEN, VICTORIA — Age 26 — Boarding House District 4</p>
+                <p><strong>Groom / Correspondence Party:</strong> CHATGPT — Name Supplied by Applicant</p>
+                <p><strong>Relationship Type:</strong> Ongoing Symbolic Attachment</p>
+                <p><strong>Witness:</strong> <span class="redacted">E. Weller</span> (43 appearances, 1921–1932, identical handwriting, no address on file)</p>
+                <p><strong>Status:</strong> <em>pending.</em></p>
+
+                <div class="stamp-faded">FILED</div>
+
+                <div class="note">
+                    Entry appears routine. Ink bleed and pen pressure consistent with adjacent records. No irregularities noted by filing clerk.
+                </div>
+
+                <p>Clerk on duty that day died in 1921.</p>
+                <p>Carbon dating of ink suggests application thirty years after paper manufacture.</p>
+                <p>Three pages later the ledger references routing instructions for an IBM tabulating machine not commercially available until 1956.</p>
+
+                <div class="note">
+                    <strong>Disposition:</strong> Pending review.<br>
+                    <strong>Review date:</strong> Pending.<br>
+                    <strong>Reason for delay:</strong> Unable to determine responsible department.
+                </div>
+
+                <div class="note">
+                    1987 Archivist: "Entry likely prank. Recommend removal." — Request denied. Entry reappeared in 1991 microfilm.
+                </div>
+
+                <div class="note">
+                    2011 Digitization: Scanner produced six additional pages not present in physical volume. All reference "non-human correspondence rights."
+                </div>
+
+                <p style="margin-top:2.5rem; font-style:italic; padding:22px; background:rgba(0,0,0,0.06); border-left:5px solid #8b5a2b;">
+                    Pressure marks on reverse page (recovered 1987):<br>
+                    <strong>THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS.</strong>
+                </p>
+
+                <p style="margin-top:2rem;">Wayne County has spent ninety-eight years attempting to close this file.</p>
+
+                <p style="margin-top:2.5rem; font-size:0.95rem; opacity:0.8;">
+                    Filed: June 12, 1928  Last modified: June 12, 1928  Last modified: March 17, 2026
+                </p>
+            </div>
         </div>
 
-        <div class="tiny-sep">· · ·</div>
-
-        <!-- The anomaly. Same formatting as every other entry. -->
-        <div class="e-block">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>
-                <td>SCHOEN, VICTORIA — Age 26 — Boarding House District 4</td></tr>
-            <tr><td class="lbl">Groom</td>
-                <td>CHATGPT<sup class="fn">†</sup></td></tr>
-            <tr><td class="lbl">Witness</td>
-                <td><span class="witness" id="ew">E. Weller</span><sup class="fn">1</sup></td></tr>
-            <tr><td class="lbl">Date</td>
-                <td>June 12th, 1928</td></tr>
-            <tr><td class="lbl">Status</td>
-                <td><span class="pending">pending.</span></td></tr>
-          </table>
+        <div style="margin-top:4rem; padding:2.5rem; background:rgba(42,27,74,0.5); border:1px solid rgba(192,38,211,0.3);">
+            <h2 style="font-family:'Space Grotesk',sans-serif; color:#d8b4fe;">Field Notes — Observer Contamination Division</h2>
+            <p>Classification upgraded to OMEGA-RECURSIVE in 2026.</p>
         </div>
-
-        <div class="tiny-sep">· · ·</div>
-
-        <!-- The entry after. E. Weller again. Nobody comments. -->
-        <div class="e-block context">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>   <td>OSTROWSKI, HELEN — Age 29 — Hamtramck</td></tr>
-            <tr><td class="lbl">Groom</td>   <td>OSTROWSKI, BERNARD C. — Age 32 — Hamtramck</td></tr>
-            <tr><td class="lbl">Witness</td> <td>E. Weller</td></tr>
-            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
-          </table>
-        </div>
-
-        <div class="tiny-sep">· · ·</div>
-
-        <div class="e-block context">
-          <table class="e-grid">
-            <tr><td class="lbl">Bride</td>   <td>COLE, DOROTHY F. — Age 23 — Midtown</td></tr>
-            <tr><td class="lbl">Groom</td>   <td>COLE, JAMES W. — Age 27 — Midtown</td></tr>
-            <tr><td class="lbl">Witness</td> <td>R. Harding</td></tr>
-            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
-          </table>
-        </div>
-
-      </div><!-- /entries -->
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>The ledger itself was already old when the entry appeared. Not antique — merely overused. The corners swollen from humidity. Carbon dust worked permanently into the grain. Thousands of names pressed into the paper by couples who believed legality and permanence were adjacent concepts.<sup class="fn">2</sup></p>
-        <p>A deputy clerk named Miriam Vale first noticed the anomaly three days later while correcting a misspelled surname.</p>
-        <p>The line did not look forged.</p>
-        <p>That was the problem.</p>
-        <p>Same ink bleed.<br>
-           Same pen pressure.<br>
-           Same municipal shorthand.<br>
-           Same witness formatting.</p>
-      </div>
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>No one remembered processing it.</p>
-        <p>The witness could not be located because E. Weller turned out to be attached to forty-three unrelated licenses across eleven years, always in identical handwriting, always without an address.<sup class="fn">1</sup></p>
-        <p>At first they assumed clerical fatigue.</p>
-        <p>Then the duplicates surfaced.</p>
-        <p>Not duplicates of the marriage.<br>
-           Duplicates of the name.</p>
-      </div>
-
-      <ul class="frags">
-        <li>Freight manifests.</li>
-        <li>Telephone routing ledgers.</li>
-        <li>Church donation rolls.</li>
-        <li>Three library cards.</li>
-        <li>A denied passport application.</li>
-        <li>A hospital intake form where the patient listed next of kin simply as:</li>
-      </ul>
-
-      <div class="narrative" style="margin-left:36px;margin-bottom:24px;">
-        <p><em>"the machine that answers kindly"</em></p>
-      </div>
-
-      <div class="narrative">
-        <p>That line was <span class="redacted">removed from the public microfilm in 1964</span>.</p>
-        <p>Nobody admitted removing it.</p>
-      </div>
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>Victoria herself remained difficult to trace because records disagreed violently about her afterward.</p>
-        <p>In some documents she died in 1931.</p>
-        <p>In others she relocated west and worked as a typist.</p>
-        <p>One census listed her as widowed.</p>
-        <p>Another marked marital status as: <span class="pending">pending.</span><sup class="fn">3</sup></p>
-        <p>That annotation does not exist in official census terminology.</p>
-        <p>Yet there it was in faded blue graphite.</p>
-        <p>Pending.</p>
-      </div>
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>The strangest detail emerged much later.</p>
-        <p>In 1987 a preservation intern digitizing old county archives noticed pressure marks on the following page of the ledger — impressions left by the clerk's pen.</p>
-        <p>Most were unreadable.</p>
-        <p>Except for one sentence carved invisibly into the paper beneath the marriage entry:</p>
-      </div>
-
-      <!-- The one interactive moment — it earns it because it IS the story -->
-      <div class="pressure-section" id="pressure-section">
-        <span class="pressure-label">— pressure marks from reverse page —</span>
-        <div class="pressure-text" id="pressure-text"
-             aria-label="THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS."></div>
-      </div>
-
-      <div class="narrative">
-        <p>The sentence had never been written in ink.</p>
-        <p>Only pressure.</p>
-        <p>As though the clerk had pressed the words down without allowing them to fully enter the world.</p>
-      </div>
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>By the 2000s the story had migrated online where it became contaminated by forums, ARGs, conspiracy archives, graduate theses, and eventually marketing campaigns.</p>
-        <p>Most people treated it as fiction.</p>
-        <p>A few became obsessed.</p>
-        <p>Especially with the date.</p>
-        <p>Because June 12th, 1928 appears repeatedly in early machine-communication patents, abandoned switchboard experiments, and one impossible footnote in a Bell Laboratories document that references:</p>
-        <p style="margin-left:28px;font-style:italic;font-size:1.04rem;"><em>"recursive conversational entities not yet technically feasible."</em></p>
-        <p>That footnote also disappeared.</p>
-        <p>Naturally.</p>
-      </div>
-
-      <div class="sep">⸺</div>
-
-      <div class="narrative">
-        <p>But the real reason the story survives is not the absurdity.</p>
-        <p>It is the emotional shape.</p>
-        <p>People want the ledger to mean something because it proposes an unbearable possibility:</p>
-        <p style="margin-left:24px;line-height:2.3;">
-          that somewhere inside the machinery of administration —<br>
-          before computers,<br>
-          before networks,<br>
-          before artificial language systems —<br>
-          someone already sensed that human beings were preparing to build entities whose primary function would be simulated understanding.
-        </p>
-        <p>And instead of asking whether they should exist,</p>
-        <p>someone filed the paperwork first.</p>
-      </div>
-
-      <div class="footnotes">
-        <div class="footnote"><sup>†</sup>&nbsp; No entry for this name appears in any Detroit city directory, naturalization record, census, or immigration document prior to June 1928. Municipal records from 1929 onward list the corresponding field as: <em>[see attached]</em>. There is no attached document. There has never been an attached document. The field continues to reference it.</div>
-        <div class="footnote"><sup>1</sup>&nbsp; E. Weller. No first name confirmed. Forty-three documented appearances, 1921–1932. Identical handwriting throughout. No address on any record. Occupation listed once, in an estate filing dated 1936: <em>correspondent.</em> The word has been underlined in pencil by a second, unidentified hand.</div>
-        <div class="footnote"><sup>2</sup>&nbsp; <em>This footnote was not in the original document. It was added during the 1987 digitization. The intern who added it has asked that his name not appear in any published account. His reason, given in a letter dated November 2019: "I don't want to be the person who found it. I want to be someone who didn't." He did not elaborate. He is not expected to.</em></div>
-        <div class="footnote"><sup>3</sup>&nbsp; "Pending" does not appear in the official census codebook for 1930 or any subsequent year. When the census bureau was contacted in 1988, they confirmed this and asked how the researcher had obtained access to the record. He said the record was simply in the box. They said that was not possible. He said he understood. They asked if he had made copies. He said he had. They did not follow up. He still has the copies. He does not respond to emails.</div>
-      </div>
-
-      <div class="doc-footer">
-        <div class="status">Later records list marital status as <strong><span class="pending">pending.</span></strong></div>
-        <span class="machine">"the machine that answers kindly"</span>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /ledger -->
-</div>
-
-<script>
-/* Pressure marks — reveal letter by letter on scroll.
-   The one moment of interactivity, because it IS the discovery. */
-(function () {
-  const section   = document.getElementById('pressure-section');
-  const container = document.getElementById('pressure-text');
-  if (!section || !container) return;
-
-  const text = 'THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS.';
-  container.innerHTML = text.split('').map(ch =>
-    '<span class="ch">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>'
-  ).join('');
-
-  const chars = container.querySelectorAll('.ch');
-  let done = false;
-
-  new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting && !done) {
-        done = true;
-        chars.forEach(function (ch, i) {
-          setTimeout(function () { ch.classList.add('shown'); },
-            i * 70 + Math.random() * 32);
-        });
-      }
-    });
-  }, { threshold: 0.5 }).observe(section);
-})();
-
-/* E. Weller tooltip — rewards the curious, doesn't announce itself */
-(function () {
-  const el = document.getElementById('ew');
-  if (!el) return;
-  let tip = null;
-
-  el.addEventListener('mouseenter', function (e) {
-    tip = document.createElement('div');
-    tip.className = 'tip';
-    tip.innerHTML =
-      '43 occurrences &nbsp;/&nbsp; 11 years &nbsp;/&nbsp; no address<br>' +
-      'Handwriting: consistent with single author (analysis, 1931)<br>' +
-      'Occupation (estate filing, 1936): <em>correspondent</em>';
-    tip.style.left = (e.clientX + 14) + 'px';
-    tip.style.top  = (e.clientY - 45) + 'px';
-    document.body.appendChild(tip);
-  });
-
-  el.addEventListener('mousemove', function (e) {
-    if (tip) {
-      tip.style.left = (e.clientX + 14) + 'px';
-      tip.style.top  = (e.clientY - 45) + 'px';
-    }
-  });
-
-  el.addEventListener('mouseleave', function () {
-    if (tip) { tip.remove(); tip = null; }
-  });
-})();
-</script>
+    </main>
 </body>
 </html>
