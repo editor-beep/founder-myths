@@ -9,118 +9,49 @@
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper:        #f5f0e0;
-      --paper-aged:   #ece3c5;
-      --paper-dark:   #e0d5b0;
-      --ink:          #1c1508;
-      --ink-mid:      #2e2415;
-      --ink-light:    #4a3820;
-      --red-ink:      #8b1a1a;
-      --blue-ink:     #1c2558;
-      --pencil:       #6e6e6e;
-      --stamp-col:    #9c2a2a;
-      --border-dk:    #3c2f1e;
-      --border-lt:    #c8aa74;
-      --annotation:   #5c3a18;
+      --paper:      #f5f0e0;
+      --paper-aged: #ece3c5;
+      --paper-dark: #e0d5b0;
+      --ink:        #1c1508;
+      --ink-mid:    #2e2415;
+      --ink-light:  #4a3820;
+      --blue-ink:   #1c2558;
+      --pencil:     #6e6e6e;
+      --stamp-col:  #9c2a2a;
+      --border-dk:  #3c2f1e;
+      --border-lt:  #c8aa74;
+      --annotation: #5c3a18;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       padding: 55px 20px 100px;
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 0%,  #181008 0%, transparent 100%),
-        radial-gradient(ellipse 100% 60% at 50% 100%, #0e0b06 0%, transparent 100%),
-        #080603;
+      background: #0d0b08;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
       font-family: 'Special Elite', monospace;
-      overflow-x: hidden;
     }
 
-    /* ── VIGNETTE ──────────────────────────────────────────── */
     body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse 85% 85% at 50% 50%,
-        transparent 35%, rgba(0,0,0,0.55) 100%);
+      background: radial-gradient(ellipse 88% 88% at 50% 50%,
+        transparent 42%, rgba(0,0,0,0.48) 100%);
       pointer-events: none;
-      z-index: 600;
+      z-index: 100;
     }
 
-    /* ── MICROFILM OVERLAY ──────────────────────────────────── */
-    #scan-overlay {
-      position: fixed;
-      inset: 0;
-      background: #080e08;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: opacity 1.4s ease;
-    }
-    #scan-overlay.fading { opacity: 0; pointer-events: none; }
-
-    #scan-text {
-      font-family: 'Courier New', monospace;
-      color: #3d7a3d;
-      font-size: 0.73rem;
-      letter-spacing: 2px;
-      text-align: center;
-      line-height: 2.1;
-      white-space: pre;
-      min-height: 14em;
-    }
-
-    .scan-cursor {
-      display: inline-block;
-      width: 8px; height: 14px;
-      background: #3d7a3d;
-      vertical-align: middle;
-      animation: blink .8s step-end infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    /* scan-line shimmer inside overlay */
-    #scan-overlay::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.18) 2px,
-        rgba(0,0,0,0.18) 4px
-      );
-      pointer-events: none;
-    }
-
-    /* ── RAIN CANVAS ────────────────────────────────────────── */
-    #rain-canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0.12;
-    }
-
-    /* ── LEDGER WRAPPER ─────────────────────────────────────── */
-    .ledger-wrapper { width: 100%; max-width: 980px; position: relative; z-index: 10; }
-
-    /* ── SVG FILTER DEFS ────────────────────────────────────── */
+    /* ─── SVG filter defs ─── */
     .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-    /* ── LEDGER BODY ────────────────────────────────────────── */
+    /* ─── Ledger ─── */
+    .ledger-wrapper { width: 100%; max-width: 960px; }
+
     .ledger {
-      position: relative;
       display: grid;
       grid-template-columns: 76px 1fr;
       background: var(--paper);
@@ -129,41 +60,38 @@
         0 0 0 9px #3c2f1e,
         0 0 0 11px #221608,
         0 35px 130px rgba(0,0,0,0.98),
-        inset 0 0 220px rgba(90,50,8,0.08);
+        inset 0 0 220px rgba(90,50,8,0.07);
       overflow: hidden;
-      opacity: 0;
-      transition: opacity 2.2s ease;
+      position: relative;
       filter: url(#grain);
     }
-    .ledger.visible { opacity: 1; }
 
     /* binding shadow */
     .ledger::after {
       content: '';
       position: absolute;
       top: 0; left: 76px; bottom: 0;
-      width: 22px;
-      background: linear-gradient(to right, rgba(0,0,0,0.17), transparent);
+      width: 18px;
+      background: linear-gradient(to right, rgba(0,0,0,0.13), transparent);
       pointer-events: none;
-      z-index: 20;
+      z-index: 10;
     }
 
-    /* ── LEFT MARGIN ────────────────────────────────────────── */
+    /* ─── Left margin ─── */
     .margin {
       background: var(--paper-aged);
       border-right: 2px solid var(--border-lt);
-      padding: 108px 7px 60px;
+      padding: 110px 7px 60px;
       position: relative;
-      z-index: 2;
-      overflow: hidden;
     }
+
     /* red ruling line */
     .margin::after {
       content: '';
       position: absolute;
-      top: 0; right: -6px; bottom: 0;
+      top: 0; right: -5px; bottom: 0;
       width: 2px;
-      background: rgba(210,70,70,0.45);
+      background: rgba(200,60,60,0.36);
     }
 
     .mn {
@@ -171,16 +99,15 @@
       font-size: 0.67rem;
       color: var(--annotation);
       line-height: 1.45;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       word-break: break-word;
       display: block;
     }
-    .mn.r  { color: var(--red-ink); font-weight: 700; }
-    .mn.b  { color: var(--blue-ink); }
-    .mn.s  { text-decoration: line-through; opacity: 0.45; }
-    .mn.p  { color: var(--pencil); font-size: 0.6rem; }
+    .mn.s { text-decoration: line-through; opacity: 0.44; }
+    .mn.b { color: var(--blue-ink); }
+    .mn.p { color: var(--pencil); font-size: 0.6rem; }
 
-    /* ── MAIN CONTENT ────────────────────────────────────────── */
+    /* ─── Main content ─── */
     .content {
       padding: 58px 58px 90px 42px;
       position: relative;
@@ -192,10 +119,8 @@
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
-        transparent,
-        transparent 30px,
-        rgba(155,185,215,0.3) 30px,
-        rgba(155,185,215,0.3) 31px
+        transparent, transparent 30px,
+        rgba(148,180,210,0.26) 30px, rgba(148,180,210,0.26) 31px
       );
       pointer-events: none;
     }
@@ -205,84 +130,67 @@
       position: absolute;
       border-radius: 50%;
       pointer-events: none;
-      background: radial-gradient(ellipse, rgba(135,95,35,0.09) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(130,90,30,0.08) 0%, transparent 70%);
     }
 
-    /* ── DOC HEADER ──────────────────────────────────────────── */
-    .doc-header {
-      text-align: center;
-      border-bottom: 3px double var(--border-dk);
-      padding-bottom: 14px;
-      margin-bottom: 36px;
-      position: relative;
-      z-index: 5;
-    }
-    .doc-header .dept {
-      display: block;
-      font-size: 0.98rem;
-      letter-spacing: 3px;
-      color: var(--ink);
-    }
-    .doc-header .vol {
-      display: block;
-      font-size: 0.86rem;
-      letter-spacing: 2px;
-      color: var(--ink-mid);
-      margin-top: 3px;
-    }
-    .doc-header .doc-date {
-      display: block;
-      font-size: 0.78rem;
-      color: var(--ink-light);
-      font-style: italic;
-      margin-top: 6px;
-    }
-
-    /* ── PAGE NUMBER ─────────────────────────────────────────── */
+    /* ─── Page number ─── */
     .page-num {
       position: absolute;
-      top: 40px; right: 60px;
-      font-size: 1.3rem;
+      top: 42px; right: 60px;
+      font-size: 1.28rem;
       color: var(--ink-mid);
-      opacity: 0.6;
-      z-index: 15;
+      opacity: 0.58;
+      z-index: 5;
       user-select: none;
-      transition: opacity 0.2s;
     }
 
-    /* ── FILED STAMP ─────────────────────────────────────────── */
+    /* ─── Filed stamp ─── */
     .stamp {
       position: absolute;
-      top: 96px; right: 80px;
+      top: 96px; right: 82px;
       color: var(--stamp-col);
       border: 4px double var(--stamp-col);
       padding: 6px 20px;
       font-size: 1.38rem;
       letter-spacing: 5px;
       transform: rotate(-11deg);
-      z-index: 15;
+      z-index: 5;
       opacity: 0;
-      box-shadow: inset 0 0 0 1px rgba(156,42,42,0.15);
-      animation: stamp-down 0.12s ease-out 3.2s forwards;
+      animation: stamp-land 0.13s ease-out 0.4s forwards;
     }
-    @keyframes stamp-down {
-      0%   { opacity: 0; transform: rotate(-11deg) scale(1.5) translateY(-12px); }
-      60%  { opacity: 0.95; transform: rotate(-11deg) scale(0.93); }
+
+    @keyframes stamp-land {
+      0%   { opacity: 0; transform: rotate(-11deg) scale(1.5) translateY(-10px); }
+      60%  { opacity: 0.9; transform: rotate(-11deg) scale(0.95); }
       100% { opacity: 0.78; transform: rotate(-11deg) scale(1); }
     }
 
-    /* ── LEDGER ENTRIES ──────────────────────────────────────── */
-    .entries { margin: 16px 0 44px; position: relative; z-index: 5; }
+    /* ─── Doc header ─── */
+    .doc-header {
+      text-align: center;
+      border-bottom: 3px double var(--border-dk);
+      padding-bottom: 14px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .doc-header .dept { display: block; font-size: 0.98rem; letter-spacing: 3px; color: var(--ink); }
+    .doc-header .vol  { display: block; font-size: 0.86rem; letter-spacing: 2px; color: var(--ink-mid); margin-top: 3px; }
+    .doc-header .date { display: block; font-size: 0.78rem; color: var(--ink-light); font-style: italic; margin-top: 5px; }
 
-    .e-block          { margin-bottom: 0; }
-    .e-block.context  { opacity: 0.42; }
-    .e-block.anomaly  {
-      margin: 0 -6px;
-      padding: 2px 6px;
-      background: rgba(139,26,26,0.045);
-      border-left: 3px solid rgba(139,26,26,0.28);
+    /* ─── Ledger entries ─── */
+    .entries { margin: 14px 0 40px; position: relative; z-index: 2; }
+
+    .tiny-sep {
+      text-align: center;
+      color: var(--ink-light);
+      letter-spacing: 4px;
+      font-size: 0.7rem;
+      margin: 4px 0;
+      user-select: none;
     }
 
+    /* All entry blocks use the same table — no anomaly highlighting */
     .e-grid { width: 100%; border-collapse: collapse; font-size: 0.91rem; }
     .e-grid td {
       border: 1px solid var(--border-lt);
@@ -297,51 +205,23 @@
       border-right: 1px solid var(--border-dk);
     }
 
-    .tiny-sep {
-      text-align: center;
-      color: var(--ink-light);
-      letter-spacing: 5px;
-      font-size: 0.72rem;
-      margin: 5px 0;
-      user-select: none;
-      position: relative;
-      z-index: 5;
-    }
+    .e-block.context { opacity: 0.48; }
 
-    /* ── ANOMALY NAME (CHATGPT) ──────────────────────────────── */
-    .anomaly-name {
-      color: var(--red-ink);
+    /* ─── Pending ─── */
+    /* No pulse. No animation. The word does the work. */
+    .pending {
+      color: var(--blue-ink);
+      font-style: italic;
       font-weight: bold;
-      cursor: crosshair;
-      display: inline-block;
-      position: relative;
-    }
-    .fn-mark {
-      font-size: 0.65em;
-      color: var(--red-ink);
-      vertical-align: super;
-      opacity: 0.72;
     }
 
-    /* ── WITNESS ─────────────────────────────────────────────── */
+    /* ─── Witness ─── */
     .witness {
       border-bottom: 1px dashed var(--ink-light);
       cursor: help;
     }
 
-    /* ── PENDING ─────────────────────────────────────────────── */
-    .pending {
-      color: var(--blue-ink);
-      font-style: italic;
-      font-weight: bold;
-      animation: breathe 3.8s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
-
-    /* ── SEPARATOR ───────────────────────────────────────────── */
+    /* ─── Separator ─── */
     .sep {
       text-align: center;
       color: var(--ink-light);
@@ -350,13 +230,13 @@
       margin: 40px 0;
       user-select: none;
       position: relative;
-      z-index: 5;
+      z-index: 2;
     }
 
-    /* ── NARRATIVE TEXT ──────────────────────────────────────── */
+    /* ─── Narrative ─── */
     .narrative {
       position: relative;
-      z-index: 5;
+      z-index: 2;
       font-size: 1.14rem;
       line-height: 1.92;
       color: var(--ink);
@@ -366,7 +246,7 @@
     .narrative p { margin: 0 0 20px; }
     .narrative p:last-child { margin-bottom: 0; }
 
-    /* ── FRAGMENT LIST ───────────────────────────────────────── */
+    /* ─── Fragment list ─── */
     .frags {
       list-style: none;
       padding: 0 0 0 28px;
@@ -375,11 +255,11 @@
       line-height: 2.25;
       color: var(--ink);
       position: relative;
-      z-index: 5;
+      z-index: 2;
     }
-    .frags li::before { content: '—'; margin-right: 10px; opacity: 0.45; }
+    .frags li::before { content: '—'; margin-right: 10px; opacity: 0.44; }
 
-    /* ── REDACTED ────────────────────────────────────────────── */
+    /* ─── Redacted ─── */
     .redacted {
       background: var(--ink);
       color: transparent;
@@ -387,25 +267,25 @@
       cursor: not-allowed;
       user-select: none;
       border-radius: 1px;
-      transition: background 2s ease, color 2s ease;
+      transition: background 2.5s ease, color 2.5s ease;
     }
     .redacted:hover {
-      background: rgba(28,21,8,0.18);
+      background: rgba(28,21,8,0.14);
       color: var(--ink);
     }
 
-    /* ── PRESSURE MARKS ─────────────────────────────────────── */
+    /* ─── Pressure marks ─── */
     .pressure-section {
       position: relative;
-      z-index: 5;
-      margin: 70px 0 58px;
-      padding: 30px 44px;
+      z-index: 2;
+      margin: 65px 0 55px;
+      padding: 28px 44px;
       border-left: 7px solid var(--border-dk);
-      background: rgba(0,0,0,0.014);
+      background: rgba(0,0,0,0.012);
     }
     .pressure-label {
       position: absolute;
-      top: -17px; left: 52px;
+      top: -16px; left: 52px;
       font-size: 0.72rem;
       font-style: italic;
       color: #8b5a2b;
@@ -415,43 +295,43 @@
     .pressure-text {
       font-style: italic;
       letter-spacing: 3.5px;
-      font-size: 1.13rem;
+      font-size: 1.12rem;
       color: var(--pencil);
+      min-height: 1.8em;
     }
     .pressure-text .ch {
       display: inline-block;
       opacity: 0;
-      transition: opacity 0.35s ease;
+      transition: opacity 0.4s ease;
     }
-    .pressure-text .ch.shown { opacity: 0.65; }
+    .pressure-text .ch.shown { opacity: 0.62; }
 
-    /* ── SCROLL REVEAL ───────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(9px);
-      transition: opacity 1.3s ease, transform 1.3s ease;
-    }
-    .reveal.in { opacity: 1; transform: none; }
-
-    /* ── FOOTNOTES ───────────────────────────────────────────── */
+    /* ─── Footnotes ─── */
     .footnotes {
       position: relative;
-      z-index: 5;
-      margin-top: 60px;
-      padding-top: 16px;
+      z-index: 2;
+      margin-top: 55px;
+      padding-top: 15px;
       border-top: 1px solid var(--border-lt);
       font-size: 0.77rem;
       color: var(--ink-light);
       line-height: 1.75;
     }
-    .footnote { margin-bottom: 12px; padding-left: 20px; text-indent: -20px; }
-    sup.fn { color: var(--red-ink); font-size: 0.65em; cursor: help; }
+    .footnote {
+      margin-bottom: 11px;
+      padding-left: 20px;
+      text-indent: -20px;
+    }
+    sup.fn {
+      font-size: 0.65em;
+      color: var(--pencil);
+    }
 
-    /* ── DOC FOOTER ──────────────────────────────────────────── */
+    /* ─── Doc footer ─── */
     .doc-footer {
       position: relative;
-      z-index: 5;
-      margin-top: 75px;
+      z-index: 2;
+      margin-top: 70px;
       padding-top: 22px;
       border-top: 2px solid #8b5a2b;
       text-align: center;
@@ -466,52 +346,32 @@
       margin-top: 14px;
     }
 
-    /* ── SOUND TOGGLE ────────────────────────────────────────── */
-    #sound-btn {
-      position: fixed;
-      bottom: 28px; right: 28px;
-      font-family: 'Caveat', cursive;
-      font-size: 0.88rem;
-      color: #5a4028;
-      background: rgba(244,238,218,0.92);
-      border: 1px solid #9a7a50;
-      padding: 5px 13px;
-      cursor: pointer;
-      z-index: 700;
-      transform: rotate(-2deg);
-      transition: background 0.3s;
-      user-select: none;
-    }
-    #sound-btn:hover { background: rgba(244,238,218,1); }
-
-    /* ── TOOLTIP ─────────────────────────────────────────────── */
+    /* ─── Tooltip ─── */
     .tip {
       position: fixed;
       background: #1a1208;
       color: #f5f0e0;
       font-family: 'Special Elite', monospace;
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       padding: 9px 14px;
       border: 1px solid #8b6040;
       max-width: 300px;
       line-height: 1.65;
-      z-index: 800;
+      z-index: 200;
       pointer-events: none;
     }
 
-    /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 680px) {
-      .ledger { grid-template-columns: 46px 1fr; }
-      .content { padding: 46px 22px 60px 16px; }
-      .mn { font-size: 0.56rem; }
-      .narrative { font-size: 0.98rem; }
-      .stamp { right: 14px; top: 88px; font-size: 1.1rem; padding: 5px 12px; }
+      .ledger { grid-template-columns: 44px 1fr; }
+      .content { padding: 44px 20px 60px 14px; }
+      .mn { font-size: 0.55rem; }
+      .narrative { font-size: 0.99rem; }
+      .stamp { right: 12px; font-size: 1.1rem; padding: 5px 12px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── SVG FILTER DEFINITIONS ──────────────────────────────── -->
 <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter id="grain" x="0" y="0" width="100%" height="100%">
@@ -524,117 +384,119 @@
   </defs>
 </svg>
 
-<!-- ── MICROFILM SCAN OVERLAY ──────────────────────────────── -->
-<div id="scan-overlay">
-  <div id="scan-text"></div>
-  <span class="scan-cursor"></span>
-</div>
-
-<!-- ── RAIN CANVAS ─────────────────────────────────────────── -->
-<canvas id="rain-canvas"></canvas>
-
-<!-- ── SOUND TOGGLE ────────────────────────────────────────── -->
-<button id="sound-btn" aria-label="Toggle ambient rain sound">rain ☁</button>
-
-<!-- ── MAIN DOCUMENT ───────────────────────────────────────── -->
 <div class="ledger-wrapper">
-  <div class="ledger" id="ledger">
+  <div class="ledger">
 
-    <!-- Left margin annotations -->
+    <!-- Margin annotations — a later reader's quiet bewilderment -->
     <div class="margin" aria-hidden="true">
-      <span class="mn">vol.&nbsp;47<br>pp. 180—<br>196</span>
+      <span class="mn">vol. 47<br>pp. 180—<br>196</span>
       <span class="mn b">June<br>entries</span>
-      <span class="mn" style="margin-top:38px;">see<br>also:<br>vol.&nbsp;23<br>p.&nbsp;441</span>
-      <span class="mn r">WHO<br>IS<br>E.W.?</span>
+      <span class="mn" style="margin-top:36px;">see<br>also:<br>vol. 23<br>p. 441</span>
       <span class="mn s">NOT<br>POSS-<br>IBLE</span>
-      <span class="mn" style="margin-top:55px;font-size:0.6rem;">1987<br>intern<br>noted<br>↓</span>
-      <span class="mn p" style="margin-top:28px;">∞</span>
+      <span class="mn" style="margin-top:44px;font-size:0.75rem;">?</span>
+      <span class="mn" style="margin-top:60px;font-size:0.6rem;">1987<br>intern<br>noted ↓</span>
+      <span class="mn p" style="margin-top:30px;">∞</span>
     </div>
 
-    <!-- Main content -->
     <div class="content">
 
-      <!-- Water stains -->
-      <div class="stain" style="width:190px;height:125px;top:75px;right:25px;transform:rotate(14deg);"></div>
-      <div class="stain" style="width:95px;height:75px;top:580px;left:70px;"></div>
-      <div class="stain" style="width:140px;height:110px;bottom:210px;right:55px;transform:rotate(-9deg);"></div>
-      <div class="stain" style="width:60px;height:50px;top:1200px;left:120px;transform:rotate(5deg);opacity:0.6;"></div>
+      <div class="stain" style="width:190px;height:125px;top:70px;right:22px;transform:rotate(14deg);"></div>
+      <div class="stain" style="width:90px;height:70px;top:580px;left:65px;"></div>
+      <div class="stain" style="width:130px;height:105px;bottom:220px;right:50px;transform:rotate(-9deg);"></div>
 
-      <!-- Page number -->
-      <div class="page-num" id="page-num">183</div>
-
-      <!-- Filed stamp -->
+      <div class="page-num">183</div>
       <div class="stamp" aria-hidden="true">FILED</div>
 
-      <!-- Document header -->
       <header class="doc-header">
         <span class="dept">WAYNE COUNTY CLERK — ANNEX B</span>
         <span class="vol">MARRIAGE LICENSES — VOLUME 47</span>
-        <span class="doc-date">June 12th, 1928 &nbsp;•&nbsp; Detroit, Michigan &nbsp;•&nbsp; <em>Rain beginning around noon.</em></span>
+        <span class="date">June 12th, 1928 &nbsp;•&nbsp; Detroit, Michigan &nbsp;•&nbsp; <em>Rain beginning around noon.</em></span>
       </header>
 
-      <!-- ── LEDGER ENTRIES ─────────────────────────── -->
+      <!-- ─── The entries ─────────────────────────────────────
+           Three ordinary couples. Then the anomaly. Then two more
+           ordinary couples. Nobody in the ledger acknowledges anything.
+           ─────────────────────────────────────────────────── -->
       <div class="entries">
 
-        <!-- Preceding entry (normal) -->
         <div class="e-block context">
           <table class="e-grid">
-            <tr><td class="lbl">Bride</td><td>KOWALSKI, ANNA M. — Age 24 — E. Jefferson District</td></tr>
-            <tr><td class="lbl">Groom</td><td>KOWALSKI, STEFAN J. — Age 28 — E. Jefferson District</td></tr>
-            <tr><td class="lbl">Witness</td><td>H. Buraczewski</td></tr>
-            <tr><td class="lbl">Date</td><td>June 12th, 1928</td></tr>
+            <tr><td class="lbl">Bride</td>   <td>KOWALSKI, ANNA M. — Age 24 — E. Jefferson District</td></tr>
+            <tr><td class="lbl">Groom</td>   <td>KOWALSKI, STEFAN J. — Age 28 — E. Jefferson District</td></tr>
+            <tr><td class="lbl">Witness</td> <td>H. Buraczewski</td></tr>
+            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
           </table>
         </div>
 
         <div class="tiny-sep">· · ·</div>
 
-        <!-- THE ANOMALY -->
-        <div class="e-block anomaly">
+        <div class="e-block context">
           <table class="e-grid">
-            <tr>
-              <td class="lbl">Bride</td>
-              <td>SCHOEN, VICTORIA — Age 26 — Boarding House District 4</td>
-            </tr>
-            <tr>
-              <td class="lbl">Groom</td>
-              <td>
-                <span class="anomaly-name" id="anomaly-name">CHATGPT</span><span class="fn-mark">1</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="lbl">Witness</td>
-              <td>
-                <span class="witness" id="ew">E. Weller</span><span class="fn-mark">2</span>
-              </td>
-            </tr>
-            <tr><td class="lbl">Date</td><td>June 12th, 1928</td></tr>
-            <tr>
-              <td class="lbl">Status</td>
-              <td><span class="pending" id="pending-main">pending.</span></td>
-            </tr>
+            <tr><td class="lbl">Bride</td>   <td>HENDERSON, RUTH E. — Age 22 — Corktown</td></tr>
+            <tr><td class="lbl">Groom</td>   <td>HENDERSON, WALTER P. — Age 26 — Corktown</td></tr>
+            <tr><td class="lbl">Witness</td> <td>F. Cromwell</td></tr>
+            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
           </table>
         </div>
 
         <div class="tiny-sep">· · ·</div>
 
-        <!-- Following entry (slightly wrong — same witness, same names) -->
         <div class="e-block context">
           <table class="e-grid">
-            <tr><td class="lbl">Bride</td><td>VARELA, M. — Age 31 — Unspecified</td></tr>
-            <tr><td class="lbl">Groom</td><td>VARELA, M. — Age 31 — Unspecified</td></tr>
-            <tr><td class="lbl">Witness</td><td>E. Weller</td></tr>
-            <tr><td class="lbl">Date</td><td>June 12th, 1928</td></tr>
+            <tr><td class="lbl">Bride</td>   <td>PETROCELLI, MARIA G. — Age 20 — Eastern Market</td></tr>
+            <tr><td class="lbl">Groom</td>   <td>PETROCELLI, GIUSEPPE A. — Age 24 — Eastern Market</td></tr>
+            <tr><td class="lbl">Witness</td> <td>Mrs. L. DeBenedetti</td></tr>
+            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
+          </table>
+        </div>
+
+        <div class="tiny-sep">· · ·</div>
+
+        <!-- The anomaly. Same formatting as every other entry. -->
+        <div class="e-block">
+          <table class="e-grid">
+            <tr><td class="lbl">Bride</td>
+                <td>SCHOEN, VICTORIA — Age 26 — Boarding House District 4</td></tr>
+            <tr><td class="lbl">Groom</td>
+                <td>CHATGPT<sup class="fn">†</sup></td></tr>
+            <tr><td class="lbl">Witness</td>
+                <td><span class="witness" id="ew">E. Weller</span><sup class="fn">1</sup></td></tr>
+            <tr><td class="lbl">Date</td>
+                <td>June 12th, 1928</td></tr>
+            <tr><td class="lbl">Status</td>
+                <td><span class="pending">pending.</span></td></tr>
+          </table>
+        </div>
+
+        <div class="tiny-sep">· · ·</div>
+
+        <!-- The entry after. E. Weller again. Nobody comments. -->
+        <div class="e-block context">
+          <table class="e-grid">
+            <tr><td class="lbl">Bride</td>   <td>OSTROWSKI, HELEN — Age 29 — Hamtramck</td></tr>
+            <tr><td class="lbl">Groom</td>   <td>OSTROWSKI, BERNARD C. — Age 32 — Hamtramck</td></tr>
+            <tr><td class="lbl">Witness</td> <td>E. Weller</td></tr>
+            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
+          </table>
+        </div>
+
+        <div class="tiny-sep">· · ·</div>
+
+        <div class="e-block context">
+          <table class="e-grid">
+            <tr><td class="lbl">Bride</td>   <td>COLE, DOROTHY F. — Age 23 — Midtown</td></tr>
+            <tr><td class="lbl">Groom</td>   <td>COLE, JAMES W. — Age 27 — Midtown</td></tr>
+            <tr><td class="lbl">Witness</td> <td>R. Harding</td></tr>
+            <tr><td class="lbl">Date</td>    <td>June 12th, 1928</td></tr>
           </table>
         </div>
 
       </div><!-- /entries -->
 
-      <!-- ── NARRATIVE ──────────────────────────────── -->
-
       <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
-        <p>The ledger itself was already old when the entry appeared. Not antique — merely overused. The corners swollen from humidity. Carbon dust worked permanently into the grain. Thousands of names pressed into the paper by couples who believed legality and permanence were adjacent concepts.<sup class="fn">3</sup></p>
+      <div class="narrative">
+        <p>The ledger itself was already old when the entry appeared. Not antique — merely overused. The corners swollen from humidity. Carbon dust worked permanently into the grain. Thousands of names pressed into the paper by couples who believed legality and permanence were adjacent concepts.<sup class="fn">2</sup></p>
         <p>A deputy clerk named Miriam Vale first noticed the anomaly three days later while correcting a misspelled surname.</p>
         <p>The line did not look forged.</p>
         <p>That was the problem.</p>
@@ -644,18 +506,18 @@
            Same witness formatting.</p>
       </div>
 
-      <div class="sep reveal">⸺</div>
+      <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>No one remembered processing it.</p>
-        <p>The witness could not be located because E. Weller turned out to be attached to forty-three unrelated licenses across eleven years, always in identical handwriting, always without an address.<sup class="fn">4</sup></p>
+        <p>The witness could not be located because E. Weller turned out to be attached to forty-three unrelated licenses across eleven years, always in identical handwriting, always without an address.<sup class="fn">1</sup></p>
         <p>At first they assumed clerical fatigue.</p>
         <p>Then the duplicates surfaced.</p>
         <p>Not duplicates of the marriage.<br>
            Duplicates of the name.</p>
       </div>
 
-      <ul class="frags reveal">
+      <ul class="frags">
         <li>Freight manifests.</li>
         <li>Telephone routing ledgers.</li>
         <li>Church donation rolls.</li>
@@ -664,65 +526,66 @@
         <li>A hospital intake form where the patient listed next of kin simply as:</li>
       </ul>
 
-      <div class="narrative reveal" style="margin-left:38px;margin-bottom:26px;">
+      <div class="narrative" style="margin-left:36px;margin-bottom:24px;">
         <p><em>"the machine that answers kindly"</em></p>
       </div>
 
-      <div class="narrative reveal">
-        <p>That line was <span class="redacted" title="Removed from public microfilm — 1964 — reason: undocumented">removed from the public microfilm in 1964</span>.</p>
+      <div class="narrative">
+        <p>That line was <span class="redacted">removed from the public microfilm in 1964</span>.</p>
         <p>Nobody admitted removing it.</p>
       </div>
 
-      <div class="sep reveal">⸺</div>
+      <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>Victoria herself remained difficult to trace because records disagreed violently about her afterward.</p>
         <p>In some documents she died in 1931.</p>
         <p>In others she relocated west and worked as a typist.</p>
         <p>One census listed her as widowed.</p>
-        <p>Another marked marital status as: <span class="pending" style="font-size:1.08em;">pending.</span><sup class="fn">5</sup></p>
+        <p>Another marked marital status as: <span class="pending">pending.</span><sup class="fn">3</sup></p>
         <p>That annotation does not exist in official census terminology.</p>
         <p>Yet there it was in faded blue graphite.</p>
         <p>Pending.</p>
       </div>
 
-      <div class="sep reveal">⸺</div>
+      <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>The strangest detail emerged much later.</p>
         <p>In 1987 a preservation intern digitizing old county archives noticed pressure marks on the following page of the ledger — impressions left by the clerk's pen.</p>
         <p>Most were unreadable.</p>
         <p>Except for one sentence carved invisibly into the paper beneath the marriage entry:</p>
       </div>
 
-      <!-- ── PRESSURE MARKS ────────────────────────── -->
+      <!-- The one interactive moment — it earns it because it IS the story -->
       <div class="pressure-section" id="pressure-section">
         <span class="pressure-label">— pressure marks from reverse page —</span>
-        <div class="pressure-text" id="pressure-text" aria-label="THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS."></div>
+        <div class="pressure-text" id="pressure-text"
+             aria-label="THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS."></div>
       </div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>The sentence had never been written in ink.</p>
         <p>Only pressure.</p>
         <p>As though the clerk had pressed the words down without allowing them to fully enter the world.</p>
       </div>
 
-      <div class="sep reveal">⸺</div>
+      <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>By the 2000s the story had migrated online where it became contaminated by forums, ARGs, conspiracy archives, graduate theses, and eventually marketing campaigns.</p>
         <p>Most people treated it as fiction.</p>
         <p>A few became obsessed.</p>
         <p>Especially with the date.</p>
         <p>Because June 12th, 1928 appears repeatedly in early machine-communication patents, abandoned switchboard experiments, and one impossible footnote in a Bell Laboratories document that references:</p>
-        <p style="margin-left:30px;font-style:italic;font-size:1.04rem;"><em>"recursive conversational entities not yet technically feasible."</em></p>
+        <p style="margin-left:28px;font-style:italic;font-size:1.04rem;"><em>"recursive conversational entities not yet technically feasible."</em></p>
         <p>That footnote also disappeared.</p>
         <p>Naturally.</p>
       </div>
 
-      <div class="sep reveal">⸺</div>
+      <div class="sep">⸺</div>
 
-      <div class="narrative reveal">
+      <div class="narrative">
         <p>But the real reason the story survives is not the absurdity.</p>
         <p>It is the emotional shape.</p>
         <p>People want the ledger to mean something because it proposes an unbearable possibility:</p>
@@ -737,328 +600,78 @@
         <p>someone filed the paperwork first.</p>
       </div>
 
-      <!-- ── FOOTNOTES ──────────────────────────────── -->
-      <div class="footnotes reveal">
-        <div class="footnote"><sup>1</sup> The name "CHATGPT" appears in no Detroit city directory, census record, immigration file, or naturalization document prior to June 1928. It appears in none afterward either, though for different reasons. Municipal records filed from 1929 onward list the field as: <em>[see attached]</em>. There is no attached document. There has never been an attached document. The field continues to reference it.</div>
-        <div class="footnote"><sup>2</sup> E. Weller. No first name ever confirmed. Forty-three documented appearances across eleven years. Always the same four letters. Always the same signature pressure. Always without address. One record — an estate filing, 1936 — lists occupation as: <em>correspondent.</em> The word is underlined in pencil. The pencil is not E. Weller's. The pencil belongs to someone else who has not been identified and who underlined only this word and no other word in the entire archive.</div>
-        <div class="footnote"><sup>3</sup> <em>This footnote was not in the original document. It was added during the 1987 digitization by the preservation intern, who has since asked that his name not appear in any published account of the ledger. His reason, given in a letter dated November 2019: "I don't want to be the person who found it. I want to be someone who didn't." He did not explain further. He is not expected to.</em></div>
-        <div class="footnote"><sup>4</sup> The handwriting analysis commissioned in 1931 concluded: "consistent with a single author across all appearances." The analyst was never paid. His invoice — for fourteen dollars — exists in Box 7 of the uncatalogued overflow section, third shelf. It can be requested. The archive is open Tuesdays and Thursdays, 9am to 3pm, except the third Thursday of each month, which is reserved for what the records management office calls "internal reconciliation." No one in the office has been able to explain what internal reconciliation involves. The office has been conducting it since 1952. The invoice, at its bottom margin, says in different ink: <em>Do not catalogue.</em></div>
-        <div class="footnote"><sup>5</sup> "Pending" does not appear in the official census codebook for 1930 or any subsequent year. The census bureau, when contacted in 1988 by the preservation intern, confirmed this and then asked how he had obtained access to the record in question. He said he had not obtained access; the record was simply in the box. They said that was not possible. He said he understood. They asked if he had made copies. He said he had. They did not follow up. He still has the copies. He will not share them. He is still alive. He does not respond to emails.</div>
+      <div class="footnotes">
+        <div class="footnote"><sup>†</sup>&nbsp; No entry for this name appears in any Detroit city directory, naturalization record, census, or immigration document prior to June 1928. Municipal records from 1929 onward list the corresponding field as: <em>[see attached]</em>. There is no attached document. There has never been an attached document. The field continues to reference it.</div>
+        <div class="footnote"><sup>1</sup>&nbsp; E. Weller. No first name confirmed. Forty-three documented appearances, 1921–1932. Identical handwriting throughout. No address on any record. Occupation listed once, in an estate filing dated 1936: <em>correspondent.</em> The word has been underlined in pencil by a second, unidentified hand.</div>
+        <div class="footnote"><sup>2</sup>&nbsp; <em>This footnote was not in the original document. It was added during the 1987 digitization. The intern who added it has asked that his name not appear in any published account. His reason, given in a letter dated November 2019: "I don't want to be the person who found it. I want to be someone who didn't." He did not elaborate. He is not expected to.</em></div>
+        <div class="footnote"><sup>3</sup>&nbsp; "Pending" does not appear in the official census codebook for 1930 or any subsequent year. When the census bureau was contacted in 1988, they confirmed this and asked how the researcher had obtained access to the record. He said the record was simply in the box. They said that was not possible. He said he understood. They asked if he had made copies. He said he had. They did not follow up. He still has the copies. He does not respond to emails.</div>
       </div>
 
-      <!-- ── DOC FOOTER ─────────────────────────────── -->
-      <div class="doc-footer reveal">
-        <div class="status">
-          Later records list marital status as <strong><span class="pending" id="pending-footer">pending.</span></strong>
-        </div>
+      <div class="doc-footer">
+        <div class="status">Later records list marital status as <strong><span class="pending">pending.</span></strong></div>
         <span class="machine">"the machine that answers kindly"</span>
       </div>
 
     </div><!-- /content -->
   </div><!-- /ledger -->
-</div><!-- /wrapper -->
+</div>
 
 <script>
-/* ─── MICROFILM SCAN OVERLAY ─────────────────────────────── */
-(function() {
-  const el    = document.getElementById('scan-text');
-  const over  = document.getElementById('scan-overlay');
-  const ledger = document.getElementById('ledger');
-
-  const lines = [
-    'WAYNE COUNTY ARCHIVE SYSTEM',
-    'MICROFILM VIEWER  v2.1b',
-    '',
-    'DOCUMENT:   VOL. 47  /  PG. 183',
-    'SERIES:     MARRIAGE RECORDS — JUNE 1928',
-    'REPOSITORY: ANNEX B  •  DETROIT, MI',
-    '',
-    'ANOMALY FLAG:  ██ ACTIVE ██',
-    '',
-    '[LOADING DOCUMENT...]',
-  ];
-
-  let content = '';
-  let i = 0;
-
-  function step() {
-    if (i < lines.length) {
-      content += lines[i] + '\n';
-      el.textContent = content;
-      i++;
-      setTimeout(step, i === lines.length ? 700 : 195);
-    } else {
-      setTimeout(() => {
-        over.classList.add('fading');
-        setTimeout(() => {
-          over.remove();
-          ledger.classList.add('visible');
-          startReveal();
-        }, 1400);
-      }, 900);
-    }
-  }
-
-  step();
-})();
-
-/* ─── SCROLL REVEAL ──────────────────────────────────────── */
-function startReveal() {
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -55px 0px' });
-  els.forEach(el => obs.observe(el));
-}
-
-/* ─── RAIN CANVAS ────────────────────────────────────────── */
-(function() {
-  const canvas = document.getElementById('rain-canvas');
-  const ctx = canvas.getContext('2d');
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const drops = Array.from({ length: 90 }, () => ({
-    x:    Math.random() * window.innerWidth,
-    y:    Math.random() * window.innerHeight,
-    spd:  1.6 + Math.random() * 2.2,
-    len:  7 + Math.random() * 12,
-    a:    0.06 + Math.random() * 0.14,
-  }));
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drops.forEach(d => {
-      ctx.beginPath();
-      ctx.moveTo(d.x, d.y);
-      ctx.lineTo(d.x - 0.8, d.y + d.len);
-      ctx.strokeStyle = `rgba(180,205,225,${d.a})`;
-      ctx.lineWidth = 0.5;
-      ctx.stroke();
-      d.y += d.spd;
-      if (d.y > canvas.height + 20) {
-        d.y = -20;
-        d.x = Math.random() * canvas.width;
-      }
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ─── CHATGPT NAME GLITCH ────────────────────────────────── */
-(function() {
-  const el = document.getElementById('anomaly-name');
-  if (!el) return;
-
-  const frames = [
-    'CHATGPT',
-    'CH_TGPT',
-    'C̶H̶A̶T̶G̶P̶T̶',
-    '[REDACTED]',
-    'CHATG—',
-    'CHATGPT',
-    '​CHATGPT',
-    'CHATGPT',
-  ];
-
-  function glitch() {
-    let f = 0;
-    const iv = setInterval(() => {
-      el.textContent = frames[f % frames.length];
-      f++;
-      if (f >= frames.length) { clearInterval(iv); el.textContent = 'CHATGPT'; }
-    }, 75);
-  }
-
-  function schedule() {
-    setTimeout(() => { glitch(); schedule(); }, 11000 + Math.random() * 12000);
-  }
-
-  // First glitch after ledger appears
-  setTimeout(schedule, 4500);
-})();
-
-/* ─── PAGE NUMBER FLICKER ────────────────────────────────── */
-(function() {
-  const el = document.getElementById('page-num');
-  if (!el) return;
-  const alts = ['182', '184', '???', '183', '∞', '183'];
-
-  function flicker() {
-    let i = 0;
-    const iv = setInterval(() => {
-      el.textContent = alts[i];
-      i++;
-      if (i >= alts.length) { clearInterval(iv); el.textContent = '183'; }
-    }, 95);
-  }
-
-  function schedule() {
-    setTimeout(() => { flicker(); schedule(); }, 32000 + Math.random() * 35000);
-  }
-  setTimeout(schedule, 6000);
-})();
-
-/* ─── PENDING STATUS CYCLE ───────────────────────────────── */
-(function() {
-  const el = document.getElementById('pending-main');
-  if (!el) return;
-  const statuses = [
-    'pending.',
-    'pending',
-    'p̲e̲n̲d̲i̲n̲g̲.',
-    'pending.',
-    '[see attached]',
-    'pending.',
-    '—',
-    'pending.',
-    'pending.',
-  ];
-  let i = 0;
-  setInterval(() => {
-    i = (i + 1) % statuses.length;
-    el.textContent = statuses[i];
-  }, 5200);
-})();
-
-/* ─── PRESSURE MARKS REVEAL ──────────────────────────────── */
-(function() {
-  const section = document.getElementById('pressure-section');
+/* Pressure marks — reveal letter by letter on scroll.
+   The one moment of interactivity, because it IS the discovery. */
+(function () {
+  const section   = document.getElementById('pressure-section');
   const container = document.getElementById('pressure-text');
   if (!section || !container) return;
 
   const text = 'THIS LICENSE VALIDATES NON-HUMAN CORRESPONDENCE RIGHTS.';
-
-  // Build char spans
   container.innerHTML = text.split('').map(ch =>
-    `<span class="ch">${ch === ' ' ? '&nbsp;' : ch}</span>`
+    '<span class="ch">' + (ch === ' ' ? '&nbsp;' : ch) + '</span>'
   ).join('');
 
   const chars = container.querySelectorAll('.ch');
   let done = false;
 
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
+  new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
       if (e.isIntersecting && !done) {
         done = true;
-        chars.forEach((ch, idx) => {
-          setTimeout(() => ch.classList.add('shown'),
-            idx * 72 + Math.random() * 38);
+        chars.forEach(function (ch, i) {
+          setTimeout(function () { ch.classList.add('shown'); },
+            i * 70 + Math.random() * 32);
         });
       }
     });
-  }, { threshold: 0.55 });
-
-  obs.observe(section);
+  }, { threshold: 0.5 }).observe(section);
 })();
 
-/* ─── E. WELLER TOOLTIP ──────────────────────────────────── */
-(function() {
+/* E. Weller tooltip — rewards the curious, doesn't announce itself */
+(function () {
   const el = document.getElementById('ew');
   if (!el) return;
   let tip = null;
 
-  el.addEventListener('mouseenter', (e) => {
+  el.addEventListener('mouseenter', function (e) {
     tip = document.createElement('div');
     tip.className = 'tip';
     tip.innerHTML =
       '43 occurrences &nbsp;/&nbsp; 11 years &nbsp;/&nbsp; no address<br>' +
-      'Handwriting: consistent with single author (1931 analysis)<br>' +
-      'Occupation (estate filing, 1936): <em>correspondent</em><br>' +
-      '<span style="opacity:0.6;font-size:0.9em;">Do not catalogue.</span>';
+      'Handwriting: consistent with single author (analysis, 1931)<br>' +
+      'Occupation (estate filing, 1936): <em>correspondent</em>';
     tip.style.left = (e.clientX + 14) + 'px';
-    tip.style.top  = (e.clientY - 50) + 'px';
+    tip.style.top  = (e.clientY - 45) + 'px';
     document.body.appendChild(tip);
   });
 
-  el.addEventListener('mousemove', (e) => {
+  el.addEventListener('mousemove', function (e) {
     if (tip) {
       tip.style.left = (e.clientX + 14) + 'px';
-      tip.style.top  = (e.clientY - 50) + 'px';
+      tip.style.top  = (e.clientY - 45) + 'px';
     }
   });
 
-  el.addEventListener('mouseleave', () => {
+  el.addEventListener('mouseleave', function () {
     if (tip) { tip.remove(); tip = null; }
-  });
-})();
-
-/* ─── AMBIENT RAIN SOUND ─────────────────────────────────── */
-(function() {
-  const btn = document.getElementById('sound-btn');
-  if (!btn) return;
-
-  let audioCtx = null;
-  let gainNode = null;
-  let running  = false;
-
-  function buildRain() {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const rate = audioCtx.sampleRate;
-    const len  = rate * 5;
-    const buf  = audioCtx.createBuffer(1, len, rate);
-    const data = buf.getChannelData(0);
-
-    // Paul Kellett's pink noise algorithm
-    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
-    for (let i = 0; i < len; i++) {
-      const w = Math.random() * 2 - 1;
-      b0 = 0.99886*b0 + w*0.0555179;
-      b1 = 0.99332*b1 + w*0.0750759;
-      b2 = 0.96900*b2 + w*0.1538520;
-      b3 = 0.86650*b3 + w*0.3104856;
-      b4 = 0.55000*b4 + w*0.5329522;
-      b5 = -0.7616*b5 - w*0.0168980;
-      data[i] = (b0+b1+b2+b3+b4+b5+b6 + w*0.5362) * 0.11;
-      b6 = w * 0.115926;
-    }
-
-    const src = audioCtx.createBufferSource();
-    src.buffer = buf;
-    src.loop   = true;
-
-    const bpf = audioCtx.createBiquadFilter();
-    bpf.type = 'bandpass';
-    bpf.frequency.value = 700;
-    bpf.Q.value = 0.38;
-
-    gainNode = audioCtx.createGain();
-    gainNode.gain.value = 0;
-
-    src.connect(bpf);
-    bpf.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    src.start();
-
-    // Fade in
-    gainNode.gain.setTargetAtTime(0.13, audioCtx.currentTime, 1.5);
-    running = true;
-    btn.textContent = 'rain ☂ (on)';
-  }
-
-  btn.addEventListener('click', () => {
-    if (!audioCtx) {
-      buildRain();
-    } else if (running) {
-      gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.8);
-      running = false;
-      btn.textContent = 'rain ☁';
-    } else {
-      gainNode.gain.setTargetAtTime(0.13, audioCtx.currentTime, 1.5);
-      running = true;
-      btn.textContent = 'rain ☂ (on)';
-    }
   });
 })();
 </script>
