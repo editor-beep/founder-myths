@@ -1,0 +1,305 @@
+/* =====================================================================
+   NASTY VOYEUR 2 ARCHIVES — Tape Deck artifact
+   A deteriorating playback machine. Drop a .tape-deck block into any
+   page and load tape-player.js; the machine wires itself.
+
+   The audio is not a file. There is no file. The 47 seconds are
+   synthesized on the visitor's own hardware each time PLAY is pressed.
+   This is consistent with the recovery report: the tape reappears.
+   ===================================================================== */
+
+.tape-deck {
+    --deck-face: #14111c;
+    --deck-edge: rgba(192, 38, 211, 0.3);
+    --deck-metal: #1c1826;
+
+    position: relative;
+    max-width: 640px;
+    margin: 2.5rem auto 3rem;
+    padding: 1.6rem 1.6rem 1.4rem;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.012) 0px,
+            rgba(255, 255, 255, 0.012) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        linear-gradient(155deg, #18141f 0%, #100d16 60%, #0c0a12 100%);
+    border: 1px solid var(--deck-edge);
+    border-radius: 6px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        inset 0 0 60px rgba(0, 0, 0, 0.6),
+        0 14px 40px rgba(0, 0, 0, 0.5);
+    transform: rotate(-0.4deg);
+}
+
+/* dust / wear — a faint contamination over the whole face */
+.tape-deck::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18% 30%, rgba(255, 255, 255, 0.03) 0 1px, transparent 2px),
+        radial-gradient(circle at 76% 64%, rgba(255, 255, 255, 0.025) 0 1px, transparent 2px),
+        radial-gradient(circle at 52% 12%, rgba(255, 255, 255, 0.02) 0 1px, transparent 2px);
+    background-size: 90px 90px, 120px 120px, 70px 70px;
+    mix-blend-mode: screen;
+    opacity: 0.7;
+}
+
+/* --- Spine label -------------------------------------------------- */
+.tape-deck__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #9a86c4;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px dashed rgba(192, 38, 211, 0.2);
+}
+
+.tape-deck__label .warn {
+    color: var(--warning);
+    border: 1px solid var(--warning);
+    padding: 2px 8px;
+    transform: rotate(-1.5deg);
+}
+
+/* --- The transport: two reels + tape window ----------------------- */
+.tape-deck__transport {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.2rem;
+    align-items: center;
+    padding: 1.4rem 1.2rem 1.8rem;
+    background: linear-gradient(180deg, #0c0a12, #0a0810);
+    border: 1px solid rgba(192, 38, 211, 0.18);
+    border-radius: 4px;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+/* the tape ribbon stretched between the reels */
+.tape-deck__transport::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 22%;
+    right: 22%;
+    height: 2px;
+    transform: translateY(-1px);
+    background: linear-gradient(90deg,
+        rgba(120, 90, 60, 0.0) 0%,
+        rgba(140, 100, 70, 0.55) 12%,
+        rgba(90, 65, 45, 0.55) 88%,
+        rgba(120, 90, 60, 0.0) 100%);
+    z-index: 0;
+}
+
+.tape-reel {
+    position: relative;
+    width: 118px;
+    height: 118px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%,
+            #2a2233 0 30%,
+            #1a1622 30% 31%,
+            #221d2c 31% 100%);
+    border: 1px solid rgba(192, 38, 211, 0.25);
+    box-shadow:
+        inset 0 0 18px rgba(0, 0, 0, 0.8),
+        0 0 0 6px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+/* wound magnetic tape — a dark ring of stored signal */
+.tape-reel::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    background:
+        repeating-radial-gradient(
+            circle at 50% 50%,
+            #19130f 0 1px,
+            #241a12 1px 2px
+        );
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9);
+}
+
+/* hub + three spokes, so rotation is legible */
+.tape-reel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        /* spokes */
+        linear-gradient(0deg, transparent 46%, rgba(192, 38, 211, 0.55) 46% 54%, transparent 54%),
+        linear-gradient(60deg, transparent 46%, rgba(192, 38, 211, 0.45) 46% 54%, transparent 54%),
+        linear-gradient(120deg, transparent 46%, rgba(192, 38, 211, 0.45) 46% 54%, transparent 54%);
+    -webkit-mask: radial-gradient(circle at 50% 50%, #000 0 13px, transparent 14px, #000 15px 40px, transparent 41px);
+            mask: radial-gradient(circle at 50% 50%, #000 0 13px, transparent 14px, #000 15px 40px, transparent 41px);
+}
+
+/* the hub cap sits above the spokes */
+.tape-reel .hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0 -13px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #d8b4fe, #6b21a8 70%, #2a1144);
+    box-shadow: 0 0 8px rgba(192, 38, 211, 0.6);
+    z-index: 2;
+}
+
+/* rotation, driven by .is-playing on the deck */
+.tape-deck.is-playing .tape-reel {
+    animation: reel-spin 2.4s linear infinite;
+}
+/* the take-up reel runs a hair faster, like a real deck losing sync */
+.tape-deck.is-playing .tape-reel--takeup {
+    animation-duration: 2.1s;
+}
+
+@keyframes reel-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- LCD counter -------------------------------------------------- */
+.tape-deck__readout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.3rem 0 1.1rem;
+    padding: 0.7rem 1rem;
+    background: #07060c;
+    border: 1px solid rgba(192, 38, 211, 0.25);
+    border-radius: 3px;
+    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.8);
+}
+
+.tape-counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.7rem;
+    letter-spacing: 3px;
+    color: var(--warning);
+    text-shadow: 0 0 8px rgba(255, 77, 148, 0.55);
+}
+
+.tape-status {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #9a86c4;
+    text-align: right;
+    max-width: 60%;
+}
+
+.tape-deck.is-playing .tape-status { color: #d8b4fe; }
+.tape-deck.is-ended  .tape-status { color: var(--warning); }
+
+/* a small recording lamp */
+.tape-lamp {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: #3a1d2a;
+    vertical-align: middle;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
+}
+.tape-deck.is-playing .tape-lamp {
+    background: var(--warning);
+    box-shadow: 0 0 9px rgba(255, 77, 148, 0.9);
+    animation: lamp-flicker 1.3s steps(2, end) infinite;
+}
+@keyframes lamp-flicker {
+    0%, 70% { opacity: 1; }
+    71%, 100% { opacity: 0.55; }
+}
+
+/* --- Transport buttons -------------------------------------------- */
+.tape-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.tape-controls button {
+    flex: 1 1 auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--star);
+    background: linear-gradient(180deg, #221b30, #15111e);
+    border: 1px solid rgba(192, 38, 211, 0.35);
+    border-radius: 3px;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.tape-controls button:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, #2c2240, #1b1528);
+    color: #fff;
+}
+
+.tape-controls button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.tape-controls button[data-action="play"] { color: #f5e9ff; }
+.tape-controls button[data-action="play"][aria-pressed="true"] {
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+.tape-controls button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* --- Transcript sync (optional) ----------------------------------- */
+.transcript-line.is-cued {
+    background: rgba(192, 38, 211, 0.12);
+    box-shadow: -3px 0 0 var(--accent);
+}
+.transcript-line {
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    padding-left: 0.6rem;
+}
+
+/* --- Responsive --------------------------------------------------- */
+@media (max-width: 520px) {
+    .tape-deck__transport { gap: 1.2rem; padding: 1rem 0.6rem 1.4rem; }
+    .tape-reel { width: 92px; height: 92px; }
+    .tape-counter { font-size: 1.4rem; }
+    .tape-status { font-size: 0.66rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tape-deck { transform: none; }
+    .tape-deck.is-playing .tape-reel { animation-duration: 6s; }
+    .tape-deck.is-playing .tape-lamp { animation: none; }
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AUDIO-LOG NV2-47 • Recovered Transmission #47</title>
     <link rel="stylesheet" href="assets/archive.css">
+    <link rel="stylesheet" href="assets/tape-player.css">
     <style>
         /* Layer 3 artifact: an audio log. Waveform + timed transcript. */
         .waveform {
@@ -59,21 +60,43 @@
 
         <div class="transmission-header">
             <strong>Duration: 00:47.</strong> Recovered April 2026. Voice appears tired but amused.<br>
-            The placard quotes this recording. This is the recording.
+            The placard quotes this recording. This is the recording. Press PLAY at your discretion.
         </div>
 
-        <div class="waveform" aria-hidden="true">
-            <span style="height:18%"></span><span style="height:42%"></span><span style="height:65%"></span>
-            <span style="height:30%"></span><span style="height:80%"></span><span style="height:55%"></span>
-            <span style="height:90%"></span><span style="height:35%"></span><span style="height:60%"></span>
-            <span style="height:22%"></span><span style="height:48%"></span><span style="height:72%"></span>
-            <span style="height:88%"></span><span style="height:40%"></span><span style="height:58%"></span>
-            <span style="height:25%"></span><span style="height:70%"></span><span style="height:33%"></span>
-            <span style="height:82%"></span><span style="height:50%"></span><span style="height:64%"></span>
-            <span style="height:28%"></span><span style="height:76%"></span><span style="height:44%"></span>
+        <!-- Layer 3 artifact: the deck itself. No audio file is shipped.
+             The 47 seconds are synthesized locally each time, per the
+             recovery report. tape-player.js wires this on load. -->
+        <div class="tape-deck" data-tape-player data-duration="47" data-transcript="nv2-47-transcript">
+            <div class="tape-deck__label">
+                <span>NASTY VOYEUR 2 • TRANSMISSION #47</span>
+                <span class="warn">DO NOT ARCHIVE UNTIL EXPLAINED</span>
+            </div>
+
+            <div class="tape-deck__transport" aria-hidden="true">
+                <div class="tape-reel tape-reel--supply"><span class="hub"></span></div>
+                <div class="tape-reel tape-reel--takeup"><span class="hub"></span></div>
+            </div>
+
+            <div class="tape-deck__readout">
+                <div class="tape-counter" aria-hidden="true">00:00</div>
+                <div class="tape-status" role="status" aria-live="polite">
+                    <span class="tape-lamp" aria-hidden="true"></span><span class="tape-status__text">READY — 1983 ORIGINAL</span>
+                </div>
+            </div>
+
+            <div class="tape-controls">
+                <button type="button" data-action="play" aria-pressed="false">▶ PLAY TRANSMISSION</button>
+                <button type="button" data-action="stop">■ STOP</button>
+            </div>
         </div>
 
-        <section>
+        <p class="referenced-by" style="text-align:center;">
+            The waveform you would have seen is generated as sound instead.
+            What plays is filtered hiss, motor rumble, and a formant that is almost a voice.
+            None of it was recorded. All of it was here.
+        </p>
+
+        <section id="nv2-47-transcript">
             <h2>Transcript</h2>
             <div class="transcript-line"><span class="ts">00:00</span><span class="static">[ forty-seven seconds of static. The static is structured. ]</span></div>
             <div class="transcript-line"><span class="ts">00:08</span><span>“They thought they were peering into the void.”</span></div>
@@ -94,5 +117,7 @@
         <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
         <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
     </footer>
+
+    <script src="assets/tape-player.js"></script>
 </body>
 </html>
