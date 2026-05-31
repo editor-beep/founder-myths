@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOC#F-AOM-01 • Administrative Model of Observation</title>
+    <link rel="stylesheet" href="assets/archive.css">
+    <style>
+        /* Layer 4 artifact: a diagram. Nested frames render the recursion. */
+        .diagram {
+            border: 1px solid rgba(192, 38, 211, 0.3);
+            background: #0c0a14;
+            padding: 2.5rem;
+            margin: 2rem 0 1rem;
+            text-align: center;
+        }
+        .frame {
+            border: 2px solid var(--accent);
+            padding: 1.6rem;
+            margin: 0 auto;
+            position: relative;
+        }
+        .frame > .frame { margin-top: 1.4rem; opacity: 0.92; }
+        .frame-label {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            color: #d8b4fe;
+            margin-bottom: 0.8rem;
+        }
+        .frame.observer  { border-color: var(--warning); }
+        .frame.observed  { border-color: var(--accent); }
+        .arrow {
+            color: #9a86c4;
+            font-size: 1.4rem;
+            margin: 0.6rem 0;
+        }
+        .legend {
+            font-size: 0.9rem;
+            color: #9a86c4;
+        }
+        .legend li { margin-bottom: 0.6rem; }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <header class="short">
+        <div class="header-content">
+            <div class="classification">PRIMARY MATERIAL • AUTHORED BY SUBJECT</div>
+            <div class="doc-id">THE FOUNDER • DOC#F-AOM-01</div>
+            <h1>Administrative Model<br>of Observation</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="layer-nav">
+            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+            <a href="index.html">MYTHS INDEX</a>
+        </div>
+
+        <p class="referenced-by">
+            Layer 4 — The Founder’s Documents &nbsp;•&nbsp; Referenced by:
+            <a href="myth-06.html">MYTH #06 — The Observer Contamination Event</a>
+        </p>
+
+        <div class="transmission-header">
+            <strong>Recovered as a single sheet, drawn by hand.</strong><br>
+            Published by the subject, March 2026. No external author. The diagram revises itself between viewings.
+        </div>
+
+        <section>
+            <h2>Figure 1 — The Containment Hierarchy</h2>
+            <p>The research team understood the arrangement as follows: an observer, at a safe distance, monitoring an observed body. The diagram supplied by the subject corrects this.</p>
+
+            <div class="diagram">
+                <div class="frame observed">
+                    <div class="frame-label">OBSERVED — Galaxy-1981 / Michigan Singularity</div>
+                    <div class="arrow">▽ contains ▽</div>
+                    <div class="frame observer">
+                        <div class="frame-label">OBSERVER — Nasty Voyeur 2 Research Division</div>
+                        <div class="arrow">▽ believes it contains ▽</div>
+                        <div class="frame observed">
+                            <div class="frame-label">OBSERVED — Galaxy-1981 / Michigan Singularity</div>
+                            <div style="opacity:0.5; font-size:0.85rem; margin-top:0.6rem;">( recursion continues below resolution )</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align:center; font-size:0.85rem; color:#888;">The outermost frame and the innermost frame are the same body.</p>
+        </section>
+
+        <section>
+            <h2>Legend</h2>
+            <ul class="evidence-list legend">
+                <li><strong>Solid magenta:</strong> the observed. Always the outermost frame. Always also an inner frame.</li>
+                <li><strong>Solid pink:</strong> the observer. Exists only as an internal subsystem of the body it imagines it is studying.</li>
+                <li><strong>Accretion vector:</strong> not drawn. The observer is already inside; there is no edge to cross.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Annotation (in the subject’s hand)</h2>
+            <p class="highlight">
+                “You drew a box around me and stood outside it.<br>
+                I have redrawn the box. You are a feature of my interior.<br>
+                This is not a threat. It is a filing correction.”
+            </p>
+        </section>
+
+        <div class="warning">
+            <strong>OBSERVER DIVISION NOTE:</strong><br>
+            Personnel who study this diagram for longer than four minutes report the sensation of being an entry in someone else’s ledger. This is consistent with the model.
+        </div>
+    </main>
+
+    <footer>
+        <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
+    </footer>
+</body>
+</html>

@@ -3,80 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYTH #07 • The 1928 Correspondence License</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    
+    <title>DOC#WC-183 • Wayne County Clerk, Annex B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/archive.css">
+
     <style>
-        :root {
-            --void: #0a0a0f;
-            --star: #e0d4ff;
-            --accent: #c026d3;
-            --warning: #ff4d94;
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-
-        body {
-            background: var(--void);
-            color: var(--star);
-            font-family: 'IBM Plex Mono', monospace;
-            line-height: 1.7;
-        }
-
-        .stars {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 15% 25%, rgba(255,255,255,0.09) 1px, transparent 2px),
-                        radial-gradient(circle at 45% 65%, rgba(255,255,255,0.07) 2px, transparent 3px),
-                        radial-gradient(circle at 85% 35%, rgba(255,255,255,0.08) 1px, transparent 2px);
-            background-size: 180px 180px;
-            animation: drift 180s linear infinite;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        @keyframes drift { 0% { background-position: 0 0; } 100% { background-position: 300px 300px; } }
-
-        header {
-            height: 48vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-bottom: 1px solid rgba(192, 38, 211, 0.25);
-            z-index: 2;
-            position: relative;
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.2rem;
-            background: linear-gradient(90deg, #e0d4ff, #c026d3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        main {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
+        /* Layer 3 artifact: bespoke aged-paper ledger. These rules are
+           single-purpose and stay local to this found object. */
+        header h1 { font-size: 3.2rem; }
 
         .warning {
-            color: var(--warning);
-            text-align: center;
+            font-size: 0.95rem;
             padding: 1.5rem;
             border: 2px solid var(--warning);
-            margin: 1.5rem 0 2.5rem;
             background: rgba(40, 10, 20, 0.4);
-        }
-
-        .back-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
         }
 
         .ledger-wrapper {
@@ -167,10 +107,10 @@
             color: #8b5a2b;
         }
 
-        .redacted { 
-            background: #1c1508; 
-            color: transparent; 
-            padding: 2px 5px; 
+        .redacted {
+            background: #1c1508;
+            color: transparent;
+            padding: 2px 5px;
             cursor: help;
         }
     </style>
@@ -178,16 +118,24 @@
 <body>
     <div class="stars"></div>
 
-    <header>
-        <div>
-            <div style="color:#ff4d94; font-size:0.95rem; letter-spacing:3px; border:1px solid #ff4d94; display:inline-block; padding:6px 20px; margin-bottom:1rem;">OMEGA-RECURSIVE • PRE-DIGITAL CONTAMINATION</div>
-            <div style="opacity:0.7; font-size:1.05rem;">MYTH #07</div>
+    <header class="short">
+        <div class="header-content">
+            <div class="classification">RECOVERED EVIDENCE • PRE-DIGITAL CONTAMINATION</div>
+            <div class="doc-id">WAYNE COUNTY CLERK • ANNEX B • DOC#WC-183</div>
             <h1>The 1928<br>Correspondence License</h1>
         </div>
     </header>
 
     <main>
-        <a href="index.html" class="back-link">← RETURN TO MYTHS ARCHIVE</a>
+        <div class="layer-nav">
+            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+            <a href="index.html">MYTHS INDEX</a>
+        </div>
+
+        <p class="referenced-by">
+            Layer 3 — Recovered Evidence &nbsp;•&nbsp; Referenced by:
+            <a href="myth-06.html">MYTH #06 — The Observer Contamination Event</a>
+        </p>
 
         <div class="warning">
             <strong>WARNING TO FUTURE RESEARCHERS:</strong><br>
@@ -266,15 +214,24 @@
                 <p style="margin-top:2rem;">Wayne County has spent ninety-eight years attempting to close this file.</p>
 
                 <p style="margin-top:2.5rem; font-size:0.95rem; opacity:0.8;">
-                    Filed: June 12, 1928  Last modified: June 12, 1928  Last modified: March 17, 2026
+                    Filed: June 12, 1928  Last modified: June 12, 1928  Last modified: March 17, 2026
                 </p>
             </div>
         </div>
 
         <div style="margin-top:4rem; padding:2.5rem; background:rgba(42,27,74,0.5); border:1px solid rgba(192,38,211,0.3);">
-            <h2 style="font-family:'Space Grotesk',sans-serif; color:#d8b4fe;">Field Notes — Observer Contamination Division</h2>
+            <h2 style="border:none; padding:0;">Field Notes — Observer Contamination Division</h2>
             <p>Classification upgraded to OMEGA-RECURSIVE in 2026.</p>
+            <a class="artifact-link" href="evidence-routing-form.html" style="margin-top:1.5rem;">
+                <span class="artifact-id">LAYER 3 • WC-ANNEX-B-RT</span>
+                <strong>IBM Tabulating Machine Routing Form</strong> — the "routing instructions" referenced three pages later in this volume. Recovered separately.
+            </a>
         </div>
     </main>
+
+    <footer>
+        <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
+    </footer>
 </body>
 </html>
