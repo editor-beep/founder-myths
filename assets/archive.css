@@ -39,13 +39,15 @@ body {
         radial-gradient(circle at 85% 35%, rgba(255,255,255,0.08) 1px, transparent 2px);
     background-size: 180px 180px;
     pointer-events: none;
-    animation: drift 180s linear infinite;
+    animation: drift 90s linear infinite;
     z-index: 1;
 }
 
+/* End on a whole-tile multiple (180px tile) so the loop is seamless with
+   no snap-back; 90s gives a gentle-but-perceptible ambient drift. */
 @keyframes drift {
     0%   { background-position: 0 0; }
-    100% { background-position: 300px 300px; }
+    100% { background-position: 360px 360px; }
 }
 
 /* --- Header -------------------------------------------------------- */
