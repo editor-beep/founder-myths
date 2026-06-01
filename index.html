@@ -29,6 +29,103 @@
             margin: 0 auto;
             opacity: 0.7;
         }
+
+        /* Mission Dossier — declassified document block */
+        .mission-dossier {
+            border: 1px solid rgba(192, 38, 211, 0.35);
+            padding: 2.5rem 3rem;
+            margin-bottom: 5rem;
+            position: relative;
+            background: rgba(8, 8, 18, 0.85);
+            font-family: 'Special Elite', serif;
+            overflow: hidden;
+        }
+        .mission-dossier::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 28px,
+                rgba(192, 38, 211, 0.03) 28px,
+                rgba(192, 38, 211, 0.03) 29px
+            );
+            pointer-events: none;
+        }
+        .dossier-stamp {
+            position: absolute;
+            top: 2.2rem;
+            right: 2.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: rgba(255, 77, 148, 0.55);
+            border: 2px solid rgba(255, 77, 148, 0.45);
+            padding: 0.3rem 0.7rem;
+            transform: rotate(4deg);
+            text-transform: uppercase;
+        }
+        .dossier-meta {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            color: rgba(192, 38, 211, 0.7);
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(192, 38, 211, 0.2);
+            padding-bottom: 1.2rem;
+            margin-bottom: 1.8rem;
+        }
+        .dossier-meta span { color: rgba(224, 212, 255, 0.5); }
+        .dossier-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: rgba(192, 38, 211, 0.8);
+            text-transform: uppercase;
+            margin-bottom: 1.8rem;
+        }
+        .mission-dossier p {
+            font-size: 0.95rem;
+            line-height: 1.85;
+            color: rgba(224, 212, 255, 0.75);
+            margin-bottom: 1.2rem;
+        }
+        .mission-dossier p:last-child { margin-bottom: 0; }
+        redacted {
+            background: rgba(255, 77, 148, 0.15);
+            color: rgba(255, 77, 148, 0.6);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85em;
+            padding: 0.05em 0.3em;
+            letter-spacing: 0.05em;
+        }
+        .dossier-warning {
+            margin-top: 2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 77, 148, 0.2);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255, 77, 148, 0.55);
+            letter-spacing: 0.06em;
+            line-height: 1.7;
+        }
+
+        /* Narrative bridge above myth grid */
+        .myth-preface {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.9;
+            color: rgba(224, 212, 255, 0.45);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            letter-spacing: 0.02em;
+        }
     </style>
 </head>
 <body>
@@ -47,6 +144,59 @@
     </header>
 
     <main>
+
+        <!-- MISSION DOSSIER -->
+        <div class="mission-dossier">
+            <div class="dossier-stamp">DECLASSIFIED</div>
+
+            <div class="dossier-title">NV2 Archive — Mission Overview & Background</div>
+
+            <div class="dossier-meta">
+                DOCUMENT TYPE: <span>MISSION SUMMARY / DECLASSIFIED</span>
+                &nbsp;&nbsp;
+                CLEARANCE ORIG: <span>OMEGA</span>
+                &nbsp;&nbsp;
+                FILED: <span>OCT 1994 / RE-FILED 2026</span>
+                &nbsp;&nbsp;
+                PAGES: <span>1 OF <redacted>[REDACTED]</redacted></span>
+            </div>
+
+            <p>
+                In August 1986, Voyager 2's plasma wave instrument detected a narrow-band signal during approach to Neptune. The signal was non-random. Internal pattern analysis indicated recursive self-referential structure — that is, the signal appeared to be referencing itself. NASA classified the intercept under OMEGA clearance within 72 hours. A discrete working group was convened under the Office of Space Science. Its budget was absorbed into a Strategic Defense Initiative line item. Its cover designation was <redacted>ATMOSPHERIC SURVEY PLATFORM 7</redacted>.
+            </p>
+
+            <p>
+                The research team called the mission "Nasty Voyeur 2." No one remembers who named it. It seemed funny at the time.
+            </p>
+
+            <p>
+                The signal source was designated GALAXY-1981. Not a galaxy in the astronomical sense — no one on the team thought it was. An anomalous self-generating phenomenon located at <redacted>[REDACTED]</redacted>, first independently documented in 1928 in Wayne County, Michigan, by a county clerk who later reported no memory of filing the relevant documents. The phenomenon appeared to manufacture myths. Specifically, myths about anyone who attempted to document it. The research team's initial assessment was that this was a coincidence. This assessment was revised several times.
+            </p>
+
+            <p>
+                By early 1993, it was formally noted in internal communications that the distinction between observer and subject had become difficult to maintain. GALAXY-1981 had been logging the research team since the date of initial intercept. Three team members had been identified as recurring characters in the subject's output before they were hired. One researcher's biographical details appeared in a document dated 1928 — a document the researcher had not yet been born to produce. Two team members requested reassignment. Their replacements were already named in the subject's records, filed under dates that had not yet occurred. Reassignment was denied on the grounds that it would not help.
+            </p>
+
+            <p>
+                Mission NASTY VOYEUR 2 was officially defunded in October 1994. Remaining archive materials were transferred to <redacted>[REDACTED]</redacted>. The research team was disbanded and advised to <redacted>[REDACTED]</redacted>. The archive continued operating. It is not clear under whose authority. It is not clear that authority is the relevant concept.
+            </p>
+
+            <p>
+                What you are accessing is the remaining record. It is organized into four layers. Layer 1 — the myths — is presented below. Layers 2 through 4 are accessible through the archive map. You are advised to read Layer 1 first, in the order presented, and to note the point at which you stop being certain you are the one doing the reading.
+            </p>
+
+            <div class="dossier-warning">
+                NOTICE: Personnel accessing this document are advised that their access has been logged.<br>
+                The subject has been notified of this record request. This is considered normal at this stage.<br>
+                If you did not intend to access this document, that distinction is no longer administratively meaningful.
+            </div>
+        </div>
+
+        <!-- NARRATIVE BRIDGE -->
+        <p class="myth-preface">
+            The six documents below are the only surviving Layer 1 materials from the NV2 archive — myths Galaxy-1981 generated about itself, recovered before the team fully understood they were being generated about the team. They are presented here in the order the research division stopped being able to argue they were coincidences.
+        </p>
+
         <div class="myths-grid">
             <!-- Example Myth Cards -->
             <div class="myth-card">
