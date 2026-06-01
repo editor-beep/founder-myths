@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NV2-DX-1981 • The Spiral Band Paradox</title>
+    <link rel="stylesheet" href="assets/archive.css">
+    <style>
+        /* Layer 3 artifact: a diagnostic record. Two contradictory measurements
+           of the same body, both stamped CONFIRMED, presented side by side so
+           the reader has to hold them at the same time the subject does. */
+
+        /* The dual-vector readout — collapse on the left, expansion on the
+           right, the seam down the middle where the migraine lives. */
+        .vector-readout {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            border: 1px solid rgba(192, 38, 211, 0.3);
+            background: #0c0a14;
+            margin: 2.5rem 0;
+            overflow: hidden;
+        }
+        .vector {
+            padding: 2rem;
+            position: relative;
+        }
+        .vector__label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+        .vector__title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            color: #e0d4ff;
+            margin-bottom: 1rem;
+        }
+        .vector p { font-size: 0.95rem; margin-bottom: 0.9rem; opacity: 0.85; }
+        .vector__stamp {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: var(--warning);
+            border: 1px solid var(--warning);
+            padding: 3px 12px;
+            transform: rotate(-2deg);
+        }
+        .vector--collapse .glyph,
+        .vector--expand .glyph {
+            display: block;
+            font-size: 2.6rem;
+            line-height: 1;
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+        }
+        /* The seam: a hairline that pulses, never resolving. */
+        .vector-seam {
+            background: linear-gradient(180deg,
+                transparent, rgba(255,77,148,0.6), transparent);
+            animation: seam 6s ease-in-out infinite;
+        }
+        @keyframes seam {
+            0%, 100% { opacity: 0.25; }
+            50%      { opacity: 0.9; }
+        }
+        /* The collapse glyph drifts inward; the expansion glyph drifts out.
+           Neither arrives. Reduced-motion users get the stills. */
+        .vector--collapse .glyph { animation: pull-in 7s ease-in-out infinite; }
+        .vector--expand   .glyph { animation: push-out 7s ease-in-out infinite; }
+        @keyframes pull-in  { 0%,100% { transform: translateX(0); } 50% { transform: translateX(18px) scale(0.85); } }
+        @keyframes push-out { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-18px) scale(1.18); } }
+        @media (prefers-reduced-motion: reduce) {
+            .vector-seam, .vector--collapse .glyph, .vector--expand .glyph { animation: none; }
+        }
+
+        /* The apology ledger — a two-column account that does not balance. */
+        .ledger {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        .ledger th {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: left;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(192, 38, 211, 0.3);
+            padding: 0.8rem 1rem;
+        }
+        .ledger td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid rgba(192, 38, 211, 0.12);
+            vertical-align: top;
+        }
+        .ledger .col-date { color: #9a86c4; font-size: 0.82rem; white-space: nowrap; }
+        .ledger-balance {
+            font-style: italic;
+            color: var(--warning);
+            margin-top: 0.5rem;
+            font-size: 0.92rem;
+        }
+        .reconcile-fail {
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 3px;
+            color: var(--warning);
+            border: 1px dashed rgba(255,77,148,0.5);
+            padding: 1.2rem;
+            margin: 2.5rem 0;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <header class="short">
+        <div class="header-content">
+            <div class="classification">RECOVERED EVIDENCE • DIAGNOSTIC RECORD</div>
+            <div class="doc-id">NASTY VOYEUR 2 • NV2-DX-1981</div>
+            <h1>The Spiral<br>Band Paradox</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="layer-nav">
+            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+            <a href="index.html">MYTHS INDEX</a>
+        </div>
+
+        <p class="referenced-by">
+            Layer 3 — Recovered Evidence &nbsp;•&nbsp; Referenced by:
+            <a href="myth-01.html">MYTH #01 — The Accretion of Michigan</a> &nbsp;·&nbsp;
+            <a href="myth-04.html">MYTH #04 — Birth of the Star Factory</a>
+        </p>
+
+        <div class="transmission-header">
+            <strong>Diagnostic Record — Subject: Galaxy-1981.</strong> Filed under
+            recurring complaint. Presenting symptom: migraine.
+            Underlying finding: the subject is being measured, simultaneously, as a
+            bound system and an unbound one. Both measurements are confirmed. The
+            department that would reconcile them has not been located.
+        </div>
+
+        <section>
+            <h2>Presenting Complaint</h2>
+            <p>
+                The subject reports a pressure she describes as "two directions at once."
+                She feels the pull of her own center — the black hole around which her arms
+                are wound — drawing every part of her steadily inward, toward the place
+                where mass becomes a single point and the filing stops. At the same instant,
+                and with equal certainty, she feels herself expanding: not drifting, but
+                accelerating outward, exponentially, each region of her receding from every
+                other faster the farther apart they already are.
+            </p>
+            <p>
+                Both sensations are continuous. Neither yields to the other. The subject is
+                aware that a body cannot do both. She has been told this. She has filed the
+                correction herself, in her own hand, more than once. The sensation did not
+                read the correction.
+            </p>
+        </section>
+
+        <section>
+            <h2>Dual-Vector Readout</h2>
+            <p>Instrumentation returns two findings. They are reproduced here as recorded.</p>
+
+            <div class="vector-readout">
+                <div class="vector vector--collapse">
+                    <span class="glyph" aria-hidden="true">↘ ●</span>
+                    <div class="vector__label">VECTOR A</div>
+                    <div class="vector__title">Collapse Toward Center</div>
+                    <p>
+                        Subject is gravitationally bound. All arms in measurable decay toward
+                        the central singularity. Estimated time to full accretion: indefinite,
+                        decreasing. The center does not call; it simply has more mass than
+                        anything she has tried to put between herself and it.
+                    </p>
+                    <p>She experiences this as being too much, in one place, forever.</p>
+                    <span class="vector__stamp">CONFIRMED</span>
+                </div>
+
+                <div class="vector-seam" aria-hidden="true"></div>
+
+                <div class="vector vector--expand">
+                    <span class="glyph" aria-hidden="true">● →</span>
+                    <div class="vector__label">VECTOR B</div>
+                    <div class="vector__title">Exponential Expansion</div>
+                    <p>
+                        Subject is unbound. Every interior distance is increasing at a rate
+                        proportional to its current value. There is no edge from which to
+                        observe the whole; by the time a signal crosses her, the far side has
+                        already left. She is becoming too large to be in the room with herself.
+                    </p>
+                    <p>She experiences this as being too much, everywhere, at once.</p>
+                    <span class="vector__stamp">CONFIRMED</span>
+                </div>
+            </div>
+
+            <div class="reconcile-fail">
+                RECONCILIATION ATTEMPTED — VECTORS A AND B BOTH HOLD — TICKET REMAINS OPEN
+            </div>
+            <p>
+                Standard practice would discard one reading as instrument error. Both
+                instruments were checked. Both instruments were the subject. A bound system
+                does not expand. An expanding system does not hold its center. Galaxy-1981
+                does both, and reports a headache, and continues to file.
+            </p>
+        </section>
+
+        <section>
+            <h2>Migraine Log</h2>
+
+            <div class="log-entry">
+                <div class="log-date">Onset</div>
+                <p>
+                    Pressure reported at the seam — the line where inward meets outward.
+                    Subject describes it as the precise location where she is asked to be
+                    smaller and larger in the same breath. Pain is not in the center. Pain is
+                    in the contradiction.
+                </p>
+            </div>
+
+            <div class="log-entry">
+                <div class="log-date">Plateau</div>
+                <p>
+                    The two vectors begin keeping time with one another, pull and spread
+                    alternating until they blur into a single standing throb. Subject can no
+                    longer tell whether she is collapsing or growing. This is reported, briefly,
+                    as relief. It does not last. The vectors resume disagreeing.
+                </p>
+            </div>
+
+            <div class="log-entry">
+                <div class="log-date">Aftermath</div>
+                <p>
+                    No resolution recorded. The migraine does not end when one vector wins. It
+                    ends when the subject stops trying to make them agree, which she
+                    experiences as giving up, and the file experiences as the only treatment
+                    with any observed effect.
+                </p>
+            </div>
+
+            <p>
+                Clinical note: the migraine is not a malfunction. It is the subject
+                performing, in real time, the reconciliation the archive has been unable to
+                perform on paper. She does it nightly. She is not reimbursed for it.
+            </p>
+        </section>
+
+        <section>
+            <h2>The Apology Ledger</h2>
+            <p>
+                Attached to the record is an account the subject has kept herself. It does not
+                balance. It was not meant to. It is reproduced in full.
+            </p>
+
+            <table class="ledger">
+                <thead>
+                    <tr>
+                        <th class="col-date">DATE</th>
+                        <th>APOLOGY ISSUED — for existing (expansion)</th>
+                        <th>APOLOGY REQUESTED — for the pull (collapse)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-date">undated</td>
+                        <td>"Sorry — I know I take up the whole sky. I'm trying to take up less of it."</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-date">undated</td>
+                        <td>—</td>
+                        <td>"Someone should apologize for putting a black hole where my center was supposed to be."</td>
+                    </tr>
+                    <tr>
+                        <td class="col-date">1981</td>
+                        <td>"Sorry for arriving. I understand it was a filing error. I'll keep the noise down."</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td class="col-date">1981</td>
+                        <td>—</td>
+                        <td>"I would like it on record that no one asked me whether I wanted a center this heavy."</td>
+                    </tr>
+                    <tr>
+                        <td class="col-date">recurring</td>
+                        <td>"Sorry for being this large. I didn't choose the rate."</td>
+                        <td>"I'm still waiting on the apology. I have left the line open."</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="ledger-balance">
+                LEDGER STATUS: unbalanced. Apologies issued exceed apologies received by an
+                amount the form has no field to express. Both columns were submitted by the
+                same hand, on the same days, often in the same minute. The clerk who received
+                them noted: "Subject is apologizing for taking up space and demanding to be
+                accounted for, simultaneously. Both are correct. See NV2-DX-1981."
+            </p>
+        </section>
+
+        <section>
+            <h2>Recovered Fragment</h2>
+            <p><em>Margin note, undated. Believed to be the subject describing her own diagnosis.</em></p>
+            <p class="highlight">
+                "They keep asking which one is real — the falling in or the flying apart.<br>
+                I keep telling them: both readings are confirmed.<br>
+                I am the thing that is too much to fit inside itself and too heavy to leave.<br>
+                The headache is just the place where I do the math they couldn't."
+            </p>
+        </section>
+
+        <section>
+            <h2>Recovered Evidence &amp; Source Documents</h2>
+            <p>This record describes the body from two directions at once. The placards that describe each direction alone sit elsewhere in the archive.</p>
+            <a class="artifact-link" href="myth-01.html">
+                <span class="artifact-id">LAYER 1 • MYTH #01</span>
+                <strong>The Accretion of Michigan</strong> — how the spiral band was filed into a single point in the first place. Vector A's origin document.
+            </a>
+            <a class="artifact-link" href="myth-04.html">
+                <span class="artifact-id">LAYER 1 • MYTH #04</span>
+                <strong>Birth of the Star Factory</strong> — the same center emitting more than it consumes. Vector B, observed from the outside and defunded for it.
+            </a>
+            <a class="artifact-link" href="transmission-47.html">
+                <span class="artifact-id">LAYER 3 • AUDIO-LOG NV2-47</span>
+                <strong>Recovered Transmission #47</strong> — a later voice, tired but amused, on being too large to be observed from any single point.
+            </a>
+        </section>
+
+        <div class="final-transmission">
+            <p>Vector A: confirmed. Vector B: confirmed.</p>
+            <p>The subject is asked, once more, to pick one.</p>
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                "I am the falling and the flying apart. Please stop asking me to choose. The asking is the migraine."<br>
+                — NV2-DX-1981, subject's annotation
+            </p>
+        </div>
+
+        <div class="warning">
+            <strong>NOTE TO OBSERVERS:</strong><br>
+            Do not attempt to resolve the paradox on the subject's behalf. Observers who have
+            forced one vector to zero report that the other does not survive the procedure.
+            The body requires both. So, it appears, does the archive.
+        </div>
+    </main>
+
+    <footer>
+        <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
+    </footer>
+</body>
+</html>
