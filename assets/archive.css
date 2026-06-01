@@ -355,3 +355,198 @@ footer {
     font-size: 0.9rem;
     color: #666;
 }
+
+/* =====================================================================
+   Layer 2 — internal case files (DOC#X-ORIG-NN)
+   Shared "case jacket" chrome: a buff institutional folder typed on a
+   carbon form. Cooler, greyer, and more procedural than Layer 3's warm
+   1928 ledger — these are working originals, not antique evidence.
+   Pages requiring this load the Special Elite + Caveat fonts in <head>
+   and add per-file stamps/dates in a small local <style>.
+   ===================================================================== */
+.case-file {
+    --paper: #d7d4c2;
+    --ink: #211e12;
+    --rule: #b1ab92;
+    --folder: #2b281c;
+    --redbar: #7c1f2b;
+    font-family: 'Special Elite', monospace;
+    color: var(--ink);
+    background: var(--paper);
+    max-width: 860px;
+    margin: 3rem auto;
+    border: 12px solid var(--folder);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8),
+                inset 0 0 120px rgba(60, 55, 20, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.case-file::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18% 20%, rgba(90, 70, 25, 0.10) 0%, transparent 60%),
+        radial-gradient(circle at 82% 82%, rgba(70, 75, 55, 0.10) 0%, transparent 65%);
+}
+
+/* Folder tab strip: file number left, classification right */
+.cf-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: var(--folder);
+    color: #cfc8a8;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 3px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    padding: 0.7rem 1.4rem;
+    position: relative;
+}
+
+.cf-tab .cf-no { color: #e7dfbf; font-weight: 700; }
+
+.cf-sheet { padding: 42px 44px 60px; position: relative; }
+
+.cf-sheet h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #3a2f17;
+    font-size: 1.4rem;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 0.5rem;
+    margin: 2.8rem 0 1.4rem;
+}
+
+.cf-sheet p {
+    font-size: 1rem;
+    line-height: 1.95;
+    color: var(--ink);
+    margin-bottom: 1.3rem;
+}
+
+/* Intake / classification grid (definition list rendered as a form) */
+.cf-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.35rem 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1.6rem 0;
+    padding: 1.2rem 0;
+    border-top: 2px solid var(--rule);
+    border-bottom: 2px solid var(--rule);
+}
+
+.cf-grid dt {
+    color: #5a4a22;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.76rem;
+    padding-top: 0.15rem;
+}
+
+.cf-grid dd { margin: 0; }
+
+/* Internal memo block — labels itself via data-label */
+.cf-memo {
+    background: rgba(255, 250, 225, 0.55);
+    border-left: 6px solid #6d5a2c;
+    padding: 16px 22px;
+    margin: 2.4rem 0;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.cf-memo::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    background: var(--paper);
+    padding: 0 9px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: #6d5a2c;
+}
+
+.cf-memo p:last-child { margin-bottom: 0; }
+
+/* Routing history / ledger tables */
+.cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.6rem 0;
+    font-size: 0.86rem;
+}
+
+.cf-table th,
+.cf-table td {
+    border: 1px solid var(--rule);
+    padding: 0.5rem 0.7rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.cf-table th {
+    background: rgba(60, 55, 20, 0.10);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+    color: #5a4a22;
+}
+
+/* Rubber stamp */
+.cf-stamp {
+    display: inline-block;
+    color: var(--redbar);
+    border: 4px double var(--redbar);
+    padding: 6px 22px;
+    letter-spacing: 4px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transform: rotate(-7deg);
+    opacity: 0.72;
+    margin: 1.2rem 0;
+}
+
+.cf-redacted {
+    background: #211e12;
+    color: #211e12;
+    padding: 2px 6px;
+    user-select: none;
+}
+
+/* Cross-layer reference, styled to live on the paper */
+.cf-xref {
+    display: block;
+    background: rgba(60, 55, 20, 0.08);
+    border-left: 3px solid #6d5a2c;
+    padding: 0.9rem 1.2rem;
+    margin: 0.8rem 0;
+    color: #2a2412;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+}
+
+.cf-xref:hover { background: rgba(60, 55, 20, 0.16); }
+
+.cf-xref .cf-xid {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    color: #6d5a2c;
+    margin-bottom: 0.2rem;
+}
+
+.cf-sign {
+    text-align: right;
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: #3a2f17;
+    margin-top: 1rem;
+}
