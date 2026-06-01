@@ -141,7 +141,7 @@
         bp.frequency.value = 2600;
         bp.Q.value = 0.6;
         var hissGain = ctx.createGain();
-        hissGain.gain.value = 0.14;
+        hissGain.gain.value = 0.22;
         hiss.connect(bp).connect(hissGain).connect(master);
 
         // 2) Structured modulation: a slow LFO on the hiss level so the
@@ -149,7 +149,7 @@
         var lfo = ctx.createOscillator();
         lfo.frequency.value = 0.47;            // 47 again. it keeps happening.
         var lfoGain = ctx.createGain();
-        lfoGain.gain.value = 0.07;
+        lfoGain.gain.value = 0.09;
         lfo.connect(lfoGain).connect(hissGain.gain);
 
         // 3) Motor rumble: brown noise through a lowpass — the reels turning.
@@ -207,21 +207,10 @@
 
     TapeDeck.prototype.play = function () {
         if (this.playing) return;
-
-        if (AudioCtx) {
-            try {
-                if (!this.ctx) this.ctx = new AudioCtx();
-                if (this.ctx.state === 'suspended') this.ctx.resume();
-                this.buildGraph();
-            } catch (e) {
-                this.setStatus('AUDIO SUBSYSTEM UNAVAILABLE — STATIC PERSISTS REGARDLESS');
-            }
-        } else {
-            this.setStatus('NO AUDIO SUBSYSTEM — REELS TURN ANYWAY');
-        }
-
         this.playing = true;
-        this.startTime = (this.ctx ? this.ctx.currentTime : performance.now() / 1000);
+
+        // Immediate, gesture-time UI feedback. The audio itself may take a
+        // beat to wake on browsers that hand back a suspended context.
         this.root.classList.remove('is-ended');
         this.root.classList.add('is-playing');
         if (this.playBtn) {
@@ -229,7 +218,56 @@
             this.playBtn.textContent = '❚❚ PAUSE TRANSMISSION';
         }
         this.setStatus('PLAYING — 1983 ORIGINAL');
+
+        if (!AudioCtx) {
+            // No Web Audio at all: still run the visual transport.
+            this.setStatus('NO AUDIO SUBSYSTEM — REELS TURN ANYWAY');
+            this.startTime = performance.now() / 1000;
+            this.tick();
+            return;
+        }
+
+        var self = this;
+        try {
+            if (!this.ctx) this.ctx = new AudioCtx();
+            // iOS / Safari keep the deck mute until a node has actually run
+            // inside the user gesture — a one-sample silent blip unlocks it.
+            this.unlock();
+            // Build and start only once the clock is truly running. resume()
+            // is asynchronous on the browsers that need it; firing the graph
+            // before it resolves and ignoring the promise is exactly how a
+            // deck ends up spinning in silence.
+            if (this.ctx.state === 'suspended' && this.ctx.resume) {
+                this.ctx.resume().then(function () { self.startAudio(); },
+                                       function () { self.startAudio(); });
+            } else {
+                this.startAudio();
+            }
+        } catch (e) {
+            this.setStatus('AUDIO SUBSYSTEM UNAVAILABLE — STATIC PERSISTS REGARDLESS');
+            this.startTime = (this.ctx ? this.ctx.currentTime : performance.now() / 1000);
+            this.tick();
+        }
+    };
+
+    // Build the synth graph and start the transport clock together, so the
+    // counter and cues track what is heard rather than when the click landed.
+    TapeDeck.prototype.startAudio = function () {
+        if (!this.playing) return;          // stopped during the resume hop
+        this.buildGraph();
+        this.startTime = this.ctx.currentTime;
         this.tick();
+    };
+
+    // A single silent sample, started inside the user gesture, to wake the
+    // browsers that won't emit sound until the context has run at least once.
+    TapeDeck.prototype.unlock = function () {
+        try {
+            var s = this.ctx.createBufferSource();
+            s.buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+            s.connect(this.ctx.destination);
+            s.start(0);
+        } catch (e) { /* non-fatal */ }
     };
 
     TapeDeck.prototype.now = function () {
