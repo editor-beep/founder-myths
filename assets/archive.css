@@ -5,7 +5,7 @@
    for bespoke, single-purpose artifacts (aged ledger, graph paper, etc).
    ===================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Special+Elite&display=swap');
 
 :root {
     --void: #0a0a0f;
@@ -344,6 +344,40 @@ p { margin-bottom: 1.4rem; font-size: 1.05rem; }
 }
 
 .read-link:hover { gap: 16px; }
+
+/* --- Account of Record: narrative prose sections ------------------- */
+.narrative-prose {
+    font-family: 'Special Elite', 'IBM Plex Mono', monospace;
+    font-size: 0.975rem;
+    line-height: 2.05;
+    color: rgba(224, 212, 255, 0.72);
+}
+
+.narrative-prose p {
+    font-size: 0.975rem;
+    margin-bottom: 1.8rem;
+    line-height: 2.05;
+}
+
+.narrative-break {
+    text-align: center;
+    color: rgba(192, 38, 211, 0.3);
+    font-size: 1.4rem;
+    margin: 2.5rem 0;
+    letter-spacing: 0.4em;
+    user-select: none;
+}
+
+.doc-excerpt {
+    border-top: 1px dashed rgba(192, 38, 211, 0.25);
+    border-bottom: 1px dashed rgba(192, 38, 211, 0.25);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    color: rgba(224, 212, 255, 0.58);
+    line-height: 1.9;
+}
 
 /* --- Footer -------------------------------------------------------- */
 footer {
