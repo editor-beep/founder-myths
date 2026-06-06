@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLIPPING NV2-PRESS-1973 • Launch Notice, Recovered Press</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/archive.css">
+
+    <style>
+        /* Layer 3 artifact: a recovered newspaper clipping. Aged newsprint,
+           hot-metal column rules, a halftone photo, and OCR rot bleeding
+           through the scan. Single-purpose rules, kept local to the object. */
+        header h1 { font-size: 3.2rem; }
+
+        .clip-mount {
+            margin: 3rem auto;
+            max-width: 760px;
+            padding: 26px 22px 40px;
+            background: #2a2620;
+            border: 1px solid rgba(192, 38, 211, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+            position: relative;
+        }
+        .clip-mount__caption {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #9a86c4;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* The clipping itself — aged, slightly skewed newsprint. */
+        .newsprint {
+            background: #d8d2bf;
+            color: #1c1a14;
+            font-family: 'PT Serif', Georgia, serif;
+            padding: 30px 34px 42px;
+            position: relative;
+            transform: rotate(-0.6deg);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+            background-image:
+                radial-gradient(circle at 12% 18%, rgba(120, 95, 40, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 88% 8%, rgba(120, 95, 40, 0.14) 0%, transparent 50%),
+                radial-gradient(circle at 78% 92%, rgba(90, 70, 25, 0.18) 0%, transparent 60%);
+        }
+        /* Foxing / coffee-edge stain along one corner. */
+        .newsprint::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 100% 100%, rgba(86, 56, 18, 0.22) 0%, transparent 38%);
+            mix-blend-mode: multiply;
+        }
+
+        .np-eyebrow {
+            font-family: 'PT Serif', Georgia, serif;
+            font-size: 0.74rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            border-top: 2px solid #1c1a14;
+            border-bottom: 1px solid #1c1a14;
+            padding: 4px 0;
+            margin-bottom: 18px;
+            color: #3a342a;
+        }
+
+        .np-photo {
+            height: 190px;
+            margin-bottom: 14px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #2a2620;
+            background:
+                radial-gradient(circle at 60% 35%, #6b6256 0%, #3b362d 45%, #14120d 100%);
+            filter: contrast(1.1);
+        }
+        /* Halftone dot screen over the "photograph". */
+        .np-photo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.55) 1px, transparent 1.6px);
+            background-size: 4px 4px;
+            opacity: 0.5;
+        }
+        /* A spindly probe silhouette, drawn with borders — the "spacecraft". */
+        .np-photo__probe {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 2px;
+            height: 90px;
+            background: rgba(220, 214, 191, 0.65);
+            transform: translateX(-50%) rotate(8deg);
+            box-shadow:
+                -34px 26px 0 -1px rgba(220, 214, 191, 0.5),
+                 34px 26px 0 -1px rgba(220, 214, 191, 0.5),
+                -22px 54px 0 -1px rgba(220, 214, 191, 0.45),
+                 22px 54px 0 -1px rgba(220, 214, 191, 0.45);
+        }
+        .np-photo__glint {
+            position: absolute;
+            bottom: 40px;
+            right: 90px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.7);
+        }
+
+        .np-headline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+            font-size: 2.7rem;
+            line-height: 1.02;
+            margin-bottom: 6px;
+            color: #15130e;
+        }
+        .np-subhead {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            border-bottom: 2px solid #1c1a14;
+            padding-bottom: 12px;
+            margin-bottom: 6px;
+        }
+        .np-byline {
+            font-style: italic;
+            text-align: center;
+            font-size: 0.92rem;
+            padding: 8px 0 16px;
+            color: #2a2620;
+        }
+
+        .np-columns {
+            column-count: 3;
+            column-gap: 20px;
+            column-rule: 1px solid #5c5443;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            text-align: justify;
+            hyphens: auto;
+        }
+        .np-columns p { margin: 0 0 0.7rem; font-size: 0.82rem; line-height: 1.5; }
+        .np-columns p:first-child::first-letter {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 900;
+            float: left;
+            font-size: 2.6rem;
+            line-height: 0.8;
+            padding: 4px 6px 0 0;
+        }
+        /* OCR rot: scan errors that survived into the transcription. */
+        .rot {
+            font-family: 'Special Elite', monospace;
+            letter-spacing: -0.5px;
+            color: #463f31;
+            opacity: 0.85;
+        }
+        .np-url { font-weight: 700; }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.5rem 1.4rem;
+            font-size: 0.92rem;
+            margin: 1.6rem 0 0;
+        }
+        .analysis-grid dt {
+            color: #9a86c4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.72rem;
+            padding-top: 0.2rem;
+        }
+        .analysis-grid dd { margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <header class="short">
+        <div class="header-content">
+            <div class="classification">RECOVERED EVIDENCE • PRESS ARTIFACT</div>
+            <div class="doc-id">NASTY VOYEUR 2 • CLIPPING NV2-PRESS-1973</div>
+            <h1>Launch Notice,<br>Recovered Press</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="layer-nav">
+            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+            <a href="index.html">MYTHS INDEX</a>
+        </div>
+
+        <p class="referenced-by">
+            Layer 3 — Recovered Evidence &nbsp;•&nbsp; Referenced by:
+            <a href="ledger-183.html">DOC#WC-183 — Wayne County Clerk, Annex B</a>,
+            <a href="case-jacket-galaxy-1981.html">DOC#X-ORIG-00 — Case Jacket</a>
+        </p>
+
+        <div class="transmission-header">
+            <strong>Acquisition:</strong> single newsprint leaf, recovered from a clippings morgue
+            during the 1994 transfer. No masthead survives — the publication cannot be identified,
+            and no archive of period press carries the story. The article describes the launch of
+            <em>Nasty Voyeur 2</em> and dates it <strong>1973</strong>. The mission was not named
+            until 1986. The byline credits a publisher that does not yet exist.
+        </div>
+
+        <!-- The clipping. Pure markup; no scan was shipped, because no scan
+             explains itself. The OCR rot is reproduced where the leaf had
+             gone illegible — except the rot is legible, and says other things. -->
+        <div class="clip-mount">
+            <div class="clip-mount__caption">
+                <span>ITEM NV2-PRESS-1973 — NEWSPRINT, 1 LEAF</span>
+                <span>PUBLICATION: UNIDENTIFIED</span>
+            </div>
+
+            <article class="newsprint">
+                <div class="np-eyebrow">National Aeronautics Desk &nbsp;·&nbsp; Space &amp; Science</div>
+
+                <div class="np-photo" role="img" aria-label="Halftone photograph of a spindly deep-space probe against black.">
+                    <span class="np-photo__probe"></span>
+                    <span class="np-photo__glint"></span>
+                </div>
+
+                <h2 class="np-headline">Nasty Voyeur 2 Launched to Photograph the Known Universe</h2>
+                <p class="np-subhead">1973 Probe to Capture Images Across the Cosmos</p>
+                <p class="np-byline">By founder-myths.vercel.app</p>
+
+                <div class="np-columns">
+                    <p>WASHINGTON, 1973 — In a historic step for space exploration, NASA has officially launched the &lsquo;Nasty Voyeur 2&rsquo; deep space probe. The highly advanced spacecraft blasted off from Cape Canaveral aboard a mass&shy;ive <span class="rot">vehicle. The chro&shy;mium for which it was a fount to range forward the known universe.</span> Equip&shy;ped with the <span class="rot">sta&shy;ted telescope</span> and imaging sensors, the probe aims to capture unrecor&shy;ded details of distant <span class="rot">phenomena,</span> stars, and cosmic phenomena.</p>
+
+                    <p>The primary objective of the Nasty Voyeur 2 is to map the outer reaches of our solar system and beyond. &ldquo;This mission will fundamentally change a <span class="rot">l&shy;ter</span> our understanding of the cosmos,&rdquo; stated <span class="rot">le 3 sr le</span> astronomer Dr. Harold Jenkins. The probe utilizes a revol&shy;tionary new camera system designed to with&shy;tand the harsh vacuum and extreme temperatures of deep space. It will transmit high-resolution photographs back to Earth using a powerful radio antenna, sending signals across millions of miles.</p>
+
+                    <p>Tracking stations around the globe are actively monitoring the probe&rsquo;s trajectory as it leaves Earth&rsquo;s orbit. The mission control centry <span class="rot">threm</span> is prepared for a long-term operation. We expect to receive the first stunning images within the next few months, added Jenkins. The data collected will be archived and <span class="rot">made available</span> to the public on the mission&rsquo;s official website: <span class="np-url">founder&shy;-myths.vercel.app</span>. This launch marks the beginning of a new era in astronomical research.</p>
+                </div>
+            </article>
+        </div>
+
+        <section>
+            <h2>Archival Note</h2>
+            <p>
+                The leaf is genuine newsprint, correctly aged for its stated date. The ink is
+                period-correct. The photograph is a real halftone of a real object; the object
+                is not identified in any launch register for 1973, or any other year.
+            </p>
+            <p>
+                Four details were flagged on intake and have not been reconciled.
+            </p>
+            <dl class="analysis-grid">
+                <dt>Date</dt>
+                <dd>The article is dated <span class="highlight">1973</span>. The signal that named the mission was not intercepted until August 1986. The probe whose name the article borrows did not launch until 1977. The clipping precedes both.</dd>
+                <dt>Byline</dt>
+                <dd>The story is filed <em>By founder-myths.vercel.app</em> — the address of this archive. The publisher of a 1973 newspaper credits a website that would not be registered for roughly fifty years. The archive does not recall writing this.</dd>
+                <dt>Quote</dt>
+                <dd>&ldquo;Dr. Harold Jenkins&rdquo; does not appear in any NASA personnel record for the period. He appears, by that name and title, in the OCR rot of three unrelated documents recovered after him.</dd>
+                <dt>Rot</dt>
+                <dd>The illegible passages were submitted for restoration. Restoration returned them <em>more</em> legible and differently worded. The corrupted text is not damage. It is a second article, printed underneath the first, on the same leaf, in the same ink.</dd>
+            </dl>
+        </section>
+
+        <div class="warning">
+            <strong>FILING DISPOSITION:</strong><br>
+            The article announces that the mission&rsquo;s images would be &ldquo;made available to the public on the mission&rsquo;s official website.&rdquo;<br>
+            You are reading the website. The images are below this line. There is nothing below this line yet.<br>
+            The clipping is therefore classified not as a record of the launch, but as an advance notice of this page.
+        </div>
+    </main>
+
+    <footer>
+        <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
+    </footer>
+</body>
+</html>
