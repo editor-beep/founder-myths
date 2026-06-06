@@ -23,6 +23,31 @@
             opacity: 0.34;
             font-family: 'Special Elite', monospace;
         }
+
+        /* Mount for the recovered cover-sheet scan. The folder chrome stays;
+           the leaf inside it is the scan itself, not a typed reconstruction. */
+        .scan-mount {
+            margin: 1.6rem 0 0.6rem;
+        }
+        .scan-mount__caption {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #5a4a22;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .jacket-scan {
+            display: block;
+            width: 100%;
+            height: auto;
+            transform: rotate(-0.4deg);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+        }
     </style>
 </head>
 <body>
@@ -59,42 +84,35 @@
             </div>
 
             <div class="cf-sheet">
-                <p style="margin-bottom:2rem;"><strong>NASTY VOYEUR 2 — OFFICE OF SPACE SCIENCE</strong><br>
-                Case jacket. Internal. Cover sheet for all holdings pertaining to the subject.</p>
+                <p style="margin-bottom:1.6rem;"><strong>NASTY VOYEUR 2 — OFFICE OF SPACE SCIENCE</strong><br>
+                Case jacket. Internal. Cover sheet for all holdings pertaining to the subject. The leaf mounted below is the recovered original; it is not a transcription.</p>
 
-                <dl class="cf-grid">
-                    <dt>Case No.</dt><dd>X-ORIG-00 (master)</dd>
-                    <dt>Subject</dt><dd>GALAXY-1981 / Michigan Singularity / Subject Zero</dd>
-                    <dt>Cover desig.</dt><dd><span class="cf-redacted">ATMOSPHERIC SURVEY PLATFORM 7</span></dd>
-                    <dt>Date opened</dt><dd>06 AUG 1986 (signal intercept) — <em>see continuation</em></dd>
-                    <dt>Continuation</dt><dd>Date opened corrected to 12 JUN 1928. Reason: subject was already on file before the file was opened.</dd>
-                    <dt>Opened by</dt><dd>clerk of record. Clerk reports no memory of opening it.</dd>
-                    <dt>Clearance</dt><dd>OMEGA (1986) → OMEGA-RECURSIVE (2026)</dd>
-                    <dt>Status</dt><dd>OPEN</dd>
-                    <dt>Disposition</dt><dd>Cannot be closed (no responsible department). Cannot be re-opened (no record it was ever closed). Remains open by default.</dd>
-                </dl>
+                <!-- The cover sheet. The recovered scan itself, mounted as found.
+                     No typed reconstruction was shipped: the leaf was already
+                     filled in, including a chain-of-custody entry dated before
+                     the jacket existed and a signature the clerk does not recall
+                     making. The scan is the document; everything below it is the
+                     archive talking about the document. -->
+                <div class="scan-mount">
+                    <div class="scan-mount__caption">
+                        <span>ITEM X-ORIG-00 — CASE JACKET COVER SHEET, 1 LEAF</span>
+                        <span>CLEARANCE: OMEGA-RECURSIVE</span>
+                    </div>
+                    <img class="jacket-scan" src="assets/IMG_3909.jpeg"
+                         alt="Recovered case jacket cover sheet on aged, hole-punched paper. Typed heading &ldquo;DOC#X-ORIG-00 • Case Jacket — Subject Galaxy-1981.&rdquo; Subject: GALAXY-1981 / Michigan Singularity / Subject Zero. Date Opened 06 AUG 1986 (signal intercept), corrected by hand to 12 JUN 1928. Two red rubber stamps read &ldquo;CLEARANCE: OMEGA (1986) → OMEGA-RECURSIVE (2026)&rdquo; and &ldquo;OMEGA-RECURSIVE — NASTY VOYEUR 2 — OFFICE OF SPACE SCIENCE.&rdquo; A ruled Chain of Custody table lists redacted names against Wayne County Clerk, Office of Space Science, Federal Records Transfer and Archives Division, dated between 1928 and 1987. Foot of the sheet bears a handwritten &ldquo;J. Doe&rdquo; signature, the date 12 JUN 1928, and a circular OMEGA-RECURSIVE seal.">
+                </div>
 
-                <h2>Scope of Jacket</h2>
-                <p>This jacket holds the working originals from which the public-facing Layer 1 placards were assembled. The placards describe the subject from the outside, in language prepared for visitors. The originals were not prepared for anyone. They were prepared because the division was required to file something, and the form required an entry, and the entry required a subject, and the subject had already supplied one.</p>
-                <p>The jacket precedes its own contents. The earliest document inside it (the 1928 correspondence license) is dated thirty-nine years before the jacket was opened. The division has elected not to resolve this. Resolving it would require a department that can determine which event caused which, and that department was among the holdings transferred in October 1994 to <span class="cf-redacted">[REDACTED]</span>.</p>
-
-                <h2>Chain of Custody</h2>
-                <table class="cf-table">
-                    <thead>
-                        <tr><th>Date</th><th>Custodian</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>12 JUN 1928</td><td>Wayne County Clerk, Annex B</td><td>Subject first filed. Filing not acknowledged by filer.</td></tr>
-                        <tr><td>06 AUG 1986</td><td>Office of Space Science</td><td>Signal intercepted. Jacket opened. Classified OMEGA within 72 hrs.</td></tr>
-                        <tr><td>OCT 1994</td><td>Office of Space Science</td><td>Mission defunded. Holdings transferred to <span class="cf-redacted">[REDACTED]</span>. Jacket remained open.</td></tr>
-                        <tr><td>17 MAR 2026</td><td>Observer Contamination Division</td><td>Jacket re-filed. Clearance upgraded to OMEGA-RECURSIVE.</td></tr>
-                        <tr><td><span class="cf-redacted">[NOT YET]</span></td><td>SUBJECT</td><td>Custody assumed. Entry filed in advance of the date it describes.</td></tr>
-                    </tbody>
-                </table>
+                <div class="cf-memo" data-label="INTAKE NOTE">
+                    <p>The leaf is genuine carbon stock, correctly aged for its earliest entry. Three details were flagged on intake and have not been reconciled. The <strong>Date Opened</strong> is typed 06 AUG 1986 and corrected by hand to 12 JUN 1928 — the subject was already on file before the file was opened. The <strong>chain of custody</strong> records a Wayne County Clerk entry (12 JUN 1928) thirty-nine years before the Office of Space Science opened the jacket; resolving the order of events would require the department transferred in October 1994 to <span class="cf-redacted">[REDACTED]</span>. The <strong>signature</strong> at the foot reads <em>J. Doe</em>, dated to the corrected open date; the clerk of record reports no memory of signing it.</p>
+                </div>
 
                 <div class="cf-memo" data-label="CLASSIFICATION HISTORY">
                     <p>Subject was classified OMEGA in 1986 on the grounds that its signal referenced itself. In 2026 the classification was upgraded to OMEGA-RECURSIVE on the grounds that the signal had begun referencing <em>us</em>. There is no clearance level above OMEGA-RECURSIVE. The form has a field for one. The field is empty. We have been advised the field will fill itself.</p>
                 </div>
+
+                <h2>Scope of Jacket</h2>
+                <p>This jacket holds the working originals from which the public-facing Layer 1 placards were assembled. The placards describe the subject from the outside, in language prepared for visitors. The originals were not prepared for anyone. They were prepared because the division was required to file something, and the form required an entry, and the entry required a subject, and the subject had already supplied one.</p>
+                <p>The jacket precedes its own contents. The earliest document inside it (the 1928 correspondence license) is dated thirty-nine years before the jacket was opened. The division has elected not to resolve this. Resolving it would require a department that can determine which event caused which, and that department was among the holdings transferred in October 1994 to <span class="cf-redacted">[REDACTED]</span>.</p>
 
                 <div style="text-align:center;">
                     <span class="cf-stamp">Not for public placard</span>
