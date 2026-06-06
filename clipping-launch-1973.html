@@ -35,138 +35,14 @@
             flex-wrap: wrap;
         }
 
-        /* The clipping itself — aged, slightly skewed newsprint. */
+        /* The clipping itself — the recovered scan, slightly skewed on its mount. */
         .newsprint {
-            background: #d8d2bf;
-            color: #1c1a14;
-            font-family: 'PT Serif', Georgia, serif;
-            padding: 30px 34px 42px;
-            position: relative;
+            display: block;
+            width: 100%;
+            height: auto;
             transform: rotate(-0.6deg);
             box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
-            background-image:
-                radial-gradient(circle at 12% 18%, rgba(120, 95, 40, 0.16) 0%, transparent 55%),
-                radial-gradient(circle at 88% 8%, rgba(120, 95, 40, 0.14) 0%, transparent 50%),
-                radial-gradient(circle at 78% 92%, rgba(90, 70, 25, 0.18) 0%, transparent 60%);
         }
-        /* Foxing / coffee-edge stain along one corner. */
-        .newsprint::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(ellipse at 100% 100%, rgba(86, 56, 18, 0.22) 0%, transparent 38%);
-            mix-blend-mode: multiply;
-        }
-
-        .np-eyebrow {
-            font-family: 'PT Serif', Georgia, serif;
-            font-size: 0.74rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-align: center;
-            border-top: 2px solid #1c1a14;
-            border-bottom: 1px solid #1c1a14;
-            padding: 4px 0;
-            margin-bottom: 18px;
-            color: #3a342a;
-        }
-
-        .np-photo {
-            height: 190px;
-            margin-bottom: 14px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #2a2620;
-            background:
-                radial-gradient(circle at 60% 35%, #6b6256 0%, #3b362d 45%, #14120d 100%);
-            filter: contrast(1.1);
-        }
-        /* Halftone dot screen over the "photograph". */
-        .np-photo::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.55) 1px, transparent 1.6px);
-            background-size: 4px 4px;
-            opacity: 0.5;
-        }
-        /* A spindly probe silhouette, drawn with borders — the "spacecraft". */
-        .np-photo__probe {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            width: 2px;
-            height: 90px;
-            background: rgba(220, 214, 191, 0.65);
-            transform: translateX(-50%) rotate(8deg);
-            box-shadow:
-                -34px 26px 0 -1px rgba(220, 214, 191, 0.5),
-                 34px 26px 0 -1px rgba(220, 214, 191, 0.5),
-                -22px 54px 0 -1px rgba(220, 214, 191, 0.45),
-                 22px 54px 0 -1px rgba(220, 214, 191, 0.45);
-        }
-        .np-photo__glint {
-            position: absolute;
-            bottom: 40px;
-            right: 90px;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 0 14px 4px rgba(255, 255, 255, 0.7);
-        }
-
-        .np-headline {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: 900;
-            font-size: 2.7rem;
-            line-height: 1.02;
-            margin-bottom: 6px;
-            color: #15130e;
-        }
-        .np-subhead {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            border-bottom: 2px solid #1c1a14;
-            padding-bottom: 12px;
-            margin-bottom: 6px;
-        }
-        .np-byline {
-            font-style: italic;
-            text-align: center;
-            font-size: 0.92rem;
-            padding: 8px 0 16px;
-            color: #2a2620;
-        }
-
-        .np-columns {
-            column-count: 3;
-            column-gap: 20px;
-            column-rule: 1px solid #5c5443;
-            font-size: 0.82rem;
-            line-height: 1.5;
-            text-align: justify;
-            hyphens: auto;
-        }
-        .np-columns p { margin: 0 0 0.7rem; font-size: 0.82rem; line-height: 1.5; }
-        .np-columns p:first-child::first-letter {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-weight: 900;
-            float: left;
-            font-size: 2.6rem;
-            line-height: 0.8;
-            padding: 4px 6px 0 0;
-        }
-        /* OCR rot: scan errors that survived into the transcription. */
-        .rot {
-            font-family: 'Special Elite', monospace;
-            letter-spacing: -0.5px;
-            color: #463f31;
-            opacity: 0.85;
-        }
-        .np-url { font-weight: 700; }
 
         .analysis-grid {
             display: grid;
@@ -216,35 +92,15 @@
             until 1986. The byline credits a publisher that does not yet exist.
         </div>
 
-        <!-- The clipping. Pure markup; no scan was shipped, because no scan
-             explains itself. The OCR rot is reproduced where the leaf had
-             gone illegible — except the rot is legible, and says other things. -->
+        <!-- The clipping. The recovered scan itself, mounted as found. -->
         <div class="clip-mount">
             <div class="clip-mount__caption">
                 <span>ITEM NV2-PRESS-1973 — NEWSPRINT, 1 LEAF</span>
                 <span>PUBLICATION: UNIDENTIFIED</span>
             </div>
 
-            <article class="newsprint">
-                <div class="np-eyebrow">National Aeronautics Desk &nbsp;·&nbsp; Space &amp; Science</div>
-
-                <div class="np-photo" role="img" aria-label="Halftone photograph of a spindly deep-space probe against black.">
-                    <span class="np-photo__probe"></span>
-                    <span class="np-photo__glint"></span>
-                </div>
-
-                <h2 class="np-headline">Nasty Voyeur 2 Launched to Photograph the Known Universe</h2>
-                <p class="np-subhead">1973 Probe to Capture Images Across the Cosmos</p>
-                <p class="np-byline">By founder-myths.vercel.app</p>
-
-                <div class="np-columns">
-                    <p>WASHINGTON, 1973 — In a historic step for space exploration, NASA has officially launched the &lsquo;Nasty Voyeur 2&rsquo; deep space probe. The highly advanced spacecraft blasted off from Cape Canaveral aboard a mass&shy;ive <span class="rot">vehicle. The chro&shy;mium for which it was a fount to range forward the known universe.</span> Equip&shy;ped with the <span class="rot">sta&shy;ted telescope</span> and imaging sensors, the probe aims to capture unrecor&shy;ded details of distant <span class="rot">phenomena,</span> stars, and cosmic phenomena.</p>
-
-                    <p>The primary objective of the Nasty Voyeur 2 is to map the outer reaches of our solar system and beyond. &ldquo;This mission will fundamentally change a <span class="rot">l&shy;ter</span> our understanding of the cosmos,&rdquo; stated <span class="rot">le 3 sr le</span> astronomer Dr. Harold Jenkins. The probe utilizes a revol&shy;tionary new camera system designed to with&shy;tand the harsh vacuum and extreme temperatures of deep space. It will transmit high-resolution photographs back to Earth using a powerful radio antenna, sending signals across millions of miles.</p>
-
-                    <p>Tracking stations around the globe are actively monitoring the probe&rsquo;s trajectory as it leaves Earth&rsquo;s orbit. The mission control centry <span class="rot">threm</span> is prepared for a long-term operation. We expect to receive the first stunning images within the next few months, added Jenkins. The data collected will be archived and <span class="rot">made available</span> to the public on the mission&rsquo;s official website: <span class="np-url">founder&shy;-myths.vercel.app</span>. This launch marks the beginning of a new era in astronomical research.</p>
-                </div>
-            </article>
+            <img class="newsprint" src="assets/IMG_3874.jpeg"
+                 alt="Recovered newspaper clipping. A halftone photograph of a spindly deep-space probe sits above the headline &ldquo;Nasty Voyeur 2 Launched to Photograph the Known Universe,&rdquo; subhead &ldquo;1973 Probe to Capture Images Across the Cosmos,&rdquo; bylined &ldquo;By founder-myths.vercel.app,&rdquo; with three justified columns of body text bleeding into OCR rot.">
         </div>
 
         <section>
