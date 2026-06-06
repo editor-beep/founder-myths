@@ -550,3 +550,29 @@ footer {
     color: #3a2f17;
     margin-top: 1rem;
 }
+
+/* Recovered cover-sheet scan, mounted inside the folder chrome. The leaf is
+   the original scan, not a typed reconstruction; the archive comments on it
+   in the memos that follow. */
+.scan-mount {
+    margin: 1.6rem 0 0.6rem;
+}
+.scan-mount__caption {
+    font-family: 'Special Elite', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #5a4a22;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.jacket-scan {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: rotate(-0.4deg);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
