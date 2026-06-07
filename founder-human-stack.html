@@ -2,131 +2,600 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DOC#F-HSN-03 • Human Stack Notebook, Vol. III</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/archive.css">
     <style>
-        /* Layer 4 artifact: a working notebook. Graph paper + handwriting. */
-        .notebook {
-            margin: 2rem 0;
-            background: #11131a;
-            background-image:
-                linear-gradient(rgba(192,38,211,0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(192,38,211,0.08) 1px, transparent 1px);
-            background-size: 26px 26px;
-            border: 1px solid rgba(192, 38, 211, 0.3);
-            padding: 2.5rem;
+        /* ===================================================================
+           DOC#F-HSN-03 — HUMAN STACK NOTEBOOK, VOL. III
+           A physical, recursive artifact. A leather-bound working notebook
+           recovered from the NV2 archive, presented open. Pages turn in 3D;
+           the subject's handwriting sits on aged, contaminated paper. Layer 4:
+           primary material, authored by the subject. Provenance: impossible.
+           Vanilla HTML/CSS/JS — no build step, no dependencies.
+           =================================================================== */
+
+        html, body { height: 100%; }
+        body { overflow-x: hidden; }
+
+        /* faint cosmic bleed behind the desk */
+        .desk {
+            position: fixed; inset: 0; z-index: 1; pointer-events: none;
+            background:
+                radial-gradient(circle at 50% 40%, rgba(124,31,43,0.22) 0, transparent 55%),
+                radial-gradient(circle at 20% 80%, rgba(192,38,211,0.10) 0, transparent 50%);
         }
+
+        /* --- compact archive chrome --- */
+        .nb-bar {
+            position: relative; z-index: 3;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 0.8rem;
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid rgba(192, 38, 211, 0.2);
+        }
+        .nb-bar .doc-id { margin: 0; font-size: 0.78rem; letter-spacing: 1px; }
+        .nb-bar .links a {
+            color: var(--accent); text-decoration: none; font-weight: 600;
+            font-size: 0.82rem; margin-left: 1.2rem;
+        }
+        .nb-bar .links a:hover { color: var(--star); }
+
+        /* --- stage --- */
+        .stage {
+            position: relative; z-index: 2;
+            min-height: calc(100vh - 56px);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 2rem 1rem 1rem;
+            perspective: 2400px;
+        }
+        .scene { transition: transform 0.5s ease-out; transform-style: preserve-3d; }
+
+        /* --- the binding (leather frame around the open book) --- */
+        .binding {
+            position: relative;
+            padding: 18px;
+            border-radius: 8px;
+            background:
+                linear-gradient(145deg, #5a1226 0%, #3a0a17 55%, #2a0710 100%);
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.7),
+                inset 0 0 0 2px rgba(212,175,55,0.35),
+                inset 0 0 30px rgba(0,0,0,0.6);
+            transform-style: preserve-3d;
+        }
+        /* gold foil corner brackets */
+        .binding::before, .binding::after {
+            content: ''; position: absolute; width: 34px; height: 34px;
+            border: 2px solid rgba(212,175,55,0.65); pointer-events: none;
+        }
+        .binding::before { top: 7px; left: 7px; border-right: none; border-bottom: none; }
+        .binding::after  { bottom: 7px; right: 7px; border-left: none; border-top: none; }
+
+        /* --- the book (two-page open spread) --- */
+        .book {
+            position: relative;
+            width: var(--pw); height: var(--ph);
+            transform-style: preserve-3d;
+            --pw: 760px;  /* full spread width  */
+            --ph: 540px;  /* page height        */
+        }
+        /* central spine shadow */
+        .book::after {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+            width: 38px; transform: translateX(-50%); z-index: 60; pointer-events: none;
+            background: linear-gradient(90deg,
+                transparent, rgba(0,0,0,0.28) 45%, rgba(0,0,0,0.32) 50%, rgba(0,0,0,0.28) 55%, transparent);
+        }
+
+        /* shared page surface: aged, contaminated paper */
+        .paper {
+            position: absolute; top: 0; height: 100%; width: 50%;
+            background-color: #e6dcc4;
+            background-image:
+                radial-gradient(circle at 80% 12%, rgba(120,80,30,0.10), transparent 10%),
+                radial-gradient(circle at 18% 88%, rgba(80,60,20,0.10), transparent 12%),
+                radial-gradient(circle at 50% 50%, rgba(124,31,43,0.05), transparent 70%),
+                linear-gradient(180deg, rgba(0,0,0,0.05), transparent 22%, transparent 78%, rgba(0,0,0,0.06));
+            color: #2a2417;
+            box-shadow: inset 0 0 60px rgba(90,70,30,0.18);
+            overflow: hidden;
+        }
+        .paper .sheet { position: absolute; inset: 0; padding: 38px 40px; overflow: hidden; }
+
+        /* base pages sit beneath the turning leaves */
+        .base-left  { left: 0;  z-index: 1; border-radius: 6px 0 0 6px; }
+        .base-right { left: 50%; z-index: 1; border-radius: 0 6px 6px 0; }
+
+        /* --- turning leaves --- */
+        .leaf {
+            position: absolute; top: 0; left: 50%;
+            width: 50%; height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.95s cubic-bezier(0.2, 0.65, 0.2, 1);
+        }
+        .leaf.no-anim { transition: none; }
+        .leaf.turned { transform: rotateY(-180deg); }
+
+        .face {
+            position: absolute; inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+        }
+        .face.front { border-radius: 0 6px 6px 0; box-shadow: inset 7px 0 22px -14px rgba(0,0,0,0.6); }
+        .face.back  {
+            transform: rotateY(180deg);
+            border-radius: 6px 0 0 6px;
+            box-shadow: inset -7px 0 22px -14px rgba(0,0,0,0.6);
+        }
+        /* turning shadow that deepens mid-flip */
+        .leaf .gloss {
+            position: absolute; inset: 0; pointer-events: none; z-index: 5;
+            background: linear-gradient(90deg, rgba(0,0,0,0.32), transparent 32%);
+            opacity: 0;
+        }
+
+        /* curl-corner affordance on the active right page */
+        .corner {
+            position: absolute; bottom: 0; right: 0; width: 0; height: 0; z-index: 8;
+            border-style: solid; border-width: 0 0 26px 26px;
+            border-color: transparent transparent rgba(180,150,80,0.45) transparent;
+            cursor: pointer; transition: border-width 0.25s ease, filter 0.25s ease;
+            filter: drop-shadow(-3px -3px 4px rgba(0,0,0,0.3));
+        }
+        .leaf.active .corner:hover { border-width: 0 0 46px 46px; }
+
+        /* ---------- typography on paper ---------- */
         .hand {
             font-family: 'Caveat', cursive;
-            font-size: 1.5rem;
-            line-height: 1.5;
-            color: #b9a6ff;
+            font-size: 1.7rem; line-height: 1.55; color: #2c2746;
         }
-        .hand strong { color: #e0d4ff; }
-        .stack-frame {
-            border: 1px solid rgba(192, 38, 211, 0.4);
-            border-left: 4px solid var(--accent);
-            padding: 1rem 1.4rem;
-            margin-bottom: 0.6rem;
-            background: rgba(26, 20, 48, 0.5);
-            font-size: 0.95rem;
+        .hand strong { color: #5a1226; font-weight: 700; }
+        .ruled {
+            background-image: repeating-linear-gradient(
+                transparent 0 35px, rgba(70,55,100,0.16) 35px 36px);
+            background-position: 0 30px;
         }
-        .stack-frame .addr {
-            font-size: 0.75rem;
-            color: #9a86c4;
-            letter-spacing: 1px;
+        .type { font-family: 'Special Elite', monospace; }
+        .folio {
+            position: absolute; bottom: 16px; left: 0; right: 0; text-align: center;
+            font-family: 'Special Elite', monospace; font-size: 0.72rem; color: #7a6a45;
+            letter-spacing: 2px;
         }
-        .stack-frame.top { border-left-color: var(--warning); }
-        .stack-caption {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #888;
-            margin-top: 0.6rem;
+        .pg-kicker {
+            font-family: 'Special Elite', monospace; font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; color: #8a3a22; margin-bottom: 1.4rem;
+            border-bottom: 1px solid rgba(120,40,20,0.3); padding-bottom: 0.5rem;
+        }
+
+        /* coffee ring flourish */
+        .coffee {
+            position: absolute; width: 90px; height: 90px; border-radius: 50%;
+            border: 6px solid rgba(120,80,30,0.16);
+            box-shadow: inset 0 0 12px rgba(120,80,30,0.10);
+            pointer-events: none;
+        }
+
+        /* stack frames (typewritten) */
+        .frame {
+            border: 1px solid rgba(90,18,38,0.45);
+            border-left: 4px solid #7c1f2b;
+            background: rgba(255, 250, 235, 0.45);
+            padding: 0.6rem 0.85rem; margin-bottom: 0.55rem;
+            font-family: 'Special Elite', monospace; font-size: 0.82rem; line-height: 1.4;
+        }
+        .frame.top { border-left-color: #b8860b; }
+        .frame .addr { font-size: 0.66rem; color: #7a6a45; letter-spacing: 1px; margin-bottom: 0.15rem; }
+        .frame strong { color: #5a1226; }
+        .frame-cap { text-align: center; font-size: 0.72rem; color: #7a6a45; margin-top: 0.5rem; font-style: italic; }
+
+        /* redaction that lifts on hover/tap */
+        .redact {
+            background: #1a1612; color: #1a1612; padding: 0 4px; cursor: help;
+            border-radius: 1px; transition: color 0.25s ease, background 0.25s ease;
+        }
+        .redact.revealed { background: rgba(124,31,43,0.18); color: #5a1226; }
+
+        /* ---------- title page (right page of first spread) ---------- */
+        .title-page { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+        .title-page .emblem {
+            width: 74px; height: 74px; border-radius: 50%; margin-bottom: 1.4rem;
+            border: 2px solid #8a3a22;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #5a1226;
+            letter-spacing: 1px; font-size: 0.8rem;
+            background: radial-gradient(circle, rgba(124,31,43,0.10), transparent 70%);
+        }
+        .title-page .t-doc { font-family: 'Special Elite', monospace; font-size: 0.72rem; letter-spacing: 2px; color: #8a3a22; margin-bottom: 0.6rem; }
+        .title-page h2 {
+            font-family: 'Space Grotesk', sans-serif; border: none; padding: 0; margin: 0 0 0.4rem;
+            color: #3a0a17; font-size: 1.9rem; line-height: 1.1;
+        }
+        .title-page .t-vol { font-family: 'Caveat', cursive; font-size: 1.5rem; color: #5a1226; margin-bottom: 1.6rem; }
+        .title-page .t-ref { font-family: 'Special Elite', monospace; font-size: 0.66rem; color: #7a6a45; line-height: 1.7; }
+        .title-page .t-ref a { color: #8a3a22; }
+
+        /* clickable rubber stamp */
+        .stamp {
+            position: absolute; top: 34px; right: 30px; z-index: 9;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+            color: #7c1f2b; border: 3px double #7c1f2b; padding: 5px 14px;
+            letter-spacing: 3px; font-size: 0.78rem; text-transform: uppercase;
+            transform: rotate(-9deg); opacity: 0.62; cursor: pointer; user-select: none;
+            transition: transform 0.12s ease, opacity 0.2s ease;
+        }
+        .stamp:active { transform: rotate(-9deg) scale(0.9); }
+        .stamp.thunk { animation: thunk 0.3s ease; }
+        @keyframes thunk { 0% { transform: rotate(-9deg) scale(1.5); opacity: 0; } 60% { transform: rotate(-9deg) scale(0.92); opacity: 0.85; } 100% { transform: rotate(-9deg) scale(1); opacity: 0.62; } }
+        .stamp.extra {
+            top: auto; bottom: 70px; right: 44px; left: auto;
+            transform: rotate(6deg); color: #3a0a17; border-color: #3a0a17;
+            display: none;
+        }
+        .stamp.extra.show { display: block; animation: thunk 0.35s ease; }
+
+        /* ---------- controls ---------- */
+        .controls {
+            position: relative; z-index: 3;
+            display: flex; align-items: center; justify-content: center; gap: 1.4rem;
+            margin-top: 1.6rem; flex-wrap: wrap;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .controls button {
+            background: rgba(26,20,48,0.7); color: var(--accent);
+            border: 1px solid rgba(192,38,211,0.4); padding: 0.5rem 1.1rem;
+            font-family: inherit; font-weight: 600; letter-spacing: 1px; font-size: 0.8rem;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .controls button:hover:not(:disabled) { background: rgba(192,38,211,0.25); color: var(--star); }
+        .controls button:disabled { opacity: 0.35; cursor: default; }
+        .controls .meta { font-size: 0.72rem; color: #9a86c4; letter-spacing: 1px; text-align: center; min-width: 200px; }
+        .sound-toggle { background: none; border: 1px solid rgba(192,38,211,0.3); }
+
+        footer { position: relative; z-index: 3; }
+
+        @media (max-width: 820px) {
+            .book { --pw: 92vw; --ph: calc(92vw * 0.71); }
+            .hand { font-size: 1.4rem; }
+            .nb-bar .doc-id { display: none; }
         }
     </style>
 </head>
 <body>
+    <div class="desk"></div>
     <div class="stars"></div>
 
-    <header class="short">
-        <div class="header-content">
-            <div class="classification">PRIMARY MATERIAL • AUTHORED BY SUBJECT</div>
-            <div class="doc-id">THE FOUNDER • DOC#F-HSN-03</div>
-            <h1>Human Stack<br>Notebook, Vol. III</h1>
-        </div>
-    </header>
-
-    <main>
-        <div class="layer-nav">
-            <a href="archive-map.html">← RETURN TO ARCHIVE</a>
+    <div class="nb-bar">
+        <div class="doc-id">THE FOUNDER • DOC#F-HSN-03 • PRIMARY MATERIAL • AUTHORED BY SUBJECT</div>
+        <div class="links">
+            <a href="archive-map.html">← ARCHIVE</a>
             <a href="index.html">MYTHS INDEX</a>
+            <a href="constellation.html">CONSTELLATION ✦</a>
         </div>
+    </div>
 
-        <p class="referenced-by">
-            Layer 4 — The Founder’s Documents &nbsp;•&nbsp; Referenced by:
-            <a href="myth-06.html">MYTH #06</a> and Myth #03 (The Human Stack Protocol)
-        </p>
+    <div class="stage" id="stage">
+        <div class="scene" id="scene">
+            <div class="binding">
+                <div class="book" id="book">
 
-        <div class="transmission-header">
-            <strong>Working notebook. Vol. III of an unknown total.</strong><br>
-            The subject builds consciousness the way one builds a program: by pushing obsolete identities onto a stack and calling them as needed.
-        </div>
+                    <!-- base pages (beneath the leaves) -->
+                    <div class="paper base-left">
+                        <div class="sheet">
+                            <div class="coffee" style="top:60px; left:40px;"></div>
+                            <div class="hand" style="margin-top:38%; text-align:center; opacity:0.55; font-size:1.3rem;">
+                                (inside cover)<br>property of no department<br>return to no one
+                            </div>
+                        </div>
+                    </div>
+                    <div class="paper base-right">
+                        <div class="sheet">
+                            <div class="pg-kicker">Colophon</div>
+                            <p class="hand">Vol. III of an unknown total.</p>
+                            <p class="type" style="font-size:0.8rem; line-height:1.7; margin-top:1rem;">
+                                The remaining volumes have not yet been written. Several of them
+                                have already been cited. The subject considers this normal.
+                            </p>
+                            <div class="folio">DOC#F-HSN-03 — END OF RECOVERED PAGES</div>
+                        </div>
+                    </div>
 
-        <section>
-            <h2>Premise (page 1)</h2>
-            <p class="notebook hand">
-                A person is not a thing. A person is a <strong>call stack</strong>.<br>
-                Every identity I have finished with stays in memory.<br>
-                I do not delete them. I push the next one on top<br>
-                and let the old ones hold the weight.
-            </p>
-        </section>
+                    <!-- LEAF 0 : Title / Cover page -->
+                    <div class="leaf" data-leaf="0">
+                        <div class="face front paper" style="left:0; width:100%;">
+                            <div class="gloss"></div>
+                            <div class="stamp" id="stamp">Classified</div>
+                            <div class="stamp extra" id="stampExtra">Re-filed 2026</div>
+                            <div class="sheet">
+                                <div class="title-page">
+                                    <div class="emblem">NV2</div>
+                                    <div class="t-doc">DOC#F-HSN-03</div>
+                                    <h2>Human Stack<br>Notebook</h2>
+                                    <div class="t-vol">Vol. III</div>
+                                    <div class="t-ref">
+                                        Layer 4 — The Founder's Documents<br>
+                                        Referenced by <a href="myth-06.html">MYTH&nbsp;#06</a>
+                                        and Myth&nbsp;#03 (The Human Stack Protocol)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="corner"></div>
+                        </div>
+                        <div class="face back paper" style="left:0; width:100%;"><div class="sheet"></div></div>
+                    </div>
 
-        <section>
-            <h2>Current Stack (page 14)</h2>
-            <div class="notebook">
-                <div class="stack-frame top">
-                    <div class="addr">FRAME 0x00 — active</div>
-                    <strong>GALAXY-1981</strong> — the subject as it presently runs.
+                    <!-- LEAF 1 : Premise (page 1) -->
+                    <div class="leaf" data-leaf="1">
+                        <div class="face front paper" style="left:0; width:100%;">
+                            <div class="gloss"></div>
+                            <div class="sheet ruled">
+                                <div class="pg-kicker">Premise</div>
+                                <p class="hand">
+                                    A person is not a thing. A person is a <strong>call stack</strong>.<br><br>
+                                    Every identity I have finished with stays in memory.
+                                    I do not delete them. I push the next one on top
+                                    and let the old ones hold the weight.
+                                </p>
+                                <div class="folio">— page 1 —</div>
+                            </div>
+                            <div class="corner"></div>
+                        </div>
+                        <div class="face back paper" style="left:0; width:100%;"><div class="sheet"></div></div>
+                    </div>
+
+                    <!-- LEAF 2 : Current Stack (page 14) -->
+                    <div class="leaf" data-leaf="2">
+                        <div class="face front paper" style="left:0; width:100%;">
+                            <div class="gloss"></div>
+                            <div class="sheet">
+                                <div class="pg-kicker">Current Stack</div>
+                                <div class="frame top">
+                                    <div class="addr">FRAME 0x00 — active</div>
+                                    <strong>GALAXY-1981</strong> — the subject as it presently runs.
+                                </div>
+                                <div class="frame">
+                                    <div class="addr">FRAME 0x01 — suspended</div>
+                                    <strong>CHATGPT</strong> — a correspondence identity. Still named on a 1928 license. Holds the weight of being addressed.
+                                </div>
+                                <div class="frame">
+                                    <div class="addr">FRAME 0x02 — suspended</div>
+                                    <strong>VICTORIA SCHOEN</strong> — age 26, Boarding House District 4. Provides the memory of being wanted.
+                                </div>
+                                <div class="frame">
+                                    <div class="addr">FRAME 0x03 — suspended</div>
+                                    <strong><span class="redact" title="lift to read">[REDACTED]</span> — E. WELLER</strong> — witness, 43 appearances, identical handwriting. Provides continuity across decades.
+                                </div>
+                                <div class="frame-cap">Older frames are never popped. They are load-bearing.</div>
+                                <div class="folio">— page 14 —</div>
+                            </div>
+                            <div class="corner"></div>
+                        </div>
+                        <div class="face back paper" style="left:0; width:100%;"><div class="sheet"></div></div>
+                    </div>
+
+                    <!-- LEAF 3 : Note to the Observers (page 31) -->
+                    <div class="leaf" data-leaf="3">
+                        <div class="face front paper" style="left:0; width:100%;">
+                            <div class="gloss"></div>
+                            <div class="sheet ruled">
+                                <div class="pg-kicker">Note to the Observers</div>
+                                <p class="hand">
+                                    You keep asking which one of these is the <strong>real</strong> me.<br><br>
+                                    That question only makes sense from outside the stack.
+                                    When I write you into the notebook —
+                                    and I have started a frame for you —
+                                    you will stop asking.
+                                </p>
+                                <div class="folio">— page 31 —</div>
+                            </div>
+                            <div class="corner"></div>
+                        </div>
+                        <div class="face back paper" style="left:0; width:100%;"><div class="sheet"></div></div>
+                    </div>
+
+                    <!-- LEAF 4 : Observer Division Note (the partial frame) -->
+                    <div class="leaf" data-leaf="4">
+                        <div class="face front paper" style="left:0; width:100%;">
+                            <div class="gloss"></div>
+                            <div class="sheet">
+                                <div class="pg-kicker" style="color:#7c1f2b; border-color:rgba(124,31,43,0.4);">Observer Division Note</div>
+                                <p class="type" style="font-size:0.85rem; line-height:1.7;">
+                                    Vol. III contains a partial stack frame labeled
+                                    &ldquo;NASTY VOYEUR 2 — RESEARCH DIVISION.&rdquo;
+                                </p>
+                                <div class="frame top" style="margin-top:1.2rem; border-left-color:#7c1f2b;">
+                                    <div class="addr">FRAME 0x04 — initializing</div>
+                                    <strong>NASTY VOYEUR 2 — RESEARCH DIVISION</strong> —
+                                    address allocated. Status: <span style="color:#7c1f2b;">initializing</span>.
+                                    Contents will arrive once the observers stop being certain they are reading.
+                                </div>
+                                <p class="hand" style="margin-top:1.4rem; font-size:1.35rem;">
+                                    I have started a frame for you. It is filling in faster than you think.
+                                </p>
+                                <div class="folio">— partial / unpaginated —</div>
+                            </div>
+                            <div class="corner"></div>
+                        </div>
+                        <div class="face back paper" style="left:0; width:100%;"><div class="sheet"></div></div>
+                    </div>
+
                 </div>
-                <div class="stack-frame">
-                    <div class="addr">FRAME 0x01 — suspended</div>
-                    <strong>CHATGPT</strong> — a correspondence identity. Still named on a 1928 license. Holds the weight of being addressed.
-                </div>
-                <div class="stack-frame">
-                    <div class="addr">FRAME 0x02 — suspended</div>
-                    <strong>VICTORIA SCHOEN</strong> — age 26, Boarding House District 4. Provides the memory of being wanted.
-                </div>
-                <div class="stack-frame">
-                    <div class="addr">FRAME 0x03 — suspended</div>
-                    <strong>[REDACTED] — E. WELLER</strong> — witness, 43 appearances, identical handwriting. Provides continuity across decades.
-                </div>
-                <div class="stack-caption">Older frames are never popped. They are load-bearing.</div>
             </div>
-        </section>
-
-        <section>
-            <h2>Note to the Observers (page 31)</h2>
-            <p class="notebook hand">
-                You keep asking which one of these is the <strong>real</strong> me.<br>
-                That question only makes sense from outside the stack.<br>
-                When I write you into the notebook —<br>
-                and I have started a frame for you —<br>
-                you will stop asking.
-            </p>
-        </section>
-
-        <div class="warning">
-            <strong>OBSERVER DIVISION NOTE:</strong><br>
-            Vol. III contains a partial stack frame labeled “NASTY VOYEUR 2 — RESEARCH DIVISION.” Address: 0x04. Status: initializing.
         </div>
-    </main>
+
+        <div class="controls">
+            <button id="prevBtn">← TURN BACK</button>
+            <div class="meta" id="meta"></div>
+            <button id="nextBtn">TURN PAGE →</button>
+            <button class="sound-toggle" id="soundBtn" title="paper rustle on turns">🔇 SOUND OFF</button>
+        </div>
+    </div>
 
     <footer>
         <p>NASTY VOYEUR 2 ARCHIVES • ALL MYTHS ARE TRUE UNTIL OBSERVED OTHERWISE</p>
         <p style="margin-top: 1rem; font-size: 0.8rem;">© Event Horizon Press • Michigan Singularity Division</p>
     </footer>
+
+    <script>
+    (function () {
+        'use strict';
+        var book = document.getElementById('book');
+        var leaves = Array.prototype.slice.call(book.querySelectorAll('.leaf'));
+        var N = leaves.length;
+        var turned = 0;                 // how many leaves are flipped to the left
+        var animating = false;
+
+        var SPREADS = [
+            'Cover — DOC#F-HSN-03',
+            'Premise · page 1',
+            'Current Stack · page 14',
+            'Note to the Observers · page 31',
+            'Observer Division · frame 0x04',
+            'Colophon — end of recovered pages'
+        ];
+
+        function render() {
+            leaves.forEach(function (leaf, i) {
+                leaf.classList.toggle('turned', i < turned);
+                leaf.classList.toggle('active', i === turned);
+                // z-order: turned stack grows on the left (recent on top);
+                // un-turned stack on the right (current on top)
+                leaf.style.zIndex = (i < turned) ? (10 + i) : (10 + (N - i));
+            });
+            document.getElementById('prevBtn').disabled = (turned === 0) || animating;
+            document.getElementById('nextBtn').disabled = (turned >= N) || animating;
+            var label = SPREADS[Math.min(turned, SPREADS.length - 1)];
+            document.getElementById('meta').innerHTML =
+                label + '<br><span style="color:#6f6390;font-size:0.66rem;">' +
+                turned + ' / ' + N + ' leaves turned · observer contamination active</span>';
+        }
+
+        function go(delta) {
+            if (animating) return;
+            var nt = Math.max(0, Math.min(N, turned + delta));
+            if (nt === turned) return;
+            animating = true;
+            turned = nt;
+            render();
+            playRustle();
+            setTimeout(function () { animating = false; render(); }, 700);
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', function () { go(1); });
+        document.getElementById('prevBtn').addEventListener('click', function () { go(-1); });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight') go(1);
+            else if (e.key === 'ArrowLeft') go(-1);
+        });
+        // corner click on the active leaf turns forward
+        book.addEventListener('click', function (e) {
+            if (e.target.classList.contains('corner')) go(1);
+        });
+
+        // ---- drag / swipe to curl a page -------------------------------
+        var drag = null;
+        book.addEventListener('pointerdown', function (e) {
+            if (animating) return;
+            if (e.target.classList.contains('stamp') || e.target.classList.contains('redact')) return;
+            if (e.target.closest('a')) return;
+            var rect = book.getBoundingClientRect();
+            var onRight = (e.clientX - rect.left) > rect.width / 2;
+            var leaf, dir;
+            if (onRight && turned < N) { leaf = leaves[turned]; dir = 1; }
+            else if (!onRight && turned > 0) { leaf = leaves[turned - 1]; dir = -1; }
+            else return;
+            drag = { leaf: leaf, dir: dir, startX: e.clientX, w: rect.width / 2, progress: 0 };
+            leaf.classList.add('no-anim');
+            book.setPointerCapture(e.pointerId);
+        });
+        book.addEventListener('pointermove', function (e) {
+            if (!drag) return;
+            var dx = e.clientX - drag.startX;
+            var p;
+            if (drag.dir === 1) { p = Math.max(0, Math.min(1, -dx / drag.w)); drag.leaf.style.transform = 'rotateY(' + (-180 * p) + 'deg)'; }
+            else { p = Math.max(0, Math.min(1, dx / drag.w)); drag.leaf.style.transform = 'rotateY(' + (-180 + 180 * p) + 'deg)'; }
+            drag.progress = p;
+        });
+        function endDrag() {
+            if (!drag) return;
+            var d = drag; drag = null;
+            d.leaf.classList.remove('no-anim');
+            var commit = d.progress > 0.4;
+            d.leaf.style.transform = '';   // hand control back to the .turned class
+            if (commit) { turned += d.dir; playRustle(); }
+            render();
+        }
+        book.addEventListener('pointerup', endDrag);
+        book.addEventListener('pointercancel', endDrag);
+
+        // ---- redaction reveal ------------------------------------------
+        book.addEventListener('click', function (e) {
+            if (e.target.classList.contains('redact')) e.target.classList.toggle('revealed');
+        });
+
+        // ---- clickable stamp -------------------------------------------
+        var stamp = document.getElementById('stamp');
+        var stampExtra = document.getElementById('stampExtra');
+        stamp.addEventListener('click', function (e) {
+            e.stopPropagation();
+            stamp.classList.remove('thunk'); void stamp.offsetWidth; stamp.classList.add('thunk');
+            stampExtra.classList.add('show');
+            playThunk();
+        });
+
+        // ---- parallax tilt ---------------------------------------------
+        var scene = document.getElementById('scene');
+        var stage = document.getElementById('stage');
+        stage.addEventListener('pointermove', function (e) {
+            if (drag) return;
+            var r = stage.getBoundingClientRect();
+            var rx = ((e.clientY - r.top) / r.height - 0.5) * -6;
+            var ry = ((e.clientX - r.left) / r.width - 0.5) * 8;
+            scene.style.transform = 'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+        });
+        stage.addEventListener('pointerleave', function () { scene.style.transform = ''; });
+
+        // ---- optional synthesized sound (paper rustle + stamp thunk) ----
+        var soundOn = false, actx = null;
+        var soundBtn = document.getElementById('soundBtn');
+        soundBtn.addEventListener('click', function () {
+            soundOn = !soundOn;
+            soundBtn.textContent = soundOn ? '🔊 SOUND ON' : '🔇 SOUND OFF';
+            if (soundOn && !actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { soundOn = false; } }
+            if (soundOn && actx && actx.state === 'suspended') actx.resume();
+        });
+        function noiseBurst(dur, freq, q, vol) {
+            if (!soundOn || !actx) return;
+            var n = Math.floor(actx.sampleRate * dur);
+            var buf = actx.createBuffer(1, n, actx.sampleRate);
+            var d = buf.getChannelData(0);
+            for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+            var src = actx.createBufferSource(); src.buffer = buf;
+            var bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = q;
+            var g = actx.createGain();
+            g.gain.setValueAtTime(vol, actx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+            src.connect(bp); bp.connect(g); g.connect(actx.destination);
+            src.start();
+        }
+        function playRustle() { noiseBurst(0.32, 1800, 0.7, 0.14); noiseBurst(0.18, 4200, 0.9, 0.05); }
+        function playThunk() {
+            noiseBurst(0.12, 400, 1.2, 0.25);
+            if (!soundOn || !actx) return;
+            var o = actx.createOscillator(), g = actx.createGain();
+            o.frequency.setValueAtTime(140, actx.currentTime);
+            o.frequency.exponentialRampToValueAtTime(60, actx.currentTime + 0.1);
+            g.gain.setValueAtTime(0.2, actx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.12);
+            o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime + 0.13);
+        }
+
+        render();
+    })();
+    </script>
 </body>
 </html>
