@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RECURSIVE CONSTELLATION • Nasty Voyeur 2 Archives</title>
+    <link rel="stylesheet" href="assets/archive.css">
+    <style>
+        /* ===================================================================
+           RECURSIVE ARCHIVE CONSTELLATION
+           A spatial finding aid. Every document in the archive is a body in
+           orbit around the subject designated GALAXY-1981. Materials are not
+           arranged by date but by ADMINISTRATIVE DISTANCE: the public placards
+           (Layer 1) ride the outer ring; the subject's own documents (Layer 4)
+           sit nearest the center. Each radial thread is one event, restated at
+           four removes. The distance was never real.
+           =================================================================== */
+
+        html, body { height: 100%; overflow: hidden; }
+        body { cursor: default; }
+
+        /* Deep-field parallax layer (drifts under the chrome starfield) */
+        .deepfield {
+            position: fixed;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 22% 38%, rgba(167,139,250,0.10) 0, transparent 45%),
+                radial-gradient(circle at 78% 62%, rgba(192,38,211,0.10) 0, transparent 48%),
+                radial-gradient(circle at 50% 50%, rgba(124,31,43,0.12) 0, transparent 55%);
+            filter: blur(40px);
+            z-index: 0;
+            pointer-events: none;
+            transition: transform 0.4s ease-out;
+        }
+
+        /* The interactive field */
+        #viewport {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            touch-action: none;
+            cursor: grab;
+        }
+        #viewport.dragging { cursor: grabbing; }
+        #sky { width: 100%; height: 100%; display: block; }
+
+        /* --- Edges (cross-references / contamination paths) --- */
+        .edge {
+            stroke: rgba(154, 134, 196, 0.16);
+            stroke-width: 1;
+            fill: none;
+            transition: stroke 0.25s ease, stroke-width 0.25s ease, opacity 0.4s ease;
+        }
+        .edge.lit {
+            stroke: var(--accent);
+            stroke-width: 1.6;
+        }
+        .edge.dimmed { opacity: 0.05; }
+        .edge.future { opacity: 0.04; }
+
+        /* --- Nodes --- */
+        .node { cursor: pointer; }
+        .node .halo {
+            opacity: 0.10;
+            transition: opacity 0.3s ease, r 0.3s ease;
+        }
+        .node .dot {
+            stroke-width: 2;
+            transition: r 0.25s ease, filter 0.25s ease;
+        }
+        .node .lbl {
+            font-family: 'Space Grotesk', sans-serif;
+            fill: rgba(224, 212, 255, 0.78);
+            font-size: 13px;
+            text-anchor: middle;
+            paint-order: stroke;
+            stroke: rgba(10, 10, 15, 0.9);
+            stroke-width: 3px;
+            pointer-events: none;
+            transition: fill 0.25s ease, opacity 0.3s ease;
+        }
+        .node .tag {
+            font-family: 'IBM Plex Mono', monospace;
+            fill: rgba(154, 134, 196, 0.6);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        .node:hover .halo,
+        .node.active .halo { opacity: 0.30; }
+        .node:hover .lbl,
+        .node.active .lbl { fill: #fff; }
+        .node.neighbor .halo { opacity: 0.24; }
+        .node.dimmed { opacity: 0.22; }
+        .node.future .dot { filter: saturate(0.2) brightness(0.55) hue-rotate(-40deg); }
+        .node.future .lbl,
+        .node.future .tag { opacity: 0.18; }
+        .node.future .halo { opacity: 0.02; }
+
+        /* The orbital rings (faint guides) */
+        .ring {
+            fill: none;
+            stroke: rgba(192, 38, 211, 0.07);
+            stroke-dasharray: 2 7;
+        }
+        .ring-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            fill: rgba(192, 38, 211, 0.30);
+            text-transform: uppercase;
+        }
+
+        /* The observer ("Current Accessor") trace */
+        #observer .acc-dot { fill: var(--warning); }
+        #observer .acc-ring {
+            fill: none;
+            stroke: var(--warning);
+            stroke-width: 1;
+            opacity: 0.5;
+        }
+        #observer .acc-line {
+            stroke: rgba(255, 77, 148, 0.35);
+            stroke-width: 1;
+            stroke-dasharray: 1 4;
+        }
+        #observer .acc-lbl {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 1px;
+            fill: rgba(255, 77, 148, 0.7);
+        }
+
+        /* ---------------- UI Chrome (HTML overlay) ---------------- */
+        .ui { position: fixed; z-index: 5; }
+
+        .ui-top {
+            top: 0; left: 0; right: 0;
+            padding: 1.1rem 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(10,10,15,0.85) 0%, transparent 100%);
+        }
+        .ui-top a { pointer-events: auto; }
+        .ui-title {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 2px;
+        }
+        .ui-title .stamp {
+            color: var(--warning);
+            font-size: 0.72rem;
+            letter-spacing: 4px;
+        }
+        .ui-title .name {
+            font-size: 1.15rem;
+            background: linear-gradient(90deg, #e0d4ff, #c026d3);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .ui-title .sub {
+            font-size: 0.68rem;
+            color: #9a86c4;
+            letter-spacing: 1px;
+            margin-top: 0.15rem;
+        }
+        .ui-nav { text-align: right; font-size: 0.8rem; line-height: 1.9; }
+        .ui-nav a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+        }
+        .ui-nav a:hover { color: var(--star); }
+
+        /* Legend (bottom-left) */
+        .legend {
+            bottom: 6.8rem; left: 1.4rem;
+            font-size: 0.72rem;
+            color: #9a86c4;
+            background: rgba(8,8,18,0.6);
+            border: 1px solid rgba(192,38,211,0.2);
+            padding: 0.9rem 1.1rem;
+            max-width: 230px;
+            backdrop-filter: blur(3px);
+        }
+        .legend h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #d8b4fe;
+            margin-bottom: 0.6rem;
+        }
+        .legend .row { display: flex; align-items: center; gap: 8px; margin-bottom: 0.35rem; }
+        .legend .swatch { width: 11px; height: 11px; border-radius: 50%; flex: none; border: 1px solid; }
+        .legend .hint { margin-top: 0.7rem; font-size: 0.66rem; color: #6f6390; line-height: 1.6; }
+
+        /* Timeline scrubber (bottom) */
+        .timeline {
+            bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+            width: min(560px, 90vw);
+            background: rgba(8,8,18,0.78);
+            border: 1px solid rgba(192,38,211,0.25);
+            padding: 0.8rem 1.2rem 0.9rem;
+            backdrop-filter: blur(4px);
+        }
+        .timeline .tl-head {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+            color: #9a86c4; letter-spacing: 1px; margin-bottom: 0.5rem;
+        }
+        .timeline .tl-year {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem; color: var(--star); letter-spacing: 2px;
+        }
+        .timeline input[type=range] {
+            width: 100%; -webkit-appearance: none; appearance: none;
+            height: 3px; background: rgba(192,38,211,0.3); outline: none;
+        }
+        .timeline input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: var(--warning); cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,77,148,0.7);
+        }
+        .timeline input[type=range]::-moz-range-thumb {
+            width: 16px; height: 16px; border: none; border-radius: 50%;
+            background: var(--warning); cursor: pointer;
+        }
+        .timeline .tl-note { font-size: 0.62rem; color: #6f6390; margin-top: 0.4rem; text-align: center; }
+
+        /* Detail dossier panel */
+        .detail {
+            position: fixed; z-index: 6;
+            top: 50%; right: 1.4rem; transform: translateY(-50%);
+            width: min(360px, 90vw);
+            background: rgba(12, 10, 24, 0.96);
+            border: 1px solid rgba(192,38,211,0.4);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.7);
+            padding: 1.6rem 1.6rem 1.4rem;
+            display: none;
+            backdrop-filter: blur(6px);
+        }
+        .detail.open { display: block; }
+        .detail .close {
+            position: absolute; top: 0.7rem; right: 1rem;
+            background: none; border: none; color: var(--accent);
+            font-size: 1.3rem; cursor: pointer; line-height: 1;
+        }
+        .detail .close:hover { color: #fff; }
+        .detail .d-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem; letter-spacing: 1px; color: #9a86c4;
+            margin-bottom: 0.3rem;
+        }
+        .detail .d-layer {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+        .detail h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem; color: #e0d4ff; margin-bottom: 0.4rem; line-height: 1.2;
+        }
+        .detail .d-date { font-size: 0.78rem; color: #888; margin-bottom: 1rem; }
+        .detail .d-blurb { font-size: 0.9rem; color: rgba(224,212,255,0.8); margin-bottom: 1.2rem; }
+        .detail .d-open {
+            display: inline-block; color: var(--accent); text-decoration: none;
+            font-weight: 600; font-size: 0.9rem; border: 1px solid var(--accent);
+            padding: 0.45rem 1rem; transition: all 0.2s ease;
+        }
+        .detail .d-open:hover { background: var(--accent); color: #0a0a0f; }
+        .detail .d-links { margin-top: 1.3rem; border-top: 1px dashed rgba(192,38,211,0.25); padding-top: 0.9rem; }
+        .detail .d-links h5 {
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+            letter-spacing: 1px; color: #6f6390; margin-bottom: 0.5rem; text-transform: uppercase;
+        }
+        .detail .d-links a {
+            display: block; font-size: 0.78rem; color: #9a86c4;
+            text-decoration: none; padding: 0.18rem 0; cursor: pointer;
+        }
+        .detail .d-links a:hover { color: var(--star); }
+
+        /* Floating instruction toast */
+        .toast {
+            position: fixed; z-index: 5; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
+            color: rgba(224,212,255,0.55); text-align: center; letter-spacing: 1px;
+            pointer-events: none; transition: opacity 1.2s ease; line-height: 2;
+        }
+
+        @media (max-width: 720px) {
+            .legend { display: none; }
+            .detail { top: auto; bottom: 7rem; right: 50%; transform: translateX(50%); }
+            .ui-title .name { font-size: 0.95rem; }
+            .ui-nav { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="deepfield" id="deepfield"></div>
+    <div class="stars"></div>
+
+    <div id="viewport">
+        <svg id="sky" xmlns="http://www.w3.org/2000/svg">
+            <g id="scene">
+                <g id="rings"></g>
+                <g id="edges"></g>
+                <g id="observer"></g>
+                <g id="nodes"></g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Top chrome -->
+    <div class="ui ui-top">
+        <div class="ui-title">
+            <div class="stamp">NASTY VOYEUR 2 • SPATIAL FINDING AID</div>
+            <div class="name">RECURSIVE ARCHIVE CONSTELLATION</div>
+            <div class="sub">Subject: GALAXY-1981 — bodies arranged by administrative distance</div>
+        </div>
+        <div class="ui-nav">
+            <a href="index.html">← MYTHS INDEX</a>
+            <a href="archive-map.html">TEXTUAL FINDING AID</a>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="ui legend">
+        <h4>ORBITAL LAYERS</h4>
+        <div class="row"><span class="swatch" style="background:#4A0D2E;border-color:#D4AF37"></span>Core Singularity</div>
+        <div class="row"><span class="swatch" style="background:#1a1430;border-color:#c026d3"></span>L1 · Myth Index</div>
+        <div class="row"><span class="swatch" style="background:#2b281c;border-color:#c9a227"></span>L2 · Case Files</div>
+        <div class="row"><span class="swatch" style="background:#2a0f1f;border-color:#ff4d94"></span>L3 · Recovered Evidence</div>
+        <div class="row"><span class="swatch" style="background:#1b1140;border-color:#a78bfa"></span>L4 · Founder's Documents</div>
+        <div class="hint">Inner ring = nearest the subject. Each radial thread is one event, restated at four removes.</div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="ui timeline">
+        <div class="tl-head">
+            <span>TEMPORAL SCRUBBER</span>
+            <span class="tl-year" id="tlYear">2026</span>
+        </div>
+        <input type="range" id="tlSlider" min="1928" max="2026" value="2026" step="1">
+        <div class="tl-note" id="tlNote">All materials surfaced. Documents of impossible provenance remain present at every date.</div>
+    </div>
+
+    <!-- Detail panel -->
+    <div class="detail" id="detail">
+        <button class="close" id="detailClose" aria-label="close">✕</button>
+        <div class="d-tag" id="dTag"></div>
+        <div class="d-layer" id="dLayer"></div>
+        <h3 id="dTitle"></h3>
+        <div class="d-date" id="dDate"></div>
+        <div class="d-blurb" id="dBlurb"></div>
+        <a class="d-open" id="dOpen" href="#">OPEN DOCUMENT →</a>
+        <div class="d-links" id="dLinks"></div>
+    </div>
+
+    <!-- One-time instruction -->
+    <div class="toast" id="toast">
+        DRAG TO PAN · SCROLL / PINCH TO ZOOM · TAP A BODY TO OPEN ITS FILE<br>
+        <span style="color:rgba(255,77,148,0.6)">the map is logging your position. this is considered normal.</span>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // ---- Layer styling ------------------------------------------------
+        var LAYER = {
+            0: { fill: '#4A0D2E', stroke: '#D4AF37', glow: '#D4AF37', r: 46, name: 'Core Singularity' },
+            1: { fill: '#1a1430', stroke: '#c026d3', glow: '#c026d3', r: 22, name: 'Layer 1 · Myth Index' },
+            2: { fill: '#2b281c', stroke: '#c9a227', glow: '#d9b84a', r: 24, name: 'Layer 2 · Case Files' },
+            3: { fill: '#2a0f1f', stroke: '#ff4d94', glow: '#ff4d94', r: 19, name: 'Layer 3 · Recovered Evidence' },
+            4: { fill: '#1b1140', stroke: '#a78bfa', glow: '#a78bfa', r: 25, name: "Layer 4 · Founder's Documents" }
+        };
+        // Ring radius per layer. L4 nearest center, L1 farthest.
+        var RING = { 4: 200, 3: 380, 2: 540, 1: 720 };
+
+        // ---- The bodies ---------------------------------------------------
+        // angle in degrees positions each node on its ring so that the five
+        // thematic threads radiate outward (same event, four removes).
+        var NODES = [
+            { id: 'galaxy', file: null, layer: 0, angle: 0, year: 1928,
+              title: 'GALAXY-1981', tag: 'SUBJECT ZERO', date: '1928 – ∞',
+              blurb: 'The recursive self-generating phenomenon. Not a galaxy in the astronomical sense — no one on the team thought it was. It manufactures myths, specifically about anyone who attempts to document it. You are inside the system.' },
+
+            // ---- Layer 1 · Myth Index ----
+            { id: 'hub', file: 'index.html', layer: 1, angle: 255, year: 1986,
+              title: 'Myths of the Founder', tag: 'HUB', date: 'Re-filed 2026',
+              blurb: 'The public catalog of gravitational narratives. Explanatory placards prepared for outside visitors. The events do not stay outside.' },
+            { id: 'myth-01', file: 'myth-01.html', layer: 1, angle: 200, year: 1981,
+              title: 'The Accretion of Michigan', tag: 'MYTH #01', date: '1981',
+              blurb: 'A routine bureaucratic filing error that caused an entire spiral galaxy to manifest as a human infant.' },
+            { id: 'myth-02', file: 'myth-02.html', layer: 1, angle: 118, year: 1972,
+              title: 'The Fourteen-Year Fixation', tag: 'MYTH #02', date: '1972 – 1986',
+              blurb: 'Seven minutes near Regret A, dilated by relativistic effects into a lifetime of recursive thought.' },
+            { id: 'myth-03', file: 'myth-03.html', layer: 1, angle: 146, year: null,
+              title: 'The Human Stack Protocol', tag: 'MYTH #03', date: 'Ongoing',
+              blurb: 'Minds built from obsolete identities used as scaffolding. Mass estimate updated.' },
+            { id: 'myth-04', file: 'myth-04.html', layer: 1, angle: 320, year: 1974,
+              title: 'Birth of the Star Factory', tag: 'MYTH #04', date: '1974',
+              blurb: 'The black hole that emitted more myths than it consumed — and was defunded for it. Output unaffected.' },
+            { id: 'myth-05', file: 'myth-05.html', layer: 1, angle: 8, year: 1983,
+              title: 'Do Not Archive Until Explained', tag: 'MYTH #05', date: '1983',
+              blurb: 'The tape that refuses classification and reappears each time it is filed. 47 seconds of meaningful static.' },
+            { id: 'myth-06', file: 'myth-06.html', layer: 1, angle: 60, year: 2026,
+              title: 'The Observer Contamination Event', tag: 'MYTH #06', date: '2026',
+              blurb: 'When the subject began generating myths about its own researchers.' },
+
+            // ---- Layer 2 · Case Files ----
+            { id: 'case-jacket', file: 'case-jacket-galaxy-1981.html', layer: 2, angle: 208, year: 1928,
+              title: 'Case Jacket — Galaxy-1981', tag: 'DOC#X-ORIG-00', date: '1928 / 1986',
+              blurb: 'The master cover sheet. Every other document is filed inside it. It precedes its own contents.' },
+            { id: 'case-funding', file: 'case-funding-star-factory.html', layer: 2, angle: 320, year: 1994,
+              title: 'Funding Review — The Star Factory', tag: 'DOC#X-ORIG-04', date: 'FY1994',
+              blurb: 'The budget review that defunded the subject for emitting more than it was allocated. Output unaffected.' },
+            { id: 'case-incident', file: 'case-incident-contamination.html', layer: 2, angle: 60, year: 2026,
+              title: 'Incident File — Observer Contamination', tag: 'DOC#X-ORIG-06', date: '2026',
+              blurb: 'The internal original behind MYTH #06. A boundary failure logged as a records-management problem.' },
+
+            // ---- Layer 3 · Recovered Evidence ----
+            { id: 'ledger-183', file: 'ledger-183.html', layer: 3, angle: 196, year: 1928,
+              title: 'Wayne County Clerk, Annex B', tag: 'DOC#WC-183', date: '1928',
+              blurb: 'The 1928 correspondence license. Filed thirty years before the ink existed.' },
+            { id: 'routing', file: 'evidence-routing-form.html', layer: 3, angle: 224, year: 1928,
+              title: 'IBM Tabulating Machine Routing Form', tag: 'WC-ANNEX-B-RT', date: '1928 (ref. 1956)',
+              blurb: 'Routing instructions for a machine not built until 1956.' },
+            { id: 'clipping', file: 'clipping-launch-1973.html', layer: 3, angle: 174, year: 1973,
+              title: 'Launch Notice, Recovered Press', tag: 'NV2-PRESS-1973', date: '1973',
+              blurb: 'A 1973 clipping announcing the mission thirteen years before it was named. Filed under a byline that credits this archive.' },
+            { id: 'spiral', file: 'spiral-band-paradox.html', layer: 3, angle: 332, year: 1981,
+              title: 'The Spiral Band Paradox', tag: 'NV2-DX-1981', date: '1981',
+              blurb: 'A diagnostic record. The subject measured as collapsing and expanding at once. Both readings confirmed.' },
+            { id: 'transmission', file: 'transmission-47.html', layer: 3, angle: 352, year: 1986,
+              title: 'Recovered Transmission #47', tag: 'AUDIO-LOG NV2-47', date: '1986',
+              blurb: 'Forty-seven seconds of a voice that knows it is being recorded.' },
+            { id: 'observer-notes', file: 'evidence-observer-notes.html', layer: 3, angle: 64, year: 2026,
+              title: 'Observer Division Field Notes', tag: 'OCD-FIELD-2026', date: '2026',
+              blurb: 'The researchers documenting their own contamination as it happens.' },
+
+            // ---- Layer 4 · Founder's Documents (provenance: impossible) ----
+            { id: 'admin-model', file: 'founder-admin-model.html', layer: 4, angle: 60, year: null,
+              title: 'Administrative Model of Observation', tag: 'DOC#F-AOM-01', date: 'Provenance: impossible',
+              blurb: 'A diagram in which the observers are an internal subsystem of the observed.' },
+            { id: 'human-stack', file: 'founder-human-stack.html', layer: 4, angle: 140, year: null,
+              title: 'Human Stack Notebook, Vol. III', tag: 'DOC#F-HSN-03', date: 'Provenance: impossible',
+              blurb: 'Minds assembled from obsolete identities used as scaffolding.' },
+            { id: 'myth-engine', file: 'founder-myth-engine.html', layer: 4, angle: 320, year: null,
+              title: 'Myth Generation System — Operating Manual', tag: 'DOC#F-MGS-00', date: 'Provenance: impossible',
+              blurb: 'The procedure that produces the placards in Layer 1.' }
+        ];
+
+        // ---- The cross-references (authentic internal citations) ----------
+        // Derived from the actual <a href> graph between documents. index.html
+        // and archive-map.html links are navigation, not contamination, so
+        // they are omitted; spokes from the core are added by theme.
+        var EDGES = [
+            // core spokes
+            ['galaxy', 'hub'], ['galaxy', 'case-jacket'],
+            ['galaxy', 'myth-engine'], ['galaxy', 'admin-model'], ['galaxy', 'human-stack'],
+            // myth-01 thread (Michigan / 1928)
+            ['myth-01', 'ledger-183'], ['myth-01', 'routing'], ['myth-01', 'spiral'], ['myth-01', 'myth-06'],
+            // myth-02 / 03 thread (the mind)
+            ['myth-02', 'myth-03'], ['myth-02', 'human-stack'], ['myth-02', 'transmission'],
+            ['myth-03', 'human-stack'], ['myth-03', 'myth-engine'],
+            // myth-04 thread (star factory)
+            ['myth-04', 'admin-model'], ['myth-04', 'myth-engine'], ['myth-04', 'spiral'], ['myth-04', 'myth-06'],
+            // myth-05 thread (static)
+            ['myth-05', 'myth-engine'], ['myth-05', 'transmission'], ['myth-05', 'myth-06'],
+            // myth-06 thread (observer contamination)
+            ['myth-06', 'case-incident'], ['myth-06', 'observer-notes'], ['myth-06', 'admin-model'],
+            ['myth-06', 'human-stack'], ['myth-06', 'ledger-183'], ['myth-06', 'transmission'],
+            // case files
+            ['case-jacket', 'case-funding'], ['case-jacket', 'case-incident'],
+            ['case-jacket', 'myth-engine'], ['case-jacket', 'ledger-183'], ['case-jacket', 'clipping'],
+            ['case-funding', 'myth-04'], ['case-funding', 'myth-engine'],
+            ['case-incident', 'observer-notes'], ['case-incident', 'admin-model'], ['case-incident', 'ledger-183'],
+            // evidence
+            ['ledger-183', 'routing'], ['observer-notes', 'ledger-183'],
+            ['spiral', 'transmission'], ['clipping', 'ledger-183']
+        ];
+
+        // ---- Build lookup + positions -------------------------------------
+        var SVGNS = 'http://www.w3.org/2000/svg';
+        var byId = {};
+        NODES.forEach(function (n) {
+            var rad = (n.angle - 90) * Math.PI / 180;
+            var r = n.layer === 0 ? 0 : RING[n.layer];
+            n.x = Math.cos(rad) * r;
+            n.y = Math.sin(rad) * r;
+            n.neighbors = {};
+            byId[n.id] = n;
+        });
+        // adjacency
+        EDGES.forEach(function (e) {
+            if (byId[e[0]] && byId[e[1]]) {
+                byId[e[0]].neighbors[e[1]] = true;
+                byId[e[1]].neighbors[e[0]] = true;
+            }
+        });
+
+        // ---- Render -------------------------------------------------------
+        var gRings = document.getElementById('rings');
+        var gEdges = document.getElementById('edges');
+        var gNodes = document.getElementById('nodes');
+
+        // orbital ring guides
+        [1, 2, 3, 4].forEach(function (l) {
+            var c = document.createElementNS(SVGNS, 'circle');
+            c.setAttribute('class', 'ring');
+            c.setAttribute('cx', 0); c.setAttribute('cy', 0);
+            c.setAttribute('r', RING[l]);
+            gRings.appendChild(c);
+            var t = document.createElementNS(SVGNS, 'text');
+            t.setAttribute('class', 'ring-label');
+            t.setAttribute('x', 0);
+            t.setAttribute('y', -RING[l] - 8);
+            t.setAttribute('text-anchor', 'middle');
+            t.textContent = 'LAYER ' + l;
+            gRings.appendChild(t);
+        });
+
+        // edges
+        var edgeEls = EDGES.map(function (e) {
+            var a = byId[e[0]], b = byId[e[1]];
+            if (!a || !b) return null;
+            var line = document.createElementNS(SVGNS, 'line');
+            line.setAttribute('class', 'edge');
+            line.setAttribute('x1', a.x); line.setAttribute('y1', a.y);
+            line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
+            line._a = e[0]; line._b = e[1];
+            gEdges.appendChild(line);
+            return line;
+        }).filter(Boolean);
+
+        // nodes
+        NODES.forEach(function (n) {
+            var st = LAYER[n.layer];
+            var g = document.createElementNS(SVGNS, 'g');
+            g.setAttribute('class', 'node');
+            g.setAttribute('transform', 'translate(' + n.x + ',' + n.y + ')');
+            g.dataset.id = n.id;
+
+            var halo = document.createElementNS(SVGNS, 'circle');
+            halo.setAttribute('class', 'halo');
+            halo.setAttribute('r', st.r * 2.1);
+            halo.setAttribute('fill', st.glow);
+
+            var dot = document.createElementNS(SVGNS, 'circle');
+            dot.setAttribute('class', 'dot');
+            dot.setAttribute('r', st.r);
+            dot.setAttribute('fill', st.fill);
+            dot.setAttribute('stroke', st.stroke);
+
+            var tag = document.createElementNS(SVGNS, 'text');
+            tag.setAttribute('class', 'tag');
+            tag.setAttribute('y', -st.r - 7);
+            tag.textContent = n.tag;
+
+            var lbl = document.createElementNS(SVGNS, 'text');
+            lbl.setAttribute('class', 'lbl');
+            lbl.setAttribute('y', st.r + 18);
+            if (n.layer === 0) { lbl.setAttribute('font-size', '17'); lbl.setAttribute('y', st.r + 24); }
+            // wrap long titles into two lines
+            wrapLabel(lbl, n.title, st.r + 18);
+
+            g.appendChild(halo); g.appendChild(dot); g.appendChild(tag); g.appendChild(lbl);
+            gNodes.appendChild(g);
+            n.el = g;
+        });
+
+        function wrapLabel(textEl, str, baseY) {
+            var words = str.split(' ');
+            if (str.length <= 22 || words.length < 3) {
+                textEl.textContent = str;
+                return;
+            }
+            // split near the middle on a space
+            var mid = Math.ceil(words.length / 2);
+            var line1 = words.slice(0, mid).join(' ');
+            var line2 = words.slice(mid).join(' ');
+            textEl.textContent = '';
+            var t1 = document.createElementNS(SVGNS, 'tspan');
+            t1.setAttribute('x', 0); t1.setAttribute('dy', 0); t1.textContent = line1;
+            var t2 = document.createElementNS(SVGNS, 'tspan');
+            t2.setAttribute('x', 0); t2.setAttribute('dy', 15); t2.textContent = line2;
+            textEl.appendChild(t1); textEl.appendChild(t2);
+        }
+
+        // ---- Pan / Zoom ---------------------------------------------------
+        var scene = document.getElementById('scene');
+        var viewport = document.getElementById('viewport');
+        var sky = document.getElementById('sky');
+        var deepfield = document.getElementById('deepfield');
+        var W = 0, H = 0, rect = null;
+        var tx = 0, ty = 0, s = 0.62;
+
+        function resize() {
+            rect = viewport.getBoundingClientRect();
+            W = rect.width; H = rect.height;
+            sky.setAttribute('width', W);
+            sky.setAttribute('height', H);
+        }
+        function fit() {
+            resize();
+            s = Math.min(W, H) / 1760;
+            s = Math.max(0.22, Math.min(s, 0.9));
+            tx = W / 2; ty = H / 2;
+            applyTransform();
+        }
+        function applyTransform() {
+            scene.setAttribute('transform', 'translate(' + tx + ',' + ty + ') scale(' + s + ')');
+            // gentle parallax on the deep field
+            deepfield.style.transform = 'translate(' + (tx - W / 2) * 0.04 + 'px,' + (ty - H / 2) * 0.04 + 'px)';
+        }
+        function toScene(px, py) {
+            return { x: (px - rect.left - tx) / s, y: (py - rect.top - ty) / s };
+        }
+
+        // wheel zoom (anchored on cursor)
+        viewport.addEventListener('wheel', function (ev) {
+            ev.preventDefault();
+            var factor = Math.pow(1.0015, -ev.deltaY);
+            zoomAt(ev.clientX - rect.left, ev.clientY - rect.top, factor);
+        }, { passive: false });
+
+        function zoomAt(cx, cy, factor) {
+            var ns = Math.max(0.12, Math.min(s * factor, 3));
+            // keep point under cursor stable
+            tx = cx - (cx - tx) * (ns / s);
+            ty = cy - (cy - ty) * (ns / s);
+            s = ns;
+            applyTransform();
+        }
+
+        // pointer-based pan + node drag
+        var dragMode = null;     // 'pan' | 'node'
+        var dragNode = null;
+        var last = null;
+        var moved = false;
+        var downPt = null;
+
+        viewport.addEventListener('pointerdown', function (ev) {
+            if (ev.button !== undefined && ev.button !== 0) return;
+            viewport.setPointerCapture(ev.pointerId);
+            downPt = { x: ev.clientX, y: ev.clientY };
+            moved = false;
+            var ng = ev.target.closest ? ev.target.closest('.node') : null;
+            if (ng) {
+                dragMode = 'node';
+                dragNode = byId[ng.dataset.id];
+                last = toScene(ev.clientX, ev.clientY);
+            } else {
+                dragMode = 'pan';
+                last = { x: ev.clientX, y: ev.clientY };
+                viewport.classList.add('dragging');
+            }
+        });
+
+        viewport.addEventListener('pointermove', function (ev) {
+            // observer trace follows pointer whenever not dragging the field
+            if (!dragMode) updateObserver(ev.clientX, ev.clientY);
+
+            if (!dragMode) return;
+            var dx = ev.clientX - downPt.x, dy = ev.clientY - downPt.y;
+            if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+            hideToast();
+
+            if (dragMode === 'pan') {
+                tx += ev.clientX - last.x;
+                ty += ev.clientY - last.y;
+                last = { x: ev.clientX, y: ev.clientY };
+                applyTransform();
+            } else if (dragMode === 'node') {
+                var p = toScene(ev.clientX, ev.clientY);
+                dragNode.x += p.x - last.x;
+                dragNode.y += p.y - last.y;
+                last = p;
+                dragNode.el.setAttribute('transform', 'translate(' + dragNode.x + ',' + dragNode.y + ')');
+                refreshEdgesFor(dragNode.id);
+            }
+        });
+
+        function endPointer(ev) {
+            if (dragMode === 'node' && !moved) openDetail(dragNode);
+            dragMode = null; dragNode = null; last = null;
+            viewport.classList.remove('dragging');
+        }
+        viewport.addEventListener('pointerup', endPointer);
+        viewport.addEventListener('pointercancel', endPointer);
+
+        function refreshEdgesFor(id) {
+            edgeEls.forEach(function (line) {
+                if (line._a === id) { line.setAttribute('x1', byId[id].x); line.setAttribute('y1', byId[id].y); }
+                if (line._b === id) { line.setAttribute('x2', byId[id].x); line.setAttribute('y2', byId[id].y); }
+            });
+        }
+
+        // ---- Pinch zoom (two-finger) --------------------------------------
+        var pinch = null;
+        viewport.addEventListener('touchstart', function (ev) {
+            if (ev.touches.length === 2) {
+                dragMode = null; // cancel any pan
+                pinch = pinchState(ev);
+            }
+        }, { passive: false });
+        viewport.addEventListener('touchmove', function (ev) {
+            if (ev.touches.length === 2 && pinch) {
+                ev.preventDefault();
+                var cur = pinchState(ev);
+                var factor = cur.dist / pinch.dist;
+                zoomAt(pinch.cx, pinch.cy, factor);
+                pinch = cur;
+            }
+        }, { passive: false });
+        viewport.addEventListener('touchend', function (ev) {
+            if (ev.touches.length < 2) pinch = null;
+        });
+        function pinchState(ev) {
+            var a = ev.touches[0], b = ev.touches[1];
+            var dx = a.clientX - b.clientX, dy = a.clientY - b.clientY;
+            return {
+                dist: Math.hypot(dx, dy),
+                cx: (a.clientX + b.clientX) / 2 - rect.left,
+                cy: (a.clientY + b.clientY) / 2 - rect.top
+            };
+        }
+
+        // ---- Hover highlight (constellation lights up the thread) ----------
+        gNodes.addEventListener('mouseover', function (ev) {
+            var ng = ev.target.closest('.node');
+            if (ng) highlight(byId[ng.dataset.id]);
+        });
+        gNodes.addEventListener('mouseout', function (ev) {
+            var ng = ev.target.closest('.node');
+            if (ng) clearHighlight();
+        });
+
+        function highlight(node) {
+            NODES.forEach(function (n) {
+                n.el.classList.remove('neighbor', 'active', 'dimmed');
+                if (n.id === node.id) n.el.classList.add('active');
+                else if (node.neighbors[n.id]) n.el.classList.add('neighbor');
+                else n.el.classList.add('dimmed');
+            });
+            edgeEls.forEach(function (line) {
+                var touch = line._a === node.id || line._b === node.id;
+                line.classList.toggle('lit', touch);
+                line.classList.toggle('dimmed', !touch);
+            });
+        }
+        function clearHighlight() {
+            NODES.forEach(function (n) { n.el.classList.remove('neighbor', 'active', 'dimmed'); });
+            edgeEls.forEach(function (line) { line.classList.remove('lit', 'dimmed'); });
+            applyTimeline(currentYear); // restore future-dimming
+        }
+
+        // ---- Detail panel -------------------------------------------------
+        var detail = document.getElementById('detail');
+        function openDetail(node) {
+            document.getElementById('dTag').textContent = node.tag;
+            var st = LAYER[node.layer];
+            var dl = document.getElementById('dLayer');
+            dl.textContent = st.name;
+            dl.style.color = st.stroke;
+            document.getElementById('dTitle').textContent = node.title;
+            document.getElementById('dDate').textContent = node.date;
+            document.getElementById('dBlurb').textContent = node.blurb;
+            var open = document.getElementById('dOpen');
+            if (node.file) { open.style.display = 'inline-block'; open.href = node.file; }
+            else { open.style.display = 'none'; }
+            // connected documents
+            var links = document.getElementById('dLinks');
+            var ids = Object.keys(node.neighbors);
+            if (ids.length) {
+                var html = '<h5>Cross-referenced in</h5>';
+                ids.forEach(function (id) {
+                    html += '<a data-go="' + id + '">' + byId[id].tag + ' — ' + byId[id].title + '</a>';
+                });
+                links.innerHTML = html;
+                links.style.display = 'block';
+            } else { links.style.display = 'none'; }
+            detail.classList.add('open');
+        }
+        document.getElementById('detailClose').addEventListener('click', function () {
+            detail.classList.remove('open');
+        });
+        document.getElementById('dLinks').addEventListener('click', function (ev) {
+            var a = ev.target.closest('a[data-go]');
+            if (!a) return;
+            var node = byId[a.dataset.go];
+            focusNode(node);
+            openDetail(node);
+        });
+
+        // center the view on a node (used when following cross-references)
+        function focusNode(node) {
+            tx = W / 2 - node.x * s;
+            ty = H / 2 - node.y * s;
+            applyTransform();
+            highlight(node);
+            setTimeout(clearHighlight, 1400);
+        }
+
+        // ---- Observer ("Current Accessor") --------------------------------
+        var gObs = document.getElementById('observer');
+        function updateObserver(clientX, clientY) {
+            var p = toScene(clientX, clientY);
+            // nearest two bodies
+            var ranked = NODES.map(function (n) {
+                return { n: n, d: Math.hypot(n.x - p.x, n.y - p.y) };
+            }).sort(function (a, b) { return a.d - b.d; }).slice(0, 2);
+
+            var html = '';
+            ranked.forEach(function (r) {
+                html += '<line class="acc-line" x1="' + p.x + '" y1="' + p.y +
+                        '" x2="' + r.n.x + '" y2="' + r.n.y + '"/>';
+            });
+            html += '<circle class="acc-ring" cx="' + p.x + '" cy="' + p.y + '" r="14"/>';
+            html += '<circle class="acc-dot" cx="' + p.x + '" cy="' + p.y + '" r="3"/>';
+            html += '<text class="acc-lbl" x="' + (p.x + 18) + '" y="' + (p.y + 3) + '">CURRENT ACCESSOR · LOGGED</text>';
+            gObs.innerHTML = html;
+        }
+        viewport.addEventListener('pointerleave', function () { gObs.innerHTML = ''; });
+
+        // ---- Timeline scrubber --------------------------------------------
+        var slider = document.getElementById('tlSlider');
+        var yearOut = document.getElementById('tlYear');
+        var noteOut = document.getElementById('tlNote');
+        var currentYear = 2026;
+
+        function applyTimeline(year) {
+            currentYear = year;
+            NODES.forEach(function (n) {
+                var future = (n.year !== null && n.year > year);
+                n.el.classList.toggle('future', future);
+            });
+            edgeEls.forEach(function (line) {
+                var a = byId[line._a], b = byId[line._b];
+                var future = (a.year !== null && a.year > year) || (b.year !== null && b.year > year);
+                line.classList.toggle('future', future);
+            });
+        }
+        slider.addEventListener('input', function () {
+            var y = parseInt(slider.value, 10);
+            yearOut.textContent = y;
+            applyTimeline(y);
+            if (y < 1970) {
+                noteOut.textContent = 'Pre-mission strata. The 1928 license is already filed. The ink does not yet exist.';
+            } else if (y < 1986) {
+                noteOut.textContent = 'Subject under observation. The team does not yet know it is in the records.';
+            } else if (y < 2026) {
+                noteOut.textContent = 'Observer / subject distinction degrading. Reassignment requests denied as unhelpful.';
+            } else {
+                noteOut.textContent = 'All materials surfaced. Documents of impossible provenance remain present at every date.';
+            }
+        });
+
+        // ---- Boot ---------------------------------------------------------
+        window.addEventListener('resize', function () { resize(); applyTransform(); });
+        fit();
+
+        var toast = document.getElementById('toast');
+        var toastHidden = false;
+        function hideToast() {
+            if (toastHidden) return;
+            toastHidden = true;
+            toast.style.opacity = '0';
+            setTimeout(function () { toast.style.display = 'none'; }, 1300);
+        }
+        setTimeout(hideToast, 6500);
+    })();
+    </script>
+</body>
+</html>
